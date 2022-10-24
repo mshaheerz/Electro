@@ -1,7 +1,8 @@
 <%- include('./layouts/main'); -%>
 <body>
     
-
+    
+       
 <%- include('./layouts/header'); -%>
 
  <main class="main">
@@ -29,7 +30,7 @@
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane fade" id="signin-2" role="tabpanel" aria-labelledby="signin-tab-2">
-                            <form action="#">
+                            <form id="loginform" action="#">
                                 <div class="form-group">
                                     <label for="singin-email-2">Username or email address *</label>
                                     <input type="text" class="form-control" id="singin-email-2" name="singin-email" required>
@@ -37,7 +38,7 @@
 
                                 <div class="form-group">
                                     <label for="singin-password-2">Password *</label>
-                                    <input type="password" class="form-control" id="singin-password-2" name="singin-password" required>
+                                    <input type="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" class="form-control" id="singin-password-2" name="password" required>
                                 </div><!-- End .form-group -->
 
                                 <div class="form-footer">
@@ -72,17 +73,48 @@
                                 </div><!-- End .row -->
                             </div><!-- End .form-choice -->
                         </div><!-- .End .tab-pane -->
+
+
+
+
+                <!-- signup-------------------------------------------------------------------------------------------------------------- -->
                         <div class="tab-pane fade show active" id="register-2" role="tabpanel" aria-labelledby="register-tab-2">
-                            <form action="#">
+                            <form id="signupform" onsubmit ="return validateForm()" action="#">
+                                <div class="form-group">
+                                    <label for="register">First name *</label>
+                                    <input type="text" class="form-control" id="fname" name="firstname" required>
+                                    <span class="" style="color:red"> </span>
+                                </div><!-- End .form-group -->
+                                <div class="form-group">
+                                    <label for="register-email-2">Last name  *</label>
+                                    <input type="text" class="form-control" id="lname" name="lastname" required>
+                                    <span id = "charMsg" style="color:red"> </span>
+
+                                    <div class="form-group">
+                                        <label for="register">Phone number *</label>
+                                        <input type="tel"    class="form-control" id="phone" name="phone" required>
+                                        <span id = "phonemsg" style="color:red"></span>
+
+                                       
+                                    </div><!-- End .form-group -->
+                                </div><!-- End .form-group -->
                                 <div class="form-group">
                                     <label for="register-email-2">Your email address *</label>
-                                    <input type="email" class="form-control" id="register-email-2" name="register-email" required>
+                                    <input type="email" class="form-control" id="register-email-2" name="email"required >
+                                  
                                 </div><!-- End .form-group -->
 
                                 <div class="form-group">
                                     <label for="register-password-2">Password *</label>
-                                    <input type="password" class="form-control" id="register-password-2" name="register-password" required>
+                                    <input type="password"  title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" class="form-control" id="pswd1" name="passwordone" required>
+                                    <span id = "message1" style="color:red"></span>
                                 </div><!-- End .form-group -->
+                                <div class="form-group">
+                                    <label for="register-password-2">Confirm Password *</label>
+                                    <input type="password"  title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" class="form-control" id="pswd2" name="password" >
+                                    <span id = "message2" style="color:red"></span>
+                                </div><!-- End .form-group -->
+
 
                                 <div class="form-footer">
                                     <button type="submit" class="btn btn-outline-primary-2">
@@ -91,7 +123,7 @@
                                     </button>
 
                                     <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="register-policy-2" required>
+                                        <input type="checkbox" class="custom-control-input" id="register-policy-2" >
                                         <label class="custom-control-label" for="register-policy-2">I agree to the <a href="#">privacy policy</a> *</label>
                                     </div><!-- End .custom-checkbox -->
                                 </div><!-- End .form-footer -->
@@ -120,5 +152,91 @@
         </div><!-- End .container -->
     </div><!-- End .login-page section-bg -->
 </main><!-- End .main -->
+
+
+
+<script>
+    const form = document.querySelector('#loginform');
+    const emailError = document.querySelector('.email.error');
+    const passwordError = document.querySelector('.password.error');
+
+  
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      // reset errors
+      emailError.textContent = '';
+      passwordError.textContent = '';
+      // get values
+      const firstname = form.firstname.value;
+      const lastname = form.lastname.value;
+      const email = form.email.value;
+      const password = form.password.value;
+
+
+
+      
+      try {
+        const res = await fetch('/login', { 
+          method: 'POST', 
+          body: JSON.stringify({ email, password }),
+          headers: {'Content-Type': 'application/json'}
+        });
+        const data = await res.json();
+        console.log(data);
+        if (data.errors) {
+          emailError.textContent = data.errors.email;
+          passwordError.textContent = data.errors.password;
+        }
+        if (data.user) {
+          location.assign('/');
+        }
+      }
+      catch (err) {
+        console.log(err);
+      }
+    });
+  </script>
+
+
+
+<script>
+const forms = document.querySelector('#signupform');
+form.addEventListener('submit', async (e) => {
+e.preventDefault();
+
+  // reset errors
+emailError.textContent = '';
+passwordError.textContent = '';
+      
+// get values
+const email = form.email.value;
+const name = form.name.value;
+const password = form.password.value;
+  
+
+try {
+const res = await fetch('/signup', { 
+  method: 'POST', 
+  body: JSON.stringify({ email,name ,password }),
+  headers: {'Content-Type': 'application/json'}
+});
+  const data = await res.json();
+   
+console.log(data);
+if (data.errors) {
+  emailError.textContent = data.errors.email;
+  passwordError.textContent = data.errors.password;
+}
+if (data.user) {
+  location.assign('/');
+}
+}
+catch (err) {
+console.log(err);
+}
+
+
+})
+</script>
 
 <%- include('./layouts/footer'); -%>
