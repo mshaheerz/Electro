@@ -16,7 +16,8 @@ router.use(function (req, res, next) {
   })
 
 
-  router.get('/',adminController.admin_login)
+  router.get('/',adminController.admin_home)
+  router.get('/login',adminController.admin_login)
 
 
   module.exports= router
