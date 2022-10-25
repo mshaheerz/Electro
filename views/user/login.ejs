@@ -30,19 +30,21 @@
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane fade" id="signin-2" role="tabpanel" aria-labelledby="signin-tab-2">
-                            <form id="loginform" action="#">
+                            <form id="" action="/user/login" method="post" >
                                 <div class="form-group">
                                     <label for="singin-email-2">Username or email address *</label>
-                                    <input type="text" class="form-control" id="singin-email-2" name="singin-email" required>
+                                    <input type="text" class="form-control" id="singin-email-2" name="email" required>
                                 </div><!-- End .form-group -->
 
                                 <div class="form-group">
                                     <label for="singin-password-2">Password *</label>
-                                    <input type="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" class="form-control" id="singin-password-2" name="password" required>
+                                    <input type="password" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" class="form-control" id="singin-password-2" name="password" required>
+                                    <span id = "charMsg" style="color:red"> <%= passerr %></span>
                                 </div><!-- End .form-group -->
 
                                 <div class="form-footer">
                                     <button type="submit" class="btn btn-outline-primary-2">
+                                       
                                         <span>LOG IN</span>
                                         <i class="icon-long-arrow-right"></i>
                                     </button>
@@ -79,7 +81,7 @@
 
                 <!-- signup-------------------------------------------------------------------------------------------------------------- -->
                         <div class="tab-pane fade show active" id="register-2" role="tabpanel" aria-labelledby="register-tab-2">
-                            <form id="signupform" onsubmit ="return validateForm()" action="#">
+                            <form  action="/user/signup" method="post">
                                 <div class="form-group">
                                     <label for="register">First name *</label>
                                     <input type="text" class="form-control" id="fname" name="firstname" required>
@@ -101,13 +103,22 @@
                                 <div class="form-group">
                                     <label for="register-email-2">Your email address *</label>
                                     <input type="email" class="form-control" id="register-email-2" name="email"required >
-                                  
+                             
+                          
+                                        <span id = "phonemsg" style="color:red"><%= emailerr %> </span>
+
+                               
+                       
+                        
+                                       
+          
+                                   
                                 </div><!-- End .form-group -->
 
                                 <div class="form-group">
                                     <label for="register-password-2">Password *</label>
                                     <input type="password"  title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" class="form-control" id="pswd1" name="passwordone" required>
-                                    <span id = "message1" style="color:red"></span>
+                                    <span id = "message1" style="color:red"><%= passerr %></span>
                                 </div><!-- End .form-group -->
                                 <div class="form-group">
                                     <label for="register-password-2">Confirm Password *</label>
@@ -117,6 +128,7 @@
 
 
                                 <div class="form-footer">
+                                    <span id = "message2" style="color:red"><%= allerr %> </span>
                                     <button type="submit" class="btn btn-outline-primary-2">
                                         <span>SIGN UP</span>
                                         <i class="icon-long-arrow-right"></i>
@@ -155,88 +167,9 @@
 
 
 
-<script>
-    const form = document.querySelector('#loginform');
-    const emailError = document.querySelector('.email.error');
-    const passwordError = document.querySelector('.password.error');
-
-  
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      // reset errors
-      emailError.textContent = '';
-      passwordError.textContent = '';
-      // get values
-      const firstname = form.firstname.value;
-      const lastname = form.lastname.value;
-      const email = form.email.value;
-      const password = form.password.value;
 
 
 
-      
-      try {
-        const res = await fetch('/login', { 
-          method: 'POST', 
-          body: JSON.stringify({ email, password }),
-          headers: {'Content-Type': 'application/json'}
-        });
-        const data = await res.json();
-        console.log(data);
-        if (data.errors) {
-          emailError.textContent = data.errors.email;
-          passwordError.textContent = data.errors.password;
-        }
-        if (data.user) {
-          location.assign('/');
-        }
-      }
-      catch (err) {
-        console.log(err);
-      }
-    });
-  </script>
 
-
-
-<script>
-const forms = document.querySelector('#signupform');
-form.addEventListener('submit', async (e) => {
-e.preventDefault();
-
-  // reset errors
-emailError.textContent = '';
-passwordError.textContent = '';
-      
-// get values
-const email = form.email.value;
-const name = form.name.value;
-const password = form.password.value;
-  
-
-try {
-const res = await fetch('/signup', { 
-  method: 'POST', 
-  body: JSON.stringify({ email,name ,password }),
-  headers: {'Content-Type': 'application/json'}
-});
-  const data = await res.json();
-   
-console.log(data);
-if (data.errors) {
-  emailError.textContent = data.errors.email;
-  passwordError.textContent = data.errors.password;
-}
-if (data.user) {
-  location.assign('/');
-}
-}
-catch (err) {
-console.log(err);
-}
-
-
-})
-</script>
 
 <%- include('./layouts/footer'); -%>

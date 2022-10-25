@@ -1,19 +1,34 @@
 const Usermodel = require("../model/userschema")
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const usermodel = require("../model/userschema")
-const  transporter  = require("../config/emailConfig")
+const transporter = require("../config/emailConfig")
+const { reset } = require("nodemon")
+
+
+
 
 class userController {
 
     //signup 
+
+
+
     static userRegistration = async (req, res) => {
         const { firstname, lastname, email, phone, password, passwordone } = req.body
         const user = await Usermodel.findOne({ email: email })
         if (user) {
-            res.send({ "status": "failed", "message": "email alreddy exists" })
+            res.render("user/login", { token: false, emailerr: "email already exists login?", passerr: "", allerr: "" })
+            // res.send({ "status": "failed", "message": "email alreddy exists" })
         } else {
-            if (firstname && lastname && email && phone && password && passwordone) {
+
+            const format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+            const checkCharacter = format.test(firstname + lastname)
+            if (checkCharacter) {
+                res.render("user/login", { token: false, emailerr: "", passerr: "", allerr: "firstname or lastname contain invalid character" })
+
+            }
+
+            else if (firstname && lastname && email && phone && password && passwordone) {
                 if (password === passwordone) {
                     try {
                         const salt = await bcrypt.genSalt(10)
@@ -26,11 +41,13 @@ class userController {
                             password: hashPassword,
                         })
                         await doc.save()
-                        const saved_user = await Usermodel.findOne({email:email})
+                        const saved_user = await Usermodel.findOne({ email: email })
                         // genarate JWT Token
-                        const token = jwt.sign({userID:saved_user._id},process.env.JWT_SECRET_KEY,{expiresIn: '5d'})
-                        res.send({ "status": "success", "message": "registration success","token":token })
-                       
+                        const token = jwt.sign({ userID: saved_user._id }, process.env.JWT_SECRET_KEY, { expiresIn: '5d' })
+                        res.cookie('jwt', token, { httpOnly: true });
+                        res.redirect('/')
+                        // res.send({ "status": "success", "message": "registration success","token":token })
+
 
                     } catch (error) {
                         console.log(error);
@@ -38,11 +55,14 @@ class userController {
                     }
 
                 } else {
-                    res.send({ "status": "failed", "message": "password and confirm password doesnt match" })
+                    res.render("user/login", { token: false, emailerr: "", passerr: "password and confirm password doesnt match", allerr: "" })
+                    // res.send({ "status": "failed", "message": "password and confirm password doesnt match" })
 
                 }
             } else {
-                res.send({ "status": "failed", "message": "All fields are required" })
+                res.render("user/login", { token: false, emailerr: "", passerr: "", allerr: "allfields required" })
+
+                // res.send({ "status": "failed", "message": "All fields are required" })
             }
         }
     }
@@ -57,12 +77,15 @@ class userController {
                 if (user != null) {
                     const isMatch = await bcrypt.compare(password, user.password)
                     if (user.email === email && isMatch) {
-                     
+
                         // genarate JWT Token
-                        const token = jwt.sign({userID:user._id},process.env.JWT_SECRET_KEY,{expiresIn: '5d'})
-                        res.send({ "status": "success", "message": "login success","token":token })
+                        const token = jwt.sign({ userID: user._id }, process.env.JWT_SECRET_KEY, { expiresIn: '5d' })
+                        res.cookie('jwt', token, { httpOnly: true });
+                        res.redirect('/')
+                        // res.send({ "status": "success", "message": "login success","token":token })
                     } else {
-                        res.send({ "status": "failed", "message": "invalid email or password" })
+                        res.render("user/login", { token: false, emailerr: "", passerr: "invalid email or password", allerr: "" })
+                        // res.send({ "status": "failed", "message": "invalid email or password" })
 
                     }
 
@@ -81,93 +104,93 @@ class userController {
 
 
     // password change
-    static changeUserPassword = async(req, res) => {
-        const {password, password_confirmation}=req.body
-        if(password && password_confirmation){
-            if(password !== password_confirmation){
-                res.send({"status":"failed", "message":"new password and confirm new password doesnt match"})
+    static changeUserPassword = async (req, res) => {
+        const { password, password_confirmation } = req.body
+        if (password && password_confirmation) {
+            if (password !== password_confirmation) {
+                res.send({ "status": "failed", "message": "new password and confirm new password doesnt match" })
 
-            }else{
+            } else {
                 const salt = await bcrypt.genSalt(10)
                 const newhashPassword = await bcrypt.hash(password, salt)
-                await usermodel.findByIdAndUpdate(req.user._id, {$set:{password:newhashPassword}})
+                await usermodel.findByIdAndUpdate(req.user._id, { $set: { password: newhashPassword } })
 
-                res.send({"status":"success","message":"password changed successfully"})
+                res.send({ "status": "success", "message": "password changed successfully" })
             }
 
         } else {
-            res.send({"status":"failed", "message":"all fields are required"})
+            res.send({ "status": "failed", "message": "all fields are required" })
         }
     }
 
 
-    static loggedUser = async(req, res)=>{
-        res.send({"user":req.user})
+    static loggedUser = async (req, res) => {
+        res.send({ "user": req.user })
     }
 
-    static sendUserPasswordResetEmail = async(req, res)=>{
-        const {email}=req.body
-        if(email){
-            const user = await Usermodel.findOne({email: email})
-            
-            if(user){
+    static sendUserPasswordResetEmail = async (req, res) => {
+        const { email } = req.body
+        if (email) {
+            const user = await Usermodel.findOne({ email: email })
+
+            if (user) {
                 const secret = user._id + process.env.JWT_SECRET_KEY
-                const token = jwt.sign({userID: user._id}, secret, {expiresIn: '15m'})
+                const token = jwt.sign({ userID: user._id }, secret, { expiresIn: '15m' })
                 const link = `http://127.0.0.1:8000/user/reset/${user._id}/${token}`
                 console.log(link);
                 //send email
                 try {
-                    let info =await  transporter.sendMail({
-                    from:process.env.EMAIL_FROM,
-                    to:user.email,
-                    subject:"ELECTRO - password reset Link",
-                    html:`<a href=${link}>CLICK HERE</a> to Reset your password`
+                    let info = await transporter.sendMail({
+                        from: process.env.EMAIL_FROM,
+                        to: user.email,
+                        subject: "ELECTRO - password reset Link",
+                        html: `<a href=${link}>CLICK HERE</a> to Reset your password`
 
-                })
-                res.send({"status": "success", "message":"password reset email sended sucessfully check email",'info':info})
+                    })
+                    res.send({ "status": "success", "message": "password reset email sended sucessfully check email", 'info': info })
 
 
 
                 } catch (error) {
-                    res.send({"status": "failed", "message":"other error"})
+                    res.send({ "status": "failed", "message": "other error" })
                     console.log(error);
                 }
-              
 
-            } else{
-                res.send({"status":"failed", "message":"Email does not exists" })
+
+            } else {
+                res.send({ "status": "failed", "message": "Email does not exists" })
 
             }
         } else {
-            res.send({"status":"failed", "message":"Email Fields are required" })
+            res.send({ "status": "failed", "message": "Email Fields are required" })
         }
     }
 
-    static userPasswordReset = async(req, res) =>{
-        const {password, password_confirmation} = req.body
-        const {id,token}=req.params
+    static userPasswordReset = async (req, res) => {
+        const { password, password_confirmation } = req.body
+        const { id, token } = req.params
         const user = await Usermodel.findById(id)
         const new_secret = user._id + process.env.JWT_SECRET_KEY
         try {
             jwt.verify(token, new_secret)
-            if(password && password_confirmation){
-                if(password !== password_confirmation){
-                    res.send({"status":"failed", "message":"password and confirmatio  pass not match"})
+            if (password && password_confirmation) {
+                if (password !== password_confirmation) {
+                    res.send({ "status": "failed", "message": "password and confirmatio  pass not match" })
 
-                }else{
+                } else {
                     const salt = await bcrypt.genSalt(10)
                     const newhashPassword = await bcrypt.hash(password, salt)
-                    await usermodel.findByIdAndUpdate(user._id, {$set:{password:newhashPassword}})
-                    res.send({"status":"success", "message":"password reset success fully"})
+                    await usermodel.findByIdAndUpdate(user._id, { $set: { password: newhashPassword } })
+                    res.send({ "status": "success", "message": "password reset success fully" })
 
                 }
-            }else{
-                res.send({"status":"failed", "message":"All fields are Required"})
+            } else {
+                res.send({ "status": "failed", "message": "All fields are Required" })
             }
         } catch (error) {
             console.log(error)
-            res.send({"status":"failed", "message":"Invalid Token"})
-            
+            res.send({ "status": "failed", "message": "Invalid Token" })
+
         }
     }
 }
