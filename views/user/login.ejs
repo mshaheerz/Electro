@@ -30,10 +30,10 @@
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane fade" id="signin-2" role="tabpanel" aria-labelledby="signin-tab-2">
-                            <form id="" action="/user/login" method="post" >
+                            <form id="" action="/login" method="post" >
                                 <div class="form-group">
-                                    <label for="singin-email-2">email address *</label>
-                                    <input type="email" class="form-control" id="singin-email-2" name="email" required>
+                                    <label for="singin-email-2">Username or email address *</label>
+                                    <input type="text" class="form-control" id="singin-email-2" name="email" required>
                                 </div><!-- End .form-group -->
 
                                 <div class="form-group">
@@ -44,7 +44,7 @@
 
                                 <div class="form-footer">
                                     <button type="submit" class="btn btn-outline-primary-2">
-                                       
+                                        <%= allerr  %> 
                                         <span>LOG IN</span>
                                         <i class="icon-long-arrow-right"></i>
                                     </button>
@@ -81,7 +81,7 @@
 
                 <!-- signup-------------------------------------------------------------------------------------------------------------- -->
                         <div class="tab-pane fade show active" id="register-2" role="tabpanel" aria-labelledby="register-tab-2">
-                            <form  action="/user/signup" method="post">
+                            <form  action="/signup" method="post">
                                 <div class="form-group">
                                     <label for="register">First name *</label>
                                     <input type="text" class="form-control" id="fname" name="firstname" required>

@@ -5,7 +5,7 @@
     <meta charSet="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="format-detection" content="telephone=no" />
-    <title>Stroyka Admin - eCommerce Dashboard Template</title><!-- icon -->
+    <title>Electro Admin</title><!-- icon -->
     <link rel="icon" type="image/png" href="images/favicon.png" /><!-- fonts -->
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i,900,900i" />
@@ -36,19 +36,23 @@
             <div class="card-body p-sm-5 m-sm-3 flex-grow-0">
                 <h1 class="mb-0 fs-3">Sign In</h1>
                 <div class="fs-exact-14 text-muted mt-2 pt-1 mb-5 pb-2">Log in to your account to continue.</div>
-                <div class="mb-4"><label class="form-label">Email Address</label><input type="email"
-                        class="form-control form-control-lg" /></div>
+                <form action="/admin/login" method="post">
+                <div class="mb-4"><label class="form-label">Email Address</label>
+                    <input type="email"
+                        class="form-control form-control-lg"  name="email"/></div>
                 <div class="mb-4"><label class="form-label">Password</label><input type="password"
-                        class="form-control form-control-lg" /></div>
+                     name="password"   class="form-control form-control-lg" /></div>
                 <div class="mb-4 row py-2 flex-wrap">
                     <div class="col-auto me-auto"><label class="form-check mb-0"><input type="checkbox"
                                 class="form-check-input" /><span class="form-check-label">Remember me</span></label>
                     </div>
+               
                     <div class="col-auto d-flex align-items-center"><a href="auth-forgot-password.html">Forgot
                             password?</a></div>
                 </div>
                 <div><button type="submit" class="btn btn-primary btn-lg w-100">Sign In</button></div>
             </div>
+         </form>
             <div class="sa-divider sa-divider--has-text">
                 <div class="sa-divider__text">Or continue with</div>
             </div>

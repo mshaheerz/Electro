@@ -98,6 +98,7 @@ class userController {
 
             }
         } catch (error) {
+            res.send({ "status": "failed", "message": error })
             console.log(error);
         }
     }

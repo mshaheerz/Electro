@@ -32,7 +32,7 @@ app.set("views", "views")
 app.set("view engine", "ejs")
 app.use(cookieParser())
 
-app.use("/user",userRouter)
+
 app.use('/',userRouter)
 app.use('/admin',adminRoutes)
 

@@ -9,7 +9,7 @@ module.exports.home_page = async(req,res)=>{
             const userId = decoded.userID
             const user = await Usermodel.findById(userId)
             const fullname = user.firstname +" "+ user.lastname
-            let useremail = user.email
+             let useremail = user.email
           
     res.render('user/index',{token,fullname,useremail})
    }else{
