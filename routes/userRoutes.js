@@ -2,10 +2,11 @@ const express = require('express')
 const router = express.Router()
 const userController = require("../controllers/userController")
 const usergetController = require("../controllers/usergetController")
-const checkUserAuth = require('../middlewares/authmiddleware')
+const authmiddleware = require('../middlewares/authmiddleware')
 const cookieParser = require("cookie-parser")
+const { logger } = require('../config/emailConfig')
 // const userController = require("../controllers/userController")
-
+const client =require("twilio")(process.env.ACCOUNT_SID, process.env.AUTH_TOKEN)
 router.use(cookieParser())
 router.use(express.static("public"))
 // router.use(function (req, res, next) {
@@ -14,17 +15,50 @@ router.use(express.static("public"))
 //   })
 
 //route level middleware
-router.use('/changepassword',checkUserAuth)
-router.use('/loggeduser', checkUserAuth)
+router.use('/changepassword',authmiddleware.checkUserAuth)
+router.use('/loggeduser', authmiddleware.checkUserAuth)
 
+router.post('/otp',(req,res)=>{
 
+  client.verify.services(process.env.SERVICE_ID).verifications
+  .create({
+    to:`+${req.body.phone}`,
+    channel: 'sms',
+  }).then((data)=>{
+    res.status(200).send(data)
+  }).catch((err)=>{
+    res.send(err)
+  })
+
+})
+
+router.post('/verify',(req,res)=>{
+
+  client.verify.services(process.env.SERVICE_ID).verificationChecks
+  .create({
+    to:`+${req.body.phone}`,
+    code: req.body.code,
+  }).then((data)=>{
+    if(data.status.approved){
+      console.log("success",data.status=="approved");
+    }
+    res.status(200).send(data)
+  }).catch((err)=>{
+    res.send(err)
+  })
+
+})
 //public routes
 
   //get routes
 
 router.get('/login',usergetController.login_get)
+router.get('/signup',usergetController.signup_get)
 router.get('/',usergetController.home_page)
 router.get('/logout',usergetController.logout_get)
+
+
+
 
 
 

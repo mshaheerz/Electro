@@ -34,6 +34,16 @@ module.exports.login_get = (req,res) =>{
 
 }
 
+module.exports.signup_get = (req,res) =>{
+    const token = req.cookies.jwt
+    if(token){
+        res.redirect("/")
+    }else{
+    res.render("user/signup", {token:false,emailerr:'',passerr:"",allerr:""})
+    }
+
+}
+
 module.exports.logout_get = (req,res) =>{
     res.cookie('jwt','',{maxAge:1});
     res.redirect('/');

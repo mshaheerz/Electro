@@ -22,6 +22,8 @@ app.use((req, res, next) => {
 
 
  app.use(cors())
+
+ 
 connectDb(DATABASE_URL)
 
 app.use(logger("dev"))

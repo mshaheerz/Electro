@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken')
 const usermodel = require('../model/userschema')
 
 
-var checkUserAuth = async(req,res,next) => {
+module.exports.checkUserAuth = async(req,res,next) => {
     let token
     const { authorization } = req.headers
     if(authorization && authorization.startsWith('Bearer')){
@@ -27,4 +27,17 @@ var checkUserAuth = async(req,res,next) => {
 
 }
 
-module.exports = checkUserAuth;
+
+
+module.exports.checkAdminAuth = async(req,res,next) => {
+    let token = req.cookies.jwts
+   
+    if(token){
+        next()
+    }
+    else if(!token){
+        res.redirect('/admin/login')
+    }
+
+}
+

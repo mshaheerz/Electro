@@ -20,8 +20,14 @@ const userSchema = new mongoose.Schema({
     trim:true,
     required: true,
     minlength: [6],
-  }
-});
+  },
+  isBanned:{type:Boolean, default:false},
+ 
+},
+{
+  timestamps:true,
+}
+);
 
 const usermodel = mongoose.model("user",userSchema )
 module.exports = usermodel

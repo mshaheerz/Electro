@@ -1,7 +1,8 @@
 const adminmodel = require('../model/adminschema')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
-
+const usermodel = require('../model/userschema');
+const moment = require('moment');
 
 //helper function
 async function admincheck(token) {
@@ -66,4 +67,14 @@ module.exports.admin_login_post = async (req, res) => {
 module.exports.logout_get = (req,res) =>{
     res.cookie('jwts','',{maxAge:1});
     res.redirect('/admin/login');
+}
+
+
+
+//user 
+module.exports.user_list = async (req,res) =>{
+    user = await usermodel.find({})
+    const token = req.cookies.jwts
+    adminemail = await admincheck(token)
+    res.render('admin/users',{user,adminemail: adminemail,moment:moment})
 }

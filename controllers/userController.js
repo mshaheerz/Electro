@@ -2,6 +2,8 @@ const Usermodel = require("../model/userschema")
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const transporter = require("../config/emailConfig")
+const validatePhoneNumber = require('validate-phone-number-node-js');
+
 const { reset } = require("nodemon")
 
 
@@ -16,15 +18,21 @@ class userController {
     static userRegistration = async (req, res) => {
         const { firstname, lastname, email, phone, password, passwordone } = req.body
         const user = await Usermodel.findOne({ email: email })
+        const checkPhone = validatePhoneNumber.validate(phone);
+        console.log(checkPhone);
         if (user) {
-            res.render("user/login", { token: false, emailerr: "email already exists login?", passerr: "", allerr: "" })
+            res.render("user/signup", { token: false, emailerr: "email already exists login?", passerr: "", allerr: "" })
             // res.send({ "status": "failed", "message": "email alreddy exists" })
         } else {
 
             const format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
             const checkCharacter = format.test(firstname + lastname)
             if (checkCharacter) {
-                res.render("user/login", { token: false, emailerr: "", passerr: "", allerr: "firstname or lastname contain invalid character" })
+                res.render("user/signup", { token: false, emailerr: "", passerr: "", allerr: "firstname or lastname contain invalid character" })
+
+            }else if(!checkPhone){
+                
+                res.render("user/signup", { token: false, emailerr: "", passerr: "", allerr: "Enter valid phone number" })
 
             }
 
@@ -55,12 +63,12 @@ class userController {
                     }
 
                 } else {
-                    res.render("user/login", { token: false, emailerr: "", passerr: "password and confirm password doesnt match", allerr: "" })
+                    res.render("user/signup", { token: false, emailerr: "", passerr: "password and confirm password doesnt match", allerr: "" })
                     // res.send({ "status": "failed", "message": "password and confirm password doesnt match" })
 
                 }
             } else {
-                res.render("user/login", { token: false, emailerr: "", passerr: "", allerr: "allfields required" })
+                res.render("user/signup", { token: false, emailerr: "", passerr: "", allerr: "allfields required" })
 
                 // res.send({ "status": "failed", "message": "All fields are required" })
             }
