@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const usermodel = require('../model/userschema');
 const moment = require('moment');
+const { reset } = require('nodemon');
 
 //helper function
 async function admincheck(token) {
@@ -77,4 +78,25 @@ module.exports.user_list = async (req,res) =>{
     const token = req.cookies.jwts
     adminemail = await admincheck(token)
     res.render('admin/users',{user,adminemail: adminemail,moment:moment})
+}
+
+module.exports.flag_user = async (req,res)=>{
+    const {email}=req.query
+    try {
+        await usermodel.updateOne({email:email},{isBanned: true})
+        res.redirect('/admin/users_list')
+    } catch (error) {
+        res.send({"status":"failed","message":error.message});
+    }
+   
+}
+
+module.exports.remove_user_flag = async (req,res)=>{
+    const {email}=req.query
+    try{
+        await usermodel.updateOne({email:email},{isBanned: false})
+        res.redirect('/admin/users_list')
+    } catch (error){
+        res.send({"status":"faliled","message":error.message});
+    }
 }

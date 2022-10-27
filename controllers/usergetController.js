@@ -5,15 +5,21 @@ module.exports.home_page = async(req,res)=>{
     const token = req.cookies.jwt
 
     if(token){
+
+        
     const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY );  
             const userId = decoded.userID
             const user = await Usermodel.findById(userId)
             const fullname = user.firstname +" "+ user.lastname
              let useremail = user.email
+            if(user.isBanned){
+                res.render('user/index',{token:"",alert:true})
+            }else{
           
-    res.render('user/index',{token,fullname,useremail})
+             res.render('user/index',{token,fullname,useremail,alert:false})
+            }
    }else{
-    res.render('user/index',{token})
+    res.render('user/index',{token,alert:false})
    }
 }
 
@@ -39,7 +45,7 @@ module.exports.signup_get = (req,res) =>{
     if(token){
         res.redirect("/")
     }else{
-    res.render("user/signup", {token:false,emailerr:'',passerr:"",allerr:""})
+    res.render("user/login", {token:false,emailerr:'',passerr:"",allerr:""})
     }
 
 }

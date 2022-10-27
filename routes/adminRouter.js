@@ -29,7 +29,7 @@ router.use(function (req, res, next) {
 
 
 
-  
+
 //post routes
 router.post('/login',adminController.admin_login_post)
 
@@ -39,6 +39,9 @@ router.post('/login',adminController.admin_login_post)
 
 //protected routes
   router.get('/users_list',adminController.user_list)
+
+  router.get('/flag_user',adminController.flag_user)
+  router.get('/remove_user_flag',adminController.remove_user_flag)
 
 
   module.exports= router

@@ -3,30 +3,28 @@ const usermodel = require('../model/userschema')
 
 
 module.exports.checkUserAuth = async(req,res,next) => {
-    let token
-    const { authorization } = req.headers
-    if(authorization && authorization.startsWith('Bearer')){
-        try {
-            token = authorization.split(' ')[1]
-            console.log("Token",token);
-
-            // verify token
-            const {userID} = jwt.verify(token, process.env.JWT_SECRET_KEY)
-
-            //get user from token
-            req.user = await usermodel.findById(userID).select('-password')
+   
+    
+    let token = req.cookies.jwt
+   
+    if(token){
+        const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY );  
+        const userId = decoded.userID
+        console.log(userId)
+        const user = await usermodel.findById(userId)
+        
+        if(!user.isBanned){
             next()
-        } catch (error) {
-            console.log(error);
-            res.status(401).send({"status":"failed","message":"unauthorized User"})
+        }else{
+           await res.cookie('jwt','',{maxAge:1});
+            next()
         }
+      
     }
-    if(!token){
-        res.status(403).send({"status":"failed","message":"unauthorized user no token"})
+    else if(!token){
+        next()
     }
-
 }
-
 
 
 module.exports.checkAdminAuth = async(req,res,next) => {

@@ -80,9 +80,12 @@
                                         </svg></button>
                                     <ul class="dropdown-menu dropdown-menu-end"
                                         aria-labelledby="customer-context-menu-0">
-                                        <li><a class="dropdown-item" href="#">Edit</a></li>
-                                        <li><a class="dropdown-item" href="#">flag</a></li>
-                                        <li><a class="dropdown-item" href="#">Remove flag</a></li>
+                                        <li><a class="dropdown-item" href="/admin/edit_user">Edit</a></li>
+                                        <% if (user[i].isBanned) { %>
+                                              <li><a class="dropdown-item" href="remove_user_flag?email=<%=user[i].email%>">Remove flag</a></li>
+                                            <% } else{ %>
+                                        <li><a class="dropdown-item" href="/admin/flag_user?email=<%=user[i].email%>">flag</a></li>
+                                        <% } %>
                                         <li>
                                             <hr class="dropdown-divider" />
                                         </li>

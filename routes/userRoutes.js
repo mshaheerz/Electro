@@ -17,6 +17,8 @@ router.use(express.static("public"))
 //route level middleware
 router.use('/changepassword',authmiddleware.checkUserAuth)
 router.use('/loggeduser', authmiddleware.checkUserAuth)
+router.get('/',authmiddleware.checkUserAuth)
+
 
 router.post('/otp',(req,res)=>{
 
