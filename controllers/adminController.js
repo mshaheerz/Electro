@@ -2,8 +2,16 @@ const adminmodel = require('../model/adminschema')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const usermodel = require('../model/userschema');
+const categorymodel = require('../model/categoryschema')
 const moment = require('moment');
 const { reset } = require('nodemon');
+const { request } = require('express');
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
+const { log } = require('console');
+
+
 
 //helper function
 async function admincheck(token) {
@@ -82,6 +90,7 @@ module.exports.user_list = async (req,res) =>{
 
 module.exports.flag_user = async (req,res)=>{
     const {email}=req.query
+    console.log(email);
     try {
         await usermodel.updateOne({email:email},{isBanned: true})
         res.redirect('/admin/users_list')
@@ -97,6 +106,100 @@ module.exports.remove_user_flag = async (req,res)=>{
         await usermodel.updateOne({email:email},{isBanned: false})
         res.redirect('/admin/users_list')
     } catch (error){
-        res.send({"status":"faliled","message":error.message});
+        res.send({"status":"failed","message":error.message});
     }
 }
+
+
+module.exports.user_details = async (req,res)=>{
+    const token = req.cookies.jwts
+    try {
+         adminemail = await admincheck(token)
+         const { email }=req.query
+         user =  await usermodel.findOne({email})
+         console.log(user);
+         res.render('admin/userdetails',{adminemail:adminemail,user,moment})
+    } catch (error) {
+        res.send({"status":"failed","message":error.message})
+    }
+   
+   
+}
+module.exports.delete_user = async (req,res)=>{
+    const {email}=req.query
+    try{
+        await usermodel.deleteOne({email:email})
+        res.redirect('/admin/users_list')
+    } catch (error){
+        res.send({"status":"failed","message":error.message});
+    }
+}
+module.exports.category_list = async (req,res)=>{
+    const token = req.cookies.jwts
+ 
+    const category =await categorymodel.find({})
+    
+
+    adminemail = await admincheck(token)
+    res.render('admin/categorylist',{category,adminemail:adminemail})
+}
+module.exports.category_details = async (req,res)=>{
+    const {id} = req.query
+    const category = categorymodel. findOne({_id:id})
+    res.render('admin/categorylist',category)
+}
+module.exports.delete_category = async (req,res)=>{
+    try {
+        const {id}=req.query
+        await categorymodel.findByIdAndDelete({_id:id})
+        
+        const folder= path.join(__dirname, '..',`public/admin/serverimages/category`,`${id}.png`)
+        fs.rmSync(folder,{
+         force:true,
+        })
+       
+        res.redirect('/admin/category_list')
+    } catch (error) {
+        res.send({"status":"failed", "message":error.message})
+    }
+   
+}
+
+//group
+module.exports.add_category = async (req,res)=>{
+    res.redirect('/admin/category_list')
+}
+
+const storage=multer.diskStorage({
+    destination: async (req,file,cb,next)=>{
+  try {
+    await cb(null, 'public/admin/serverimages/category')
+  } catch (error) {
+    console.log(error)
+    
+  }
+      
+    },
+    
+    filename: async(req, file, cb,next)=>{
+      try {
+        const {category_name,category_description}= req.body 
+
+     const category =  await categorymodel.create({category_name,category_description})
+      
+      
+          console.log(category);
+       await cb(null, category._id +'.png')
+       next()
+      } catch (error) {
+        console.log(error)
+       
+      }
+      
+     
+    }
+  })
+
+  //group end
+
+  module.exports.upload = multer({storage:storage})
