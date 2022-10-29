@@ -791,32 +791,6 @@
                 </div>
                 <div class="sa-toolbar__shadow"></div>
             </div><!-- sa-app__toolbar / end -->
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
             <!-- sa-app__body -->
             <div id="top" class="sa-app__body">
                 <div class="mx-sm-2 px-2 px-sm-3 px-xxl-4 pb-6">
@@ -827,454 +801,274 @@
                                     <nav class="mb-2" aria-label="breadcrumb">
                                         <ol class="breadcrumb breadcrumb-sa-simple">
                                             <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
-                                            <li class="breadcrumb-item active" aria-current="page">Categories</li>
+                                            <li class="breadcrumb-item"><a href="app-products-list.html">Products</a>
+                                            </li>
+                                            <li class="breadcrumb-item active" aria-current="page">Edit Product</li>
                                         </ol>
                                     </nav>
-                                    <h1 class="h3 m-0">Categories</h1>
+                                    <h1 class="h3 m-0">Edit Product</h1>
                                 </div>
-                                <div class="col-auto d-flex"><a href="app-category.html" class="btn btn-primary">New
-                                        category</a></div>
+                                <div class="col-auto d-flex"><a href="#" class="btn btn-secondary me-3">Duplicate</a><a
+                                        href="#" class="btn btn-primary">Save</a></div>
                             </div>
                         </div>
-                        <div class="card">
-                            <div class="p-4"><input type="text" placeholder="Start typing to search for categories"
-                                    class="form-control form-control--search mx-auto" id="table-search" /></div>
-                            <div class="sa-divider"></div>
-                            <table class="sa-datatables-init" data-order="[[ 1, &quot;asc&quot; ]]"
-                                data-sa-search-input="#table-search">
-                                <thead>
-                                    <tr>
-                                        <th class="w-min" data-orderable="false"><input type="checkbox"
-                                                class="form-check-input m-0 fs-exact-16 d-block" aria-label="..." />
-                                        </th>
-                                        <th class="min-w-15x">Name</th>
-                                        <th>Items</th>
-                                        <th>Visibility</th>
-                                        <th class="w-min" data-orderable="false"></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td><input type="checkbox" class="form-check-input m-0 fs-exact-16 d-block"
-                                                aria-label="..." /></td>
-                                        <td><a href="app-category.html" class="text-reset">Headlights &amp; Lighting</a>
-                                        </td>
-                                        <td>3</td>
-                                        <td>
-                                            <div class="badge badge-sa-success">Visible</div>
-                                        </td>
-                                        <td>
-                                            <div class="dropdown"><button class="btn btn-sa-muted btn-sm" type="button"
-                                                    id="category-context-menu-0" data-bs-toggle="dropdown"
-                                                    aria-expanded="false" aria-label="More"><svg
-                                                        xmlns="http://www.w3.org/2000/svg" width="3" height="13"
-                                                        fill="currentColor">
-                                                        <path
-                                                            d="M1.5,8C0.7,8,0,7.3,0,6.5S0.7,5,1.5,5S3,5.7,3,6.5S2.3,8,1.5,8z M1.5,3C0.7,3,0,2.3,0,1.5S0.7,0,1.5,0 S3,0.7,3,1.5S2.3,3,1.5,3z M1.5,10C2.3,10,3,10.7,3,11.5S2.3,13,1.5,13S0,12.3,0,11.5S0.7,10,1.5,10z">
-                                                        </path>
-                                                    </svg></button>
-                                                <ul class="dropdown-menu dropdown-menu-end"
-                                                    aria-labelledby="category-context-menu-0">
-                                                    <li><a class="dropdown-item" href="#">Edit</a></li>
-                                                    <li><a class="dropdown-item" href="#">Duplicate</a></li>
-                                                    <li><a class="dropdown-item" href="#">Add tag</a></li>
-                                                    <li><a class="dropdown-item" href="#">Remove tag</a></li>
-                                                    <li>
-                                                        <hr class="dropdown-divider" />
-                                                    </li>
-                                                    <li><a class="dropdown-item text-danger" href="#">Delete</a></li>
-                                                </ul>
+                        <div class="sa-entity-layout"
+                            data-sa-container-query="{&quot;920&quot;:&quot;sa-entity-layout--size--md&quot;,&quot;1100&quot;:&quot;sa-entity-layout--size--lg&quot;}">
+                            <div class="sa-entity-layout__body">
+                                <div class="sa-entity-layout__main">
+                                    <div class="card">
+                                        <div class="card-body p-5">
+                                            <div class="mb-5">
+                                                <h2 class="mb-0 fs-exact-18">Basic information</h2>
                                             </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><input type="checkbox" class="form-check-input m-0 fs-exact-16 d-block"
-                                                aria-label="..." /></td>
-                                        <td><a href="app-category.html" class="text-reset">Interior Parts</a></td>
-                                        <td>15</td>
-                                        <td>
-                                            <div class="badge badge-sa-primary">8 March</div>
-                                        </td>
-                                        <td>
-                                            <div class="dropdown"><button class="btn btn-sa-muted btn-sm" type="button"
-                                                    id="category-context-menu-1" data-bs-toggle="dropdown"
-                                                    aria-expanded="false" aria-label="More"><svg
-                                                        xmlns="http://www.w3.org/2000/svg" width="3" height="13"
-                                                        fill="currentColor">
-                                                        <path
-                                                            d="M1.5,8C0.7,8,0,7.3,0,6.5S0.7,5,1.5,5S3,5.7,3,6.5S2.3,8,1.5,8z M1.5,3C0.7,3,0,2.3,0,1.5S0.7,0,1.5,0 S3,0.7,3,1.5S2.3,3,1.5,3z M1.5,10C2.3,10,3,10.7,3,11.5S2.3,13,1.5,13S0,12.3,0,11.5S0.7,10,1.5,10z">
-                                                        </path>
-                                                    </svg></button>
-                                                <ul class="dropdown-menu dropdown-menu-end"
-                                                    aria-labelledby="category-context-menu-1">
-                                                    <li><a class="dropdown-item" href="#">Edit</a></li>
-                                                    <li><a class="dropdown-item" href="#">Duplicate</a></li>
-                                                    <li><a class="dropdown-item" href="#">Add tag</a></li>
-                                                    <li><a class="dropdown-item" href="#">Remove tag</a></li>
-                                                    <li>
-                                                        <hr class="dropdown-divider" />
-                                                    </li>
-                                                    <li><a class="dropdown-item text-danger" href="#">Delete</a></li>
-                                                </ul>
+                                            <div class="mb-4"><label for="form-product/name"
+                                                    class="form-label">Name</label><input type="text"
+                                                    class="form-control" id="form-product/name"
+                                                    value="Brandix Screwdriver SCREW150" /></div>
+                                            <div class="mb-4"><label for="form-product/slug"
+                                                    class="form-label">Slug</label>
+                                                <div class="input-group input-group--sa-slug"><span
+                                                        class="input-group-text"
+                                                        id="form-product/slug-addon">https://example.com/products/</span><input
+                                                        type="text" class="form-control" id="form-product/slug"
+                                                        aria-describedby="form-product/slug-addon form-product/slug-help"
+                                                        value="brandix-screwdriver-screw150" /></div>
+                                                <div id="form-product/slug-help" class="form-text">Unique human-readable
+                                                    product identifier. No longer than 255 characters.</div>
                                             </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><input type="checkbox" class="form-check-input m-0 fs-exact-16 d-block"
-                                                aria-label="..." /></td>
-                                        <td><a href="app-category.html" class="text-reset">Floor Mats</a></td>
-                                        <td>0</td>
-                                        <td>
-                                            <div class="badge badge-sa-success">Visible</div>
-                                        </td>
-                                        <td>
-                                            <div class="dropdown"><button class="btn btn-sa-muted btn-sm" type="button"
-                                                    id="category-context-menu-2" data-bs-toggle="dropdown"
-                                                    aria-expanded="false" aria-label="More"><svg
-                                                        xmlns="http://www.w3.org/2000/svg" width="3" height="13"
-                                                        fill="currentColor">
-                                                        <path
-                                                            d="M1.5,8C0.7,8,0,7.3,0,6.5S0.7,5,1.5,5S3,5.7,3,6.5S2.3,8,1.5,8z M1.5,3C0.7,3,0,2.3,0,1.5S0.7,0,1.5,0 S3,0.7,3,1.5S2.3,3,1.5,3z M1.5,10C2.3,10,3,10.7,3,11.5S2.3,13,1.5,13S0,12.3,0,11.5S0.7,10,1.5,10z">
-                                                        </path>
-                                                    </svg></button>
-                                                <ul class="dropdown-menu dropdown-menu-end"
-                                                    aria-labelledby="category-context-menu-2">
-                                                    <li><a class="dropdown-item" href="#">Edit</a></li>
-                                                    <li><a class="dropdown-item" href="#">Duplicate</a></li>
-                                                    <li><a class="dropdown-item" href="#">Add tag</a></li>
-                                                    <li><a class="dropdown-item" href="#">Remove tag</a></li>
-                                                    <li>
-                                                        <hr class="dropdown-divider" />
-                                                    </li>
-                                                    <li><a class="dropdown-item text-danger" href="#">Delete</a></li>
-                                                </ul>
+                                            <div class="mb-4"><label for="form-product/description"
+                                                    class="form-label">Description</label><textarea
+                                                    id="form-product/description" class="sa-quill-control form-control"
+                                                    rows="8">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur ornare, mi in ornare elementum, libero nibh lacinia urna, quis convallis lorem erat at purus. Maecenas eu varius nisi.</textarea>
                                             </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><input type="checkbox" class="form-check-input m-0 fs-exact-16 d-block"
-                                                aria-label="..." /></td>
-                                        <td><a href="app-category.html" class="text-reset">Gauges</a></td>
-                                        <td>0</td>
-                                        <td>
-                                            <div class="badge badge-sa-success">Visible</div>
-                                        </td>
-                                        <td>
-                                            <div class="dropdown"><button class="btn btn-sa-muted btn-sm" type="button"
-                                                    id="category-context-menu-3" data-bs-toggle="dropdown"
-                                                    aria-expanded="false" aria-label="More"><svg
-                                                        xmlns="http://www.w3.org/2000/svg" width="3" height="13"
-                                                        fill="currentColor">
-                                                        <path
-                                                            d="M1.5,8C0.7,8,0,7.3,0,6.5S0.7,5,1.5,5S3,5.7,3,6.5S2.3,8,1.5,8z M1.5,3C0.7,3,0,2.3,0,1.5S0.7,0,1.5,0 S3,0.7,3,1.5S2.3,3,1.5,3z M1.5,10C2.3,10,3,10.7,3,11.5S2.3,13,1.5,13S0,12.3,0,11.5S0.7,10,1.5,10z">
-                                                        </path>
-                                                    </svg></button>
-                                                <ul class="dropdown-menu dropdown-menu-end"
-                                                    aria-labelledby="category-context-menu-3">
-                                                    <li><a class="dropdown-item" href="#">Edit</a></li>
-                                                    <li><a class="dropdown-item" href="#">Duplicate</a></li>
-                                                    <li><a class="dropdown-item" href="#">Add tag</a></li>
-                                                    <li><a class="dropdown-item" href="#">Remove tag</a></li>
-                                                    <li>
-                                                        <hr class="dropdown-divider" />
-                                                    </li>
-                                                    <li><a class="dropdown-item text-danger" href="#">Delete</a></li>
-                                                </ul>
+                                            <div><label for="form-product/short-description" class="form-label">Short
+                                                    description</label><textarea id="form-product/short-description"
+                                                    class="form-control" rows="2"></textarea></div>
+                                        </div>
+                                    </div>
+                                    <div class="card mt-5">
+                                        <div class="card-body p-5">
+                                            <div class="mb-5">
+                                                <h2 class="mb-0 fs-exact-18">Pricing</h2>
                                             </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><input type="checkbox" class="form-check-input m-0 fs-exact-16 d-block"
-                                                aria-label="..." /></td>
-                                        <td><a href="app-category.html" class="text-reset">Consoles &amp; Organizers</a>
-                                        </td>
-                                        <td>0</td>
-                                        <td>
-                                            <div class="badge badge-sa-success">Visible</div>
-                                        </td>
-                                        <td>
-                                            <div class="dropdown"><button class="btn btn-sa-muted btn-sm" type="button"
-                                                    id="category-context-menu-4" data-bs-toggle="dropdown"
-                                                    aria-expanded="false" aria-label="More"><svg
-                                                        xmlns="http://www.w3.org/2000/svg" width="3" height="13"
-                                                        fill="currentColor">
-                                                        <path
-                                                            d="M1.5,8C0.7,8,0,7.3,0,6.5S0.7,5,1.5,5S3,5.7,3,6.5S2.3,8,1.5,8z M1.5,3C0.7,3,0,2.3,0,1.5S0.7,0,1.5,0 S3,0.7,3,1.5S2.3,3,1.5,3z M1.5,10C2.3,10,3,10.7,3,11.5S2.3,13,1.5,13S0,12.3,0,11.5S0.7,10,1.5,10z">
-                                                        </path>
-                                                    </svg></button>
-                                                <ul class="dropdown-menu dropdown-menu-end"
-                                                    aria-labelledby="category-context-menu-4">
-                                                    <li><a class="dropdown-item" href="#">Edit</a></li>
-                                                    <li><a class="dropdown-item" href="#">Duplicate</a></li>
-                                                    <li><a class="dropdown-item" href="#">Add tag</a></li>
-                                                    <li><a class="dropdown-item" href="#">Remove tag</a></li>
-                                                    <li>
-                                                        <hr class="dropdown-divider" />
-                                                    </li>
-                                                    <li><a class="dropdown-item text-danger" href="#">Delete</a></li>
-                                                </ul>
+                                            <div class="row g-4">
+                                                <div class="col"><label for="form-product/price"
+                                                        class="form-label">Price</label><input type="number"
+                                                        class="form-control" id="form-product/price" value="1499" />
+                                                </div>
+                                                <div class="col"><label for="form-product/old-price"
+                                                        class="form-label">Old price</label><input type="number"
+                                                        class="form-control" id="form-product/old-price" /></div>
                                             </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><input type="checkbox" class="form-check-input m-0 fs-exact-16 d-block"
-                                                aria-label="..." /></td>
-                                        <td><a href="app-category.html" class="text-reset">Mobile Electronics</a></td>
-                                        <td>0</td>
-                                        <td>
-                                            <div class="badge badge-sa-success">Visible</div>
-                                        </td>
-                                        <td>
-                                            <div class="dropdown"><button class="btn btn-sa-muted btn-sm" type="button"
-                                                    id="category-context-menu-5" data-bs-toggle="dropdown"
-                                                    aria-expanded="false" aria-label="More"><svg
-                                                        xmlns="http://www.w3.org/2000/svg" width="3" height="13"
-                                                        fill="currentColor">
-                                                        <path
-                                                            d="M1.5,8C0.7,8,0,7.3,0,6.5S0.7,5,1.5,5S3,5.7,3,6.5S2.3,8,1.5,8z M1.5,3C0.7,3,0,2.3,0,1.5S0.7,0,1.5,0 S3,0.7,3,1.5S2.3,3,1.5,3z M1.5,10C2.3,10,3,10.7,3,11.5S2.3,13,1.5,13S0,12.3,0,11.5S0.7,10,1.5,10z">
-                                                        </path>
-                                                    </svg></button>
-                                                <ul class="dropdown-menu dropdown-menu-end"
-                                                    aria-labelledby="category-context-menu-5">
-                                                    <li><a class="dropdown-item" href="#">Edit</a></li>
-                                                    <li><a class="dropdown-item" href="#">Duplicate</a></li>
-                                                    <li><a class="dropdown-item" href="#">Add tag</a></li>
-                                                    <li><a class="dropdown-item" href="#">Remove tag</a></li>
-                                                    <li>
-                                                        <hr class="dropdown-divider" />
-                                                    </li>
-                                                    <li><a class="dropdown-item text-danger" href="#">Delete</a></li>
-                                                </ul>
+                                            <div class="mt-4 mb-n2"><a href="#">Schedule discount</a></div>
+                                        </div>
+                                    </div>
+                                    <div class="card mt-5">
+                                        <div class="card-body p-5">
+                                            <div class="mb-5">
+                                                <h2 class="mb-0 fs-exact-18">Inventory</h2>
                                             </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><input type="checkbox" class="form-check-input m-0 fs-exact-16 d-block"
-                                                aria-label="..." /></td>
-                                        <td><a href="app-category.html" class="text-reset">Steering Wheels</a></td>
-                                        <td>0</td>
-                                        <td>
-                                            <div class="badge badge-sa-success">Visible</div>
-                                        </td>
-                                        <td>
-                                            <div class="dropdown"><button class="btn btn-sa-muted btn-sm" type="button"
-                                                    id="category-context-menu-6" data-bs-toggle="dropdown"
-                                                    aria-expanded="false" aria-label="More"><svg
-                                                        xmlns="http://www.w3.org/2000/svg" width="3" height="13"
-                                                        fill="currentColor">
-                                                        <path
-                                                            d="M1.5,8C0.7,8,0,7.3,0,6.5S0.7,5,1.5,5S3,5.7,3,6.5S2.3,8,1.5,8z M1.5,3C0.7,3,0,2.3,0,1.5S0.7,0,1.5,0 S3,0.7,3,1.5S2.3,3,1.5,3z M1.5,10C2.3,10,3,10.7,3,11.5S2.3,13,1.5,13S0,12.3,0,11.5S0.7,10,1.5,10z">
-                                                        </path>
-                                                    </svg></button>
-                                                <ul class="dropdown-menu dropdown-menu-end"
-                                                    aria-labelledby="category-context-menu-6">
-                                                    <li><a class="dropdown-item" href="#">Edit</a></li>
-                                                    <li><a class="dropdown-item" href="#">Duplicate</a></li>
-                                                    <li><a class="dropdown-item" href="#">Add tag</a></li>
-                                                    <li><a class="dropdown-item" href="#">Remove tag</a></li>
-                                                    <li>
-                                                        <hr class="dropdown-divider" />
-                                                    </li>
-                                                    <li><a class="dropdown-item text-danger" href="#">Delete</a></li>
-                                                </ul>
+                                            <div class="mb-4"><label for="form-product/sku"
+                                                    class="form-label">SKU</label><input type="text"
+                                                    class="form-control" id="form-product/sku" value="SCREW150" /></div>
+                                            <div class="mb-4 pt-2"><label class="form-check"><input type="checkbox"
+                                                        class="form-check-input" /><span class="form-check-label">Enable
+                                                        stock management</span></label></div>
+                                            <div><label for="form-product/quantity" class="form-label">Stock
+                                                    quantity</label><input type="number" class="form-control"
+                                                    id="form-product/quantity" value="18" /></div>
+                                        </div>
+                                    </div>
+                                    <div class="card mt-5">
+                                        <div class="card-body p-5">
+                                            <div class="mb-5">
+                                                <h2 class="mb-0 fs-exact-18">Images</h2>
                                             </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><input type="checkbox" class="form-check-input m-0 fs-exact-16 d-block"
-                                                aria-label="..." /></td>
-                                        <td><a href="app-category.html" class="text-reset">Cargo Accessories</a></td>
-                                        <td>0</td>
-                                        <td>
-                                            <div class="badge badge-sa-success">Visible</div>
-                                        </td>
-                                        <td>
-                                            <div class="dropdown"><button class="btn btn-sa-muted btn-sm" type="button"
-                                                    id="category-context-menu-7" data-bs-toggle="dropdown"
-                                                    aria-expanded="false" aria-label="More"><svg
-                                                        xmlns="http://www.w3.org/2000/svg" width="3" height="13"
-                                                        fill="currentColor">
-                                                        <path
-                                                            d="M1.5,8C0.7,8,0,7.3,0,6.5S0.7,5,1.5,5S3,5.7,3,6.5S2.3,8,1.5,8z M1.5,3C0.7,3,0,2.3,0,1.5S0.7,0,1.5,0 S3,0.7,3,1.5S2.3,3,1.5,3z M1.5,10C2.3,10,3,10.7,3,11.5S2.3,13,1.5,13S0,12.3,0,11.5S0.7,10,1.5,10z">
-                                                        </path>
-                                                    </svg></button>
-                                                <ul class="dropdown-menu dropdown-menu-end"
-                                                    aria-labelledby="category-context-menu-7">
-                                                    <li><a class="dropdown-item" href="#">Edit</a></li>
-                                                    <li><a class="dropdown-item" href="#">Duplicate</a></li>
-                                                    <li><a class="dropdown-item" href="#">Add tag</a></li>
-                                                    <li><a class="dropdown-item" href="#">Remove tag</a></li>
-                                                    <li>
-                                                        <hr class="dropdown-divider" />
-                                                    </li>
-                                                    <li><a class="dropdown-item text-danger" href="#">Delete</a></li>
-                                                </ul>
+                                        </div>
+                                        <div class="mt-n5">
+                                            <div class="sa-divider"></div>
+                                            <div class="table-responsive">
+                                                <table class="sa-table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="w-min">Image</th>
+                                                            <th class="min-w-10x">Alt text</th>
+                                                            <th class="w-min">Order</th>
+                                                            <th class="w-min"></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>
+                                                                <div
+                                                                    class="sa-symbol sa-symbol--shape--rounded sa-symbol--size--lg">
+                                                                    <img src="images/products/product-16-1-40x40.jpg"
+                                                                        width="40" height="40" alt="" /></div>
+                                                            </td>
+                                                            <td><input type="text"
+                                                                    class="form-control form-control-sm" /></td>
+                                                            <td><input type="number"
+                                                                    class="form-control form-control-sm w-4x"
+                                                                    value="0" /></td>
+                                                            <td><button class="btn btn-sa-muted btn-sm mx-n3"
+                                                                    type="button" aria-label="Delete image"
+                                                                    data-bs-toggle="tooltip" data-bs-placement="right"
+                                                                    title="Delete image"><svg
+                                                                        xmlns="http://www.w3.org/2000/svg" width="12"
+                                                                        height="12" viewBox="0 0 12 12"
+                                                                        fill="currentColor">
+                                                                        <path
+                                                                            d="M10.8,10.8L10.8,10.8c-0.4,0.4-1,0.4-1.4,0L6,7.4l-3.4,3.4c-0.4,0.4-1,0.4-1.4,0l0,0c-0.4-0.4-0.4-1,0-1.4L4.6,6L1.2,2.6 c-0.4-0.4-0.4-1,0-1.4l0,0c0.4-0.4,1-0.4,1.4,0L6,4.6l3.4-3.4c0.4-0.4,1-0.4,1.4,0l0,0c0.4,0.4,0.4,1,0,1.4L7.4,6l3.4,3.4 C11.2,9.8,11.2,10.4,10.8,10.8z">
+                                                                        </path>
+                                                                    </svg></button></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <div
+                                                                    class="sa-symbol sa-symbol--shape--rounded sa-symbol--size--lg">
+                                                                    <img src="images/products/product-16-2-40x40.jpg"
+                                                                        width="40" height="40" alt="" /></div>
+                                                            </td>
+                                                            <td><input type="text"
+                                                                    class="form-control form-control-sm" /></td>
+                                                            <td><input type="number"
+                                                                    class="form-control form-control-sm w-4x"
+                                                                    value="1" /></td>
+                                                            <td><button class="btn btn-sa-muted btn-sm mx-n3"
+                                                                    type="button" aria-label="Delete image"
+                                                                    data-bs-toggle="tooltip" data-bs-placement="right"
+                                                                    title="Delete image"><svg
+                                                                        xmlns="http://www.w3.org/2000/svg" width="12"
+                                                                        height="12" viewBox="0 0 12 12"
+                                                                        fill="currentColor">
+                                                                        <path
+                                                                            d="M10.8,10.8L10.8,10.8c-0.4,0.4-1,0.4-1.4,0L6,7.4l-3.4,3.4c-0.4,0.4-1,0.4-1.4,0l0,0c-0.4-0.4-0.4-1,0-1.4L4.6,6L1.2,2.6 c-0.4-0.4-0.4-1,0-1.4l0,0c0.4-0.4,1-0.4,1.4,0L6,4.6l3.4-3.4c0.4-0.4,1-0.4,1.4,0l0,0c0.4,0.4,0.4,1,0,1.4L7.4,6l3.4,3.4 C11.2,9.8,11.2,10.4,10.8,10.8z">
+                                                                        </path>
+                                                                    </svg></button></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <div
+                                                                    class="sa-symbol sa-symbol--shape--rounded sa-symbol--size--lg">
+                                                                    <img src="images/products/product-16-3-40x40.jpg"
+                                                                        width="40" height="40" alt="" /></div>
+                                                            </td>
+                                                            <td><input type="text"
+                                                                    class="form-control form-control-sm" /></td>
+                                                            <td><input type="number"
+                                                                    class="form-control form-control-sm w-4x"
+                                                                    value="2" /></td>
+                                                            <td><button class="btn btn-sa-muted btn-sm mx-n3"
+                                                                    type="button" aria-label="Delete image"
+                                                                    data-bs-toggle="tooltip" data-bs-placement="right"
+                                                                    title="Delete image"><svg
+                                                                        xmlns="http://www.w3.org/2000/svg" width="12"
+                                                                        height="12" viewBox="0 0 12 12"
+                                                                        fill="currentColor">
+                                                                        <path
+                                                                            d="M10.8,10.8L10.8,10.8c-0.4,0.4-1,0.4-1.4,0L6,7.4l-3.4,3.4c-0.4,0.4-1,0.4-1.4,0l0,0c-0.4-0.4-0.4-1,0-1.4L4.6,6L1.2,2.6 c-0.4-0.4-0.4-1,0-1.4l0,0c0.4-0.4,1-0.4,1.4,0L6,4.6l3.4-3.4c0.4-0.4,1-0.4,1.4,0l0,0c0.4,0.4,0.4,1,0,1.4L7.4,6l3.4,3.4 C11.2,9.8,11.2,10.4,10.8,10.8z">
+                                                                        </path>
+                                                                    </svg></button></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <div
+                                                                    class="sa-symbol sa-symbol--shape--rounded sa-symbol--size--lg">
+                                                                    <img src="images/products/product-16-4-40x40.jpg"
+                                                                        width="40" height="40" alt="" /></div>
+                                                            </td>
+                                                            <td><input type="text"
+                                                                    class="form-control form-control-sm" /></td>
+                                                            <td><input type="number"
+                                                                    class="form-control form-control-sm w-4x"
+                                                                    value="3" /></td>
+                                                            <td><button class="btn btn-sa-muted btn-sm mx-n3"
+                                                                    type="button" aria-label="Delete image"
+                                                                    data-bs-toggle="tooltip" data-bs-placement="right"
+                                                                    title="Delete image"><svg
+                                                                        xmlns="http://www.w3.org/2000/svg" width="12"
+                                                                        height="12" viewBox="0 0 12 12"
+                                                                        fill="currentColor">
+                                                                        <path
+                                                                            d="M10.8,10.8L10.8,10.8c-0.4,0.4-1,0.4-1.4,0L6,7.4l-3.4,3.4c-0.4,0.4-1,0.4-1.4,0l0,0c-0.4-0.4-0.4-1,0-1.4L4.6,6L1.2,2.6 c-0.4-0.4-0.4-1,0-1.4l0,0c0.4-0.4,1-0.4,1.4,0L6,4.6l3.4-3.4c0.4-0.4,1-0.4,1.4,0l0,0c0.4,0.4,0.4,1,0,1.4L7.4,6l3.4,3.4 C11.2,9.8,11.2,10.4,10.8,10.8z">
+                                                                        </path>
+                                                                    </svg></button></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
                                             </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><input type="checkbox" class="form-check-input m-0 fs-exact-16 d-block"
-                                                aria-label="..." /></td>
-                                        <td><a href="app-category.html" class="text-reset">Engine &amp; Drivetrain</a>
-                                        </td>
-                                        <td>0</td>
-                                        <td>
-                                            <div class="badge badge-sa-secondary">Hidden</div>
-                                        </td>
-                                        <td>
-                                            <div class="dropdown"><button class="btn btn-sa-muted btn-sm" type="button"
-                                                    id="category-context-menu-8" data-bs-toggle="dropdown"
-                                                    aria-expanded="false" aria-label="More"><svg
-                                                        xmlns="http://www.w3.org/2000/svg" width="3" height="13"
-                                                        fill="currentColor">
-                                                        <path
-                                                            d="M1.5,8C0.7,8,0,7.3,0,6.5S0.7,5,1.5,5S3,5.7,3,6.5S2.3,8,1.5,8z M1.5,3C0.7,3,0,2.3,0,1.5S0.7,0,1.5,0 S3,0.7,3,1.5S2.3,3,1.5,3z M1.5,10C2.3,10,3,10.7,3,11.5S2.3,13,1.5,13S0,12.3,0,11.5S0.7,10,1.5,10z">
-                                                        </path>
-                                                    </svg></button>
-                                                <ul class="dropdown-menu dropdown-menu-end"
-                                                    aria-labelledby="category-context-menu-8">
-                                                    <li><a class="dropdown-item" href="#">Edit</a></li>
-                                                    <li><a class="dropdown-item" href="#">Duplicate</a></li>
-                                                    <li><a class="dropdown-item" href="#">Add tag</a></li>
-                                                    <li><a class="dropdown-item" href="#">Remove tag</a></li>
-                                                    <li>
-                                                        <hr class="dropdown-divider" />
-                                                    </li>
-                                                    <li><a class="dropdown-item text-danger" href="#">Delete</a></li>
-                                                </ul>
+                                            <div class="sa-divider"></div>
+                                            <div class="px-5 py-4 my-2"><a href="#">Upload new image</a></div>
+                                        </div>
+                                    </div>
+                                    <div class="card mt-5">
+                                        <div class="card-body p-5">
+                                            <div class="mb-5">
+                                                <h2 class="mb-0 fs-exact-18">Search engine optimization</h2>
+                                                <div class="mt-3 text-muted">Provide information that will help improve
+                                                    the snippet and bring your product to the top of search engines.
+                                                </div>
                                             </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><input type="checkbox" class="form-check-input m-0 fs-exact-16 d-block"
-                                                aria-label="..." /></td>
-                                        <td><a href="app-category.html" class="text-reset">Repair Manuals</a></td>
-                                        <td>45</td>
-                                        <td>
-                                            <div class="badge badge-sa-success">Visible</div>
-                                        </td>
-                                        <td>
-                                            <div class="dropdown"><button class="btn btn-sa-muted btn-sm" type="button"
-                                                    id="category-context-menu-9" data-bs-toggle="dropdown"
-                                                    aria-expanded="false" aria-label="More"><svg
-                                                        xmlns="http://www.w3.org/2000/svg" width="3" height="13"
-                                                        fill="currentColor">
-                                                        <path
-                                                            d="M1.5,8C0.7,8,0,7.3,0,6.5S0.7,5,1.5,5S3,5.7,3,6.5S2.3,8,1.5,8z M1.5,3C0.7,3,0,2.3,0,1.5S0.7,0,1.5,0 S3,0.7,3,1.5S2.3,3,1.5,3z M1.5,10C2.3,10,3,10.7,3,11.5S2.3,13,1.5,13S0,12.3,0,11.5S0.7,10,1.5,10z">
-                                                        </path>
-                                                    </svg></button>
-                                                <ul class="dropdown-menu dropdown-menu-end"
-                                                    aria-labelledby="category-context-menu-9">
-                                                    <li><a class="dropdown-item" href="#">Edit</a></li>
-                                                    <li><a class="dropdown-item" href="#">Duplicate</a></li>
-                                                    <li><a class="dropdown-item" href="#">Add tag</a></li>
-                                                    <li><a class="dropdown-item" href="#">Remove tag</a></li>
-                                                    <li>
-                                                        <hr class="dropdown-divider" />
-                                                    </li>
-                                                    <li><a class="dropdown-item text-danger" href="#">Delete</a></li>
-                                                </ul>
+                                            <div class="mb-4"><label for="form-product/seo-title"
+                                                    class="form-label">Page title</label><input type="text"
+                                                    class="form-control" id="form-product/seo-title" /></div>
+                                            <div><label for="form-product/seo-description" class="form-label">Meta
+                                                    description</label><textarea id="form-product/seo-description"
+                                                    class="form-control" rows="2"></textarea></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="sa-entity-layout__sidebar">
+                                    <div class="card w-100">
+                                        <div class="card-body p-5">
+                                            <div class="mb-5">
+                                                <h2 class="mb-0 fs-exact-18">Visibility</h2>
                                             </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><input type="checkbox" class="form-check-input m-0 fs-exact-16 d-block"
-                                                aria-label="..." /></td>
-                                        <td><a href="app-category.html" class="text-reset">Suspension</a></td>
-                                        <td>28</td>
-                                        <td>
-                                            <div class="badge badge-sa-success">Visible</div>
-                                        </td>
-                                        <td>
-                                            <div class="dropdown"><button class="btn btn-sa-muted btn-sm" type="button"
-                                                    id="category-context-menu-10" data-bs-toggle="dropdown"
-                                                    aria-expanded="false" aria-label="More"><svg
-                                                        xmlns="http://www.w3.org/2000/svg" width="3" height="13"
-                                                        fill="currentColor">
-                                                        <path
-                                                            d="M1.5,8C0.7,8,0,7.3,0,6.5S0.7,5,1.5,5S3,5.7,3,6.5S2.3,8,1.5,8z M1.5,3C0.7,3,0,2.3,0,1.5S0.7,0,1.5,0 S3,0.7,3,1.5S2.3,3,1.5,3z M1.5,10C2.3,10,3,10.7,3,11.5S2.3,13,1.5,13S0,12.3,0,11.5S0.7,10,1.5,10z">
-                                                        </path>
-                                                    </svg></button>
-                                                <ul class="dropdown-menu dropdown-menu-end"
-                                                    aria-labelledby="category-context-menu-10">
-                                                    <li><a class="dropdown-item" href="#">Edit</a></li>
-                                                    <li><a class="dropdown-item" href="#">Duplicate</a></li>
-                                                    <li><a class="dropdown-item" href="#">Add tag</a></li>
-                                                    <li><a class="dropdown-item" href="#">Remove tag</a></li>
-                                                    <li>
-                                                        <hr class="dropdown-divider" />
-                                                    </li>
-                                                    <li><a class="dropdown-item text-danger" href="#">Delete</a></li>
-                                                </ul>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><input type="checkbox" class="form-check-input m-0 fs-exact-16 d-block"
-                                                aria-label="..." /></td>
-                                        <td><a href="app-category.html" class="text-reset">Fuel Systems</a></td>
-                                        <td>11</td>
-                                        <td>
-                                            <div class="badge badge-sa-danger">For premium</div>
-                                        </td>
-                                        <td>
-                                            <div class="dropdown"><button class="btn btn-sa-muted btn-sm" type="button"
-                                                    id="category-context-menu-11" data-bs-toggle="dropdown"
-                                                    aria-expanded="false" aria-label="More"><svg
-                                                        xmlns="http://www.w3.org/2000/svg" width="3" height="13"
-                                                        fill="currentColor">
-                                                        <path
-                                                            d="M1.5,8C0.7,8,0,7.3,0,6.5S0.7,5,1.5,5S3,5.7,3,6.5S2.3,8,1.5,8z M1.5,3C0.7,3,0,2.3,0,1.5S0.7,0,1.5,0 S3,0.7,3,1.5S2.3,3,1.5,3z M1.5,10C2.3,10,3,10.7,3,11.5S2.3,13,1.5,13S0,12.3,0,11.5S0.7,10,1.5,10z">
-                                                        </path>
-                                                    </svg></button>
-                                                <ul class="dropdown-menu dropdown-menu-end"
-                                                    aria-labelledby="category-context-menu-11">
-                                                    <li><a class="dropdown-item" href="#">Edit</a></li>
-                                                    <li><a class="dropdown-item" href="#">Duplicate</a></li>
-                                                    <li><a class="dropdown-item" href="#">Add tag</a></li>
-                                                    <li><a class="dropdown-item" href="#">Remove tag</a></li>
-                                                    <li>
-                                                        <hr class="dropdown-divider" />
-                                                    </li>
-                                                    <li><a class="dropdown-item text-danger" href="#">Delete</a></li>
-                                                </ul>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><input type="checkbox" class="form-check-input m-0 fs-exact-16 d-block"
-                                                aria-label="..." /></td>
-                                        <td><a href="app-category.html" class="text-reset">Air Filters</a></td>
-                                        <td>0</td>
-                                        <td>
-                                            <div class="badge badge-sa-secondary">Hidden</div>
-                                        </td>
-                                        <td>
-                                            <div class="dropdown"><button class="btn btn-sa-muted btn-sm" type="button"
-                                                    id="category-context-menu-12" data-bs-toggle="dropdown"
-                                                    aria-expanded="false" aria-label="More"><svg
-                                                        xmlns="http://www.w3.org/2000/svg" width="3" height="13"
-                                                        fill="currentColor">
-                                                        <path
-                                                            d="M1.5,8C0.7,8,0,7.3,0,6.5S0.7,5,1.5,5S3,5.7,3,6.5S2.3,8,1.5,8z M1.5,3C0.7,3,0,2.3,0,1.5S0.7,0,1.5,0 S3,0.7,3,1.5S2.3,3,1.5,3z M1.5,10C2.3,10,3,10.7,3,11.5S2.3,13,1.5,13S0,12.3,0,11.5S0.7,10,1.5,10z">
-                                                        </path>
-                                                    </svg></button>
-                                                <ul class="dropdown-menu dropdown-menu-end"
-                                                    aria-labelledby="category-context-menu-12">
-                                                    <li><a class="dropdown-item" href="#">Edit</a></li>
-                                                    <li><a class="dropdown-item" href="#">Duplicate</a></li>
-                                                    <li><a class="dropdown-item" href="#">Add tag</a></li>
-                                                    <li><a class="dropdown-item" href="#">Remove tag</a></li>
-                                                    <li>
-                                                        <hr class="dropdown-divider" />
-                                                    </li>
-                                                    <li><a class="dropdown-item text-danger" href="#">Delete</a></li>
-                                                </ul>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                                            <div class="mb-4"><label class="form-check"><input type="radio"
+                                                        class="form-check-input" name="status" /><span
+                                                        class="form-check-label">Published</span></label><label
+                                                    class="form-check"><input type="radio" class="form-check-input"
+                                                        name="status" checked="" /><span
+                                                        class="form-check-label">Scheduled</span></label><label
+                                                    class="form-check mb-0"><input type="radio" class="form-check-input"
+                                                        name="status" /><span
+                                                        class="form-check-label">Hidden</span></label></div>
+                                            <div><label for="form-product/seo-title" class="form-label">Publish
+                                                    date</label><input type="text" class="form-control datepicker-here"
+                                                    id="form-product/publish-date" data-auto-close="true"
+                                                    data-language="en" /></div>
+                                        </div>
+                                    </div>
+                                    <div class="card w-100 mt-5">
+                                        <div class="card-body p-5">
+                                            <div class="mb-5">
+                                                <h2 class="mb-0 fs-exact-18">Categories</h2>
+                                            </div><select class="sa-select2 form-select" multiple="">
+                                                <option selected="">Power tools</option>
+                                                <option>Screwdrivers</option>
+                                                <option selected="">Chainsaws</option>
+                                                <option>Hand tools</option>
+                                                <option>Machine tools</option>
+                                                <option>Power machinery</option>
+                                                <option>Measurements</option>
+                                            </select>
+                                            <div class="mt-4 mb-n2"><a href="#">Add new category</a></div>
+                                        </div>
+                                    </div>
+                                    <div class="card w-100 mt-5">
+                                        <div class="card-body p-5">
+                                            <div class="mb-5">
+                                                <h2 class="mb-0 fs-exact-18">Tags</h2>
+                                            </div><select class="sa-select2 form-select" data-tags="true" multiple="">
+                                                <option selected="">Universe</option>
+                                                <option selected="">Sputnik</option>
+                                                <option selected="">Steel</option>
+                                                <option selected="">Rocket</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

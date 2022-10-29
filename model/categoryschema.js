@@ -9,6 +9,8 @@ const categorySchema = new mongoose.Schema({
     type: Number,
   },
   category_thumbnail:{type: String},
+  contentType:{type: String},
+  imageBase64:{type:String}
  
 },
 {

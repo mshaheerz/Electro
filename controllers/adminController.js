@@ -10,6 +10,7 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 const { log } = require('console');
+const { encode } = require('punycode');
 
 
 
@@ -165,41 +166,81 @@ module.exports.delete_category = async (req,res)=>{
    
 }
 
-//group
-module.exports.add_category = async (req,res)=>{
+module.exports.edit_category = async(req,res)=>{
+    const {id}=req.query
+    const {category_name,category_description}=req.body
+    await categorymodel.findByIdAndUpdate(id,{category_name:category_name,
+        category_description:category_description
+    })
     res.redirect('/admin/category_list')
 }
-
-const storage=multer.diskStorage({
-    destination: async (req,file,cb,next)=>{
-  try {
-    await cb(null, 'public/admin/serverimages/category')
-  } catch (error) {
-    console.log(error)
+module.exports.add_category = async (req,res,next)=>{
+    // const {category_name,category_description}= req.body 
+    const category_thumbnail = req.file 
     
-  }
-      
-    },
-    
-    filename: async(req, file, cb,next)=>{
-      try {
-        const {category_name,category_description}= req.body 
-
-     const category =  await categorymodel.create({category_name,category_description})
-      
-      
-          console.log(category);
-       await cb(null, category._id +'.png')
-       next()
-      } catch (error) {
-        console.log(error)
-       
-      }
-      
-     
+    if(!category_thumbnail){
+        const error = new Error('Please choose files')
+        error.httpStatusCode =400;
+        return next(error)
     }
-  })
 
-  //group end
+    // const category =  await categorymodel.create({category_name,category_description,category_thumbnail})
+    // res.redirect('/admin/category_list')
 
-  module.exports.upload = multer({storage:storage})
+    //convert images into base64 encoding
+
+    // let imgArray = files.map[(file)=>{
+    //     let img = fs.readFileSync(file.path)
+    //     return encode_image = img.toString('base64')
+    // }]
+    //let result= imgArray.map[(src,index)=>{
+    //     let finalimg ={
+    //         filename:category_thumbnail[index].originalname,
+    //         contentType:category_thumbnail[index].mimetype,
+    //         imageBase64:src
+    //     }
+    // }]
+    // let newUpload = new categorymodel(finalimage)
+    // return newUpload.save().then(()=>{
+    //     return{msg:'uploaded successfully...'}
+    // }).catch(error =>{
+    //     if(error){
+    //        if(error.name === 'mongoerror' && error.code ===11000) {
+    //         return Promise.reject({error:"duplicate file already exists"})
+    //        }
+    //        return Promise.reject({error:"error"})
+    //     }
+    // })
+
+      const {category_name,category_description}= req.body
+    let img =  fs.readFileSync(category_thumbnail.path)
+     const encode_image = img.toString('base64') 
+    let newUpload = new categorymodel({ category_name:category_name,
+        category_description:category_description,
+        category_thumbnail: category_thumbnail.originalname,
+        contentType:category_thumbnail.mimetype,
+        imageBase64:encode_image})
+    return newUpload.save().then(()=>{
+        res.redirect('/admin/category_list')
+    }).catch(error =>{
+            if(error){
+               if(error.name === 'mongoerror' && error.code ===11000) {
+                return Promise.reject({error:"duplicate file already exists"})
+               }
+               return Promise.reject({error:"error"})
+            }
+        })
+}
+
+module.exports.add_products = async (req,res)=>{
+    const token = req.cookies.jwts
+    adminemail = await admincheck(token)
+    category = await categorymodel.find()
+    res.render('admin/products',{adminemail,category})
+}
+
+module.exports.add_products_post = async (req,res,next)=>{
+    const images =  req.files 
+    
+    res.send({"oops":req.body,"haha":req.files})
+}
