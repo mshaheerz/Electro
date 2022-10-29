@@ -99,10 +99,10 @@ class userController {
 
 
                 } else {
-                    res.send({ "status": "failed", "message": "your not registered user" })
+                        res.render("user/login", { token: false, emailerr: "your not registered user", passerr: "", allerr: "" })
                 }
             } else {
-                res.send({ "status": "failed", "message": "All fields are required" })
+                res.render("user/login", { token: false, emailerr: "", passerr: "", allerr: "All fields are required" })
 
             }
         } catch (error) {
