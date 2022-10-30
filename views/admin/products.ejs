@@ -1,52 +1,9 @@
 <%- include('./layouts/main'); -%>
-    <style>
-        .uploadBtn img {
-            position: relative;
-            width: 100px;
-            height: 100px;
-        }
+  <style>
+  
 
-        li.uploadBtn img[src=""] {
-            display: none;
-        }
-
-        li.uploadBtn {
-            width: 100px;
-            height: 100px;
-            position: relative;
-            background: #f7f8f8;
-        }
-
-        .uploadBtn input[type="file"] {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            opacity: 0;
-            width: 100%;
-            height: 100%;
-        }
-
-        a.removePic {
-            position: absolute;
-            top: 5px;
-            right: 5px;
-            z-index: 999;
-            font-size: 18px;
-            color: #000;
-            display: none;
-        }
-
-        li.uploadBtn.add:before {
-            content: '+';
-            position: absolute;
-            font-size: 28px;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-    </style>
+  </style>
+  
     <%- include('./layouts/header'); -%>
 
 
@@ -143,7 +100,8 @@
                                         <div class="table-responsive">
                                             <div class="choose-imagefile-wrap">
                                                 
-                                                    <input type="file" class="form-control" name='images' required multiple>
+                                                    <input type="file" id="file-input"   name='images'  required multiple>
+                                                    <div id="preview"></div>
                                               
                                             </div>
 
@@ -160,7 +118,7 @@
                                     <div class="card-body p-5">
                                         <div class="mb-5">
                                             <h2 class="mb-0 fs-exact-18">Categories</h2>
-                                        </div><select name="category" class="sa-select2 form-select" required multiple="">
+                                        </div><select name="category" class="sa-select2 form-select" required>
                                             <% for( let i=0; i < category.length; i++ ) { %>
                                                 <option>
                                                     <%= category[i].category_name %>
@@ -205,7 +163,43 @@
                 </div>
             </div>
         </div><!-- sa-app__body / end -->
+<script>
 
+
+function previewImages() {
+
+var preview = document.querySelector('#preview');
+
+if (this.files) {
+  [].forEach.call(this.files, readAndPreview);
+}
+
+function readAndPreview(file) {
+
+  // Make sure `file.name` matches our extensions criteria
+  if (!/\.(jpe?g|png|gif)$/i.test(file.name)) {
+    return alert(file.name + " is not an image");
+  } // else...
+  
+  var reader = new FileReader();
+  
+  reader.addEventListener("load", function() {
+    var image = new Image();
+    image.height = 100;
+    image.title  = file.name;
+    image.src    = this.result;
+    preview.appendChild(image);
+  });
+  
+  reader.readAsDataURL(file);
+  
+}
+
+}
+
+document.querySelector('#file-input').addEventListener("change", previewImages);
+
+</script>
 
 
         <%- include('./layouts/footer'); -%>

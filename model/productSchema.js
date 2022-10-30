@@ -9,19 +9,16 @@ const productSchema = new mongoose.Schema({
     type: Number,
   },
   category:{
-    type:mongoose.Schema.Types.ObjectId,
+    type:String,
     ref: 'category',
     required:true,
   },
   colors:{type:[String]}
 ,
 stock:{
-    stock:{type:Number, required: true}
+    type:Number, required: true
 },
-coupon:{
-    type:String,
 
-},
 discount:{
     type:Number,
     default:0
@@ -31,7 +28,9 @@ tags:{
     type:[String],
     required:true,
 },
-product_image:{
+product_image:[
+  
+  {
   imageName:{
     type: String
 },
@@ -41,7 +40,8 @@ product_image:{
   imageBase64:{
     type:String
 }
-},
+  }
+],
 
 },
 {

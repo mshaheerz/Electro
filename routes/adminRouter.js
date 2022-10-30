@@ -6,6 +6,7 @@ const { reset } = require('nodemon')
 const authmiddleware = require('../middlewares/authmiddleware')
 const { Router } = require('express')
 const uploadfile = require('../middlewares/fileuploadmiddleware');
+const store = require('../middlewares/arrayfileupload');
 // const userController = require("../controllers/userController")
 router.use(cookieParser())
 
@@ -23,11 +24,14 @@ router.use(function (req, res, next) {
 
 
   //route level middle wares
-
   router.use('/users_list', authmiddleware.checkAdminAuth)
   router.get('/user_details',authmiddleware.checkAdminAuth)
   router.get('/category_list',authmiddleware.checkAdminAuth)
   router.get('/products',authmiddleware.checkAdminAuth)
+  router.get('/product_lists',authmiddleware.checkAdminAuth)
+
+
+  
 //get routes
   router.get('/',adminController.admin_home)
   router.get('/login',adminController.admin_login)
@@ -52,12 +56,14 @@ const upload = adminController.upload
   router.get('/category_list',adminController.category_list)
   router.get('/delete_category',adminController.delete_category)
   router.get('/products',adminController.add_products)
+  router.get('/product_lists',adminController.product_list)
+
 
   //protected post routes
   router.post('/edit_category',adminController.edit_category)
-  router.post('/add_products',uploadfile.upload.array('images'),adminController.add_products_post)
+  router.post('/add_products',store.array('images',4),adminController.add_products_post)
       //file upload middleware
-  router.post('/add_category',uploadfile.upload.single('category_thumbnail',4),adminController.add_category)
+  router.post('/add_category',uploadfile.upload.single('category_thumbnail'),adminController.add_category)
   
 
   module.exports= router

@@ -48,7 +48,6 @@ router.post('/verify',(req,res)=>{
   }).catch((err)=>{
     res.send(err)
   })
-
 })
 //public routes
 
