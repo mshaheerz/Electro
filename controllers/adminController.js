@@ -13,6 +13,8 @@ const fs = require('fs');
 const { log } = require('console');
 const { encode } = require('punycode');
 const { loadFont } = require('figlet');
+const { send } = require('process');
+const { format } = require('path');
 
 
 
@@ -20,7 +22,7 @@ const { loadFont } = require('figlet');
 async function admincheck(token) {
     const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
     const adminID = decoded.adminID
-    console.log(adminID);
+
     const admin = await adminmodel.findById(adminID)
     const adminemail = admin.email
     return adminemail
@@ -32,7 +34,7 @@ module.exports.admin_login = async (req, res) => {
 
         res.redirect('/admin')
     } else {
-        res.render('admin/login')
+        res.render('admin/login',{emailerr:"",passerr:"",allerr:""})
     }
 
 
@@ -40,20 +42,24 @@ module.exports.admin_login = async (req, res) => {
 
 
 module.exports.admin_home = async (req, res) => {
+    const user = await usermodel.find().count()
+    const product = await productmodel.find().count()
+    const category = await categorymodel.find().count()
+   
     const token = req.cookies.jwts
     if (token) {
         adminemail = await admincheck(token)
 
-        res.render('admin/index', { adminemail: adminemail })
+        res.render('admin/index', { adminemail: adminemail,user:user,product:product,category:category })
     } else {
-        res.render('admin/login');
+        res.render('admin/login',{emailerr:"",passerr:"",allerr:""});
     }
 
 }
 module.exports.admin_login_post = async (req, res) => {
     const { email, password } = req.body
     const admin = await adminmodel.findOne({ email: email })
-    console.log(admin);
+
     if (admin != null) {
         if (email && password) {
 
@@ -63,16 +69,16 @@ module.exports.admin_login_post = async (req, res) => {
                 res.cookie('jwts', token, { httpOnly: true });
                 res.redirect('/admin')
             } else {
-
-                res.send({ "status": "failed", "message": "email or password mismatch" })
+                res.render('admin/login',{emailerr:"",passerr:"",allerr:"email or password missmatch"});
             }
         } else {
-            res.send({ "status": "failed", "message": "all fieldsa re required" })
+            res.render('admin/login',{emailerr:"",passerr:"",allerr:"all fields are required"});
 
 
         }
     } else {
-        res.send({ "status": "failed", "message": "your not registered admin" })
+        res.render('admin/login',{emailerr:"your not registered admin",passerr:"",allerr:""});
+
     }
 }
 
@@ -93,7 +99,7 @@ module.exports.user_list = async (req, res) => {
 
 module.exports.flag_user = async (req, res) => {
     const { email } = req.query
-    console.log(email);
+ 
     try {
         await usermodel.updateOne({ email: email }, { isBanned: true })
         res.redirect('/admin/users_list')
@@ -120,7 +126,7 @@ module.exports.user_details = async (req, res) => {
         adminemail = await admincheck(token)
         const { email } = req.query
         user = await usermodel.findOne({ email })
-        console.log(user);
+       
         res.render('admin/userdetails', { adminemail: adminemail, user, moment })
     } catch (error) {
         res.send({ "status": "failed", "message": error.message })
@@ -211,14 +217,14 @@ module.exports.add_category = async (req, res, next) => {
 
 module.exports.add_products = async (req, res) => {
     const token = req.cookies.jwts
-    adminemail = await admincheck(token)
-    category = await categorymodel.find()
+    const adminemail = await admincheck(token)
+    const category = await categorymodel.find()
     res.render('admin/products', { adminemail, category })
 }
 
 module.exports.add_products_post = async (req, res, next) => {
     const files = req.files
-    const { name, description, price, category, colors, stock, discount, tags } = req.body
+    const { name, description, brand, price, category, colors, stock, discount, tags } = req.body
     if (!files) {
         const error = new Error('Please choose files')
         error.httpStatusCode = 400;
@@ -233,37 +239,114 @@ module.exports.add_products_post = async (req, res, next) => {
         return encode_image = img.toString('base64')
     })
 
-   let result= imgArray.map((src, index) => {
+    let result = imgArray.map((src, index) => {
         let finalimg = {
             imageName: files[index].originalname,
             contentType: files[index].mimetype,
             imageBase64: src
         }
-       
-    return finalimg;
+      
+        return finalimg;
 
     })
-     
-  
-        await productmodel.create({name,description,price,category,colors,stock,discount,tags,product_image:result}).then((data) =>{
-            // res.send({"success":data})
-            res.redirect('/admin/product_lists')
-        }).catch((err) =>{
-            res.send({"failed":err})
+    files.forEach((el,i)=>{
+        fs.rmSync(el.path,{
+            force:true
         })
-  
-
-
- 
-       
-    }
+    })
    
-module.exports.product_list =async(req,res)=>{
+
+    await productmodel.create({ name, description, brand, price, category, colors, stock, discount, tags, product_image: result }).then((data) => {
+        // res.send({"success":data})
+        res.redirect('/admin/product_lists')
+    }).catch((err) => {
+        res.send({ "failed": err })
+    })
+
+
+}
+
+module.exports.product_list = async (req, res) => {
     const token = req.cookies.jwts
-    adminemail = await admincheck(token)
-   const products = await productmodel.find()
-   
-    res.render('admin/productlist',{adminemail,products})
+    const adminemail = await admincheck(token)
+    const products = await productmodel.find().populate('category')
+
+    res.render('admin/productlist', { adminemail, products })
+}
+
+module.exports.delete_product = async (req, res) => {
+    const { id } = req.query
+    await productmodel.findByIdAndDelete(id).then((data) => {
+        // res.send({"status":"success","message":data})
+        res.send("<script>alert('Product delete successfull'); window.location.href = '/admin/product_lists'; </script>");
+    }).catch((err) => {
+        res.send({ "status": "failed", "message": err })
+    })
+}
+
+module.exports.edit_product = async (req, res) => {
+    const { id } = req.query
+    const token = req.cookies.jwts
+    const adminemail = await admincheck(token)
+    const category = await categorymodel.find()
+    await productmodel.findById(id).populate('category').then((product) => {
+        // res.send({"status":"success","message":data})
+
+        res.render('admin/editproducts', { category, product, adminemail })
+    }).catch((err) => {
+        res.send({ "status": "failed", "message": err })
+    })
 }
 
 
+module.exports.edit_products_post = async (req, res) => {
+    const { id } = req.query
+    const files = req.files
+    const { name, description, brand, price, category, colors, stock, discount, tags } = req.body
+
+    if (files=='') {
+        await productmodel.findOneAndUpdate({ _id:id }, { name, description, brand, price, category, colors, stock, discount, tags }).then((data) => {
+            // res.send({"success":data})
+           
+            res.redirect('/admin/product_lists')
+        }).catch((err) => {
+            res.send({ "first worked": err })
+        })
+    } else {
+
+        let imgArray = files.map((file) => {
+
+            let img = fs.readFileSync(file.path)
+
+            return encode_image = img.toString('base64')
+        })
+
+        let result = imgArray.map((src, index) => {
+            let finalimg = {
+                imageName: files[index].originalname,
+                contentType: files[index].mimetype,
+                imageBase64: src
+            }
+
+            return finalimg;
+
+        })
+        files.forEach((el,i)=>{
+            fs.rmSync(el.path,{
+                force:true
+            })
+        })
+
+         
+        
+        
+            await productmodel.findByIdAndUpdate(id, { name, description, brand, price, category, colors, stock, discount, tags, product_image: result }).then((data) => {
+                // res.send({ "success": data, "files": files })
+                res.redirect('/admin/product_lists')
+            }).catch((err) => {
+                res.send({ "second workde": err })
+            })
+        
+
+    }
+}

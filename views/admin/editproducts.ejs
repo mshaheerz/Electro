@@ -31,7 +31,7 @@
 
 
 
-                            <form action="/admin/add_products" method="post" enctype="multipart/form-data">
+                            <form action="/admin/edit_product?id=<%= product._id %> " method="post" enctype="multipart/form-data">
                             <div class="col-auto d-flex"><button class="btn btn-primary" type="submit">Save</button>
                             </div>
                         </div>
@@ -50,16 +50,16 @@
 
                                         <div class="mb-4"><label for="form-product/name"
                                                 class="form-label">Name</label><input type="text" class="form-control"
-                                                name="name" id="form-product/name" required></div>
+                                                name="name" value="<%= product.name %> " id="form-product/name" required></div>
 
                                         <div class="mb-4"><label for="form-product/description"
                                                 class="form-label">Description</label>
                                                 <textarea
                                                 id="" name="description"
-                                                class=" form-control" rows="4" required></textarea>
+                                                class=" form-control" rows="4" required><%= product.description %></textarea>
                                         </div>
                                         <div class="mb-4"><label for="form-product/name"
-                                            class="form-label">Brand</label><input type="text" class="form-control"
+                                            class="form-label">Brand</label><input type="text"value="<%= product.brand %>" class="form-control"
                                             name="brand" id="form-product/name" required></div>
                                     </div>
                                 </div>
@@ -71,11 +71,11 @@
                                         <div class="row g-4">
                                             <div class="col"><label for="form-product/price"
                                                     class="form-label">Price</label><input type="number"
-                                                    class="form-control" id="form-product/price" name="price" required>
+                                                    class="form-control" id="form-product/price" value="<%= product.price %>" name="price" required>
                                             </div>
                                             <div class="col"><label for="form-product/old-price"
                                                     class="form-label">Discount</label><input type="number"
-                                                    class="form-control" name="discount" id="form-product/old-price" required>
+                                                    class="form-control" name="discount" value="<%= product.discount %>" id="form-product/old-price" required>
                                             </div>
                                         </div>
                                     </div>
@@ -89,7 +89,7 @@
 
                                         <div><label for="form-product/quantity" class="form-label">Stock
                                                 quantity</label><input type="number" class="form-control"
-                                                id="form-product/quantity" name="stock" value="18" required></div>
+                                                id="form-product/quantity" name="stock" value="<%= product.stock %>" required></div>
                                     </div>
                                 </div>
                                 <div class="card mt-5">
@@ -102,9 +102,19 @@
                                         <div class="sa-divider"></div>
                                         <div class="table-responsive">
                                             <div class="choose-imagefile-wrap">
+                                                    <div >
+                                                     <h2 class="ms-4 fs-exact-18">previous image preview</h2>
+                                                        <% for( let i = 0; i < product.product_image.length; i++ ) { %>
+                                                            <img src="data:<%= product.product_image[i].contentType %>;base64,<%= product.product_image[i].imageBase64 %>" alt="">
+                                                            <% } %>
+                                                    </div>
+                                                    <h2 class="ms-4 fs-exact-18">replace image</h2>
+                                                    <input type="file" id="file-input"  class="form-control" name='images'  multiple>
+                                                    <div id="preview">
+                                                    
+                                                    </div>
+                                                  
                                                 
-                                                    <input type="file" id="file-input"   name='images'  required multiple>
-                                                    <div id="preview"></div>
                                               
                                             </div>
 
@@ -122,11 +132,12 @@
                                         <div class="mb-5">
                                             <h2 class="mb-0 fs-exact-18">Categories</h2>
                                         </div><select name="category" class="sa-select2 form-select" required>
+                                            <option selected><%= product.category.category_name %></option>
                                             <% for( let i=0; i < category.length; i++ ) { %>
-                                                <option value="<%= category[i]._id %>">
+                                                <option>
                                                     <%= category[i].category_name %>
                                                 </option>
-                                                <% } %>
+                                            <% } %>
 
 
 
@@ -137,9 +148,14 @@
                                         <div class="mb-5">
                                             <h2 class="mb-0 fs-exact-18">Colors</h2>
                                         </div><select name="colors" class="sa-select2 form-select" required multiple="">
-                                            <option selected="">Black</option>
+                                            <% for( let i = 0; i < product.colors.length; i++ ) { %>
+                                            <option selected><%= product.colors[i] %> </option>
+                                            <% } %>
+                                            
+
+                                            <option >Black</option>
                                             <option>red</option>
-                                            <option selected="">White</option>
+                                            <option >White</option>
                                             <option>Green</option>
 
                                         </select>
@@ -150,6 +166,9 @@
                                         <div class="mb-5">
                                             <h2 class="mb-0 fs-exact-18">Tags</h2>
                                         </div><select name="tags" class="sa-select2 form-select" data-tags="true" required multiple="">
+                                            <% for( let i = 0; i < product.tags.length; i++ ) { %>
+                                                <option selected><%= product.tags[i] %> </option>
+                                                <% } %>
                                             <option>samsung</option>
                                             <option>tv</option>
                                             <option>laptop</option>

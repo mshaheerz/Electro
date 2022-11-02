@@ -9,7 +9,7 @@ const productSchema = new mongoose.Schema({
     type: Number,
   },
   category:{
-    type:String,
+    type:mongoose.Schema.Types.ObjectId,
     ref: 'category',
     required:true,
   },
@@ -17,6 +17,9 @@ const productSchema = new mongoose.Schema({
 ,
 stock:{
     type:Number, required: true
+},
+brand:{
+  type:String, required: true
 },
 
 discount:{

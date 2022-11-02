@@ -1,7 +1,10 @@
 <%- include('./layouts/main'); -%>
-
+<link rel="stylesheet" href="user/assets/css/demos/demo-4.css">
+<link rel="stylesheet" href="user/assets/css/skins/skin-demo-4.css">
+</head>
 <body>
     <div class="page-wrapper">
+        
         <%- include('./layouts/header'); -%>
         <% if (alert) { %>
          <script>alert("your banned")</script>
@@ -53,11 +56,11 @@
                                     <div class="intro-price">
                                         <sup>Today:</sup>
                                         <span class="text-primary">
-                                            $999<sup>.99</sup>
+                                            &#x20B9;54899<sup>.00</sup>
                                         </span>
                                     </div><!-- End .intro-price -->
 
-                                    <a href="category.html" class="btn btn-primary btn-round">
+                                    <a href="/product?id=636148b38179157b5668638c" class="btn btn-primary btn-round">
                                         <span>Shop More</span>
                                         <i class="icon-long-arrow-right"></i>
                                     </a>
@@ -75,77 +78,23 @@
                 
                 <div class="cat-blocks-container">
                     <div class="row">
+
+                        <% for( let i = 0; i < category.length; i++ ) { %>
                         <div class="col-6 col-sm-4 col-lg-2">
                             <a href="category.html" class="cat-block">
                                 <figure>
                                     <span>
-                                        <img src="user/assets/images/demos/demo-4/cats/1.png" alt="Category image">
+                                        <img src="data:<%= category[i].contentType %>;base64,<%= category[i].imageBase64  %>  " alt="Category image">
                                     </span>
                                 </figure>
 
-                                <h3 class="cat-block-title">Computer & Laptop</h3><!-- End .cat-block-title -->
+                                <h3 class="cat-block-title"><%= category[i].category_name %> </h3><!-- End .cat-block-title -->
                             </a>
                         </div><!-- End .col-sm-4 col-lg-2 -->
+                        <% } %>
+                        
 
-                        <div class="col-6 col-sm-4 col-lg-2">
-                            <a href="category.html" class="cat-block">
-                                <figure>
-                                    <span>
-                                        <img src="user/assets/images/demos/demo-4/cats/2.png" alt="Category image">
-                                    </span>
-                                </figure>
-
-                                <h3 class="cat-block-title">Digital Cameras</h3><!-- End .cat-block-title -->
-                            </a>
-                        </div><!-- End .col-sm-4 col-lg-2 -->
-
-                        <div class="col-6 col-sm-4 col-lg-2">
-                            <a href="category.html" class="cat-block">
-                                <figure>
-                                    <span>
-                                        <img src="user/assets/images/demos/demo-4/cats/3.png" alt="Category image">
-                                    </span>
-                                </figure>
-
-                                <h3 class="cat-block-title">Smart Phones</h3><!-- End .cat-block-title -->
-                            </a>
-                        </div><!-- End .col-sm-4 col-lg-2 -->
-
-                        <div class="col-6 col-sm-4 col-lg-2">
-                            <a href="category.html" class="cat-block">
-                                <figure>
-                                    <span>
-                                        <img src="user/assets/images/demos/demo-4/cats/4.png" alt="Category image">
-                                    </span>
-                                </figure>
-
-                                <h3 class="cat-block-title">Televisions</h3><!-- End .cat-block-title -->
-                            </a>
-                        </div><!-- End .col-sm-4 col-lg-2 -->
-
-                        <div class="col-6 col-sm-4 col-lg-2">
-                            <a href="category.html" class="cat-block">
-                                <figure>
-                                    <span>
-                                        <img src="user/assets/images/demos/demo-4/cats/5.png" alt="Category image">
-                                    </span>
-                                </figure>
-
-                                <h3 class="cat-block-title">Audio</h3><!-- End .cat-block-title -->
-                            </a>
-                        </div><!-- End .col-sm-4 col-lg-2 -->
-
-                        <div class="col-6 col-sm-4 col-lg-2">
-                            <a href="category.html" class="cat-block">
-                                <figure>
-                                    <span>
-                                        <img src="user/assets/images/demos/demo-4/cats/6.png" alt="Category image">
-                                    </span>
-                                </figure>
-
-                                <h3 class="cat-block-title">Smart Watches</h3><!-- End .cat-block-title -->
-                            </a>
-                        </div><!-- End .col-sm-4 col-lg-2 -->
+                     
                     </div><!-- End .row -->
                 </div><!-- End .cat-blocks-container -->
             </div><!-- End .container -->
@@ -290,28 +239,31 @@
                         }
                     }'>
                     <a href="#" class="brand">
-                        <img src="user/assets/images/brands/1.png" alt="Brand Name">
+                        <img src="https://www.freepnglogos.com/uploads/black-samsung-logo-png-21.png" alt="Brand Name">
+                    </a>
+                    <a href="#" class="brand">
+                        <img src="https://www.freepnglogos.com/uploads/beats-png-logo/new-beats-saudio-png-logo-0.png" alt="Brand Name">
                     </a>
 
                     <a href="#" class="brand">
-                        <img src="user/assets/images/brands/2.png" alt="Brand Name">
+                        <img src="https://www.freepnglogos.com/uploads/iphone-logo-11.jpg" alt="Brand Name">
                     </a>
 
                     <a href="#" class="brand">
-                        <img src="user/assets/images/brands/3.png" alt="Brand Name">
+                        <img src="https://www.freepnglogos.com/uploads/logo-asus-png/brand-asus-company-logo-black-14.png" alt="Brand Name">
+                    </a>
+                    
+                    <a href="#" class="brand">
+                        <img src="https://www.freepnglogos.com/uploads/xiaomi-png/xiaomi-logo-png-0.png" alt="Brand Name">
                     </a>
 
                     <a href="#" class="brand">
-                        <img src="user/assets/images/brands/4.png" alt="Brand Name">
+                        <img src="https://www.freepnglogos.com/uploads/sony-png-logo/sony-png-logo-transparent-4.png" alt="Brand Name">
                     </a>
 
-                    <a href="#" class="brand">
-                        <img src="user/assets/images/brands/5.png" alt="Brand Name">
-                    </a>
+                  
 
-                    <a href="#" class="brand">
-                        <img src="user/assets/images/brands/6.png" alt="Brand Name">
-                    </a>
+                  
                 </div><!-- End .owl-carousel -->
             </div><!-- End .container -->
 

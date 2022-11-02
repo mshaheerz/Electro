@@ -204,14 +204,17 @@
                     <div class="dropdown-menu">
                         <nav class="side-nav">
                             <ul class="menu-vertical sf-arrows">
-                                <li class="item-lead"><a href="#">More discount</a></li>
-                                <li class="item-lead"><a href="#">Premium</a></li>
-                                <li><a href="#">Smart Phones</a></li>
+                                <!-- <li class="item-lead"><a href="#">More discount</a></li>
+                                <li class="item-lead"><a href="#">Premium</a></li> -->
+                                <% for( let i = 0; i < category.length; i++ ) { %>
+                                 <li><a href="#"><%= category[i].category_name %> </a></li>
+                                <% } %>
+                               <!-- 
                                 <li><a href="#">Computer & Laptop</a></li>
                                 <li><a href="#">Digital Cameras</a></li>
                                 <li><a href="#">Televisions</a></li>
                                 <li><a href="#">Audio</a></li>
-                                <li><a href="#">Smart Watches </a></li>
+                                <li><a href="#">Smart Watches </a></li> -->
                             </ul><!-- End .menu-vertical -->
                         </nav><!-- End .side-nav -->
                     </div><!-- End .dropdown-menu -->
@@ -221,11 +224,11 @@
             <div class="header-center">
                 <nav class="main-nav">
                     <ul class="menu sf-arrows">
-                        <li class="megamenu-container active">
-                            <a href="category.html">Home</a>
+                        <li class="megamenu-container ">
+                            <a href="/">Home</a>
                         </li>
                         <li>
-                            <a href="product.html" class="sf-with-ul">Shop</a>
+                            <a href="/shop" class="sf-with-ul">Shop</a>
 
                             <div class="megamenu megamenu-sm">
                                 <div class="row no-gutters">

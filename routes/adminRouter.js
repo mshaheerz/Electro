@@ -29,6 +29,7 @@ router.use(function (req, res, next) {
   router.get('/category_list',authmiddleware.checkAdminAuth)
   router.get('/products',authmiddleware.checkAdminAuth)
   router.get('/product_lists',authmiddleware.checkAdminAuth)
+  router.get('/edit_product',authmiddleware.checkAdminAuth)
 
 
   
@@ -57,11 +58,14 @@ const upload = adminController.upload
   router.get('/delete_category',adminController.delete_category)
   router.get('/products',adminController.add_products)
   router.get('/product_lists',adminController.product_list)
+  router.get('/delete_product',adminController.delete_product)
+  router.get('/edit_product',adminController.edit_product)
 
 
   //protected post routes
   router.post('/edit_category',adminController.edit_category)
   router.post('/add_products',store.array('images',4),adminController.add_products_post)
+  router.post('/edit_product',store.array('images',4),adminController.edit_products_post)
       //file upload middleware
   router.post('/add_category',uploadfile.upload.single('category_thumbnail'),adminController.add_category)
   

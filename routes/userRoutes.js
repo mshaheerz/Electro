@@ -18,6 +18,7 @@ router.use(express.static("public"))
 router.use('/changepassword',authmiddleware.checkUserAuth)
 router.use('/loggeduser', authmiddleware.checkUserAuth)
 router.get('/',authmiddleware.checkUserAuth)
+router.get('/shop',authmiddleware.checkUserAuth)
 
 
 router.post('/otp',(req,res)=>{
@@ -56,6 +57,8 @@ router.post('/verify',(req,res)=>{
 router.get('/login',usergetController.login_get)
 router.get('/signup',usergetController.signup_get)
 router.get('/',usergetController.home_page)
+router.get('/shop',usergetController.shop)
+router.get('/product',usergetController.product)
 router.get('/logout',usergetController.logout_get)
 
 

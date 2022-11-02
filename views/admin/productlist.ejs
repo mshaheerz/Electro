@@ -141,6 +141,7 @@
                                                     class="form-check-input m-0 fs-exact-16 d-block" aria-label="..." />
                                             </th>
                                             <th class="min-w-20x">Product</th>
+                                            <th>Brand</th>
                                             <th>Category</th>
                                             <th>Stock</th>
                                             <th>Price</th>
@@ -160,7 +161,7 @@
                                                             <img src="data:<%= products[i].product_image[0].contentType %>;base64,<%= products[i].product_image[0].imageBase64 %> " width="40"
                                                                 height="40" alt="" /></div>
                                                     </a>
-                                                    <div><a href="app-product.html" class="text-reset"><%= products[i].name %> </a>
+                                                    <div><a href="/admin/edit_product?id=<%= products[i]._id %> " class="text-reset"><%= products[i].name %> </a>
                                                         <div class="sa-meta mt-0">
                                                             <ul class="sa-meta__list">
                                                                 <li class="sa-meta__item">Discount: <span
@@ -174,7 +175,9 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td><a href="app-category.html" class="text-reset"><%= products[i].category %> </a></td>
+                                            <td><a href="#" class="text-reset"><%= products[i].brand %> </a></td>
+
+                                            <td><a href="/admin/category_list" class="text-reset"><%= products[i].category.category_name %> </a></td>
                                             <td>
                                                 <% if (products[i].stock <=10) { %>
                                                     <div class="badge badge-sa-danger"><%= products[i].stock %>  In Stock</div>
@@ -201,14 +204,11 @@
                                                         </svg></button>
                                                     <ul class="dropdown-menu dropdown-menu-end"
                                                         aria-labelledby="product-context-menu-0">
-                                                        <li><a class="dropdown-item" href="#">Edit</a></li>
-                                                        <li><a class="dropdown-item" href="#">Duplicate</a></li>
-                                                        <li><a class="dropdown-item" href="#">Add tag</a></li>
-                                                        <li><a class="dropdown-item" href="#">Remove tag</a></li>
+                                                        <li><a class="dropdown-item" href="/admin/edit_product?id=<%= products[i]._id %> ">Edit</a></li>
                                                         <li>
                                                             <hr class="dropdown-divider" />
                                                         </li>
-                                                        <li><a class="dropdown-item text-danger" href="#">Delete</a>
+                                                        <li><a class="dropdown-item text-danger" href="/admin/delete_product?id=<%= products[i]._id %> ">Delete</a>
                                                         </li>
                                                     </ul>
                                                 </div>

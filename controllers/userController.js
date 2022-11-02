@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const transporter = require("../config/emailConfig")
 const validatePhoneNumber = require('validate-phone-number-node-js');
+const categorymodel = require('../model/categoryschema')
 
 const { reset } = require("nodemon")
 
@@ -18,6 +19,7 @@ class userController {
     static userRegistration = async (req, res) => {
         const { firstname, lastname, email, phone, password, passwordone } = req.body
         const user = await Usermodel.findOne({ email: email })
+        const category = await categorymodel.find()
         const checkPhone = validatePhoneNumber.validate(phone);
         console.log(checkPhone);
         if (user) {
@@ -28,11 +30,11 @@ class userController {
             const format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
             const checkCharacter = format.test(firstname + lastname)
             if (checkCharacter) {
-                res.render("user/signup", { token: false, emailerr: "", passerr: "", allerr: "firstname or lastname contain invalid character" })
+                res.render("user/signup", { token: false, emailerr: "", passerr: "", allerr: "firstname or lastname contain invalid character",category })
 
             }else if(!checkPhone){
                 
-                res.render("user/signup", { token: false, emailerr: "", passerr: "", allerr: "Enter valid phone number" })
+                res.render("user/signup", { token: false, emailerr: "", passerr: "", allerr: "Enter valid phone number",category })
 
             }
 
@@ -63,12 +65,12 @@ class userController {
                     }
 
                 } else {
-                    res.render("user/signup", { token: false, emailerr: "", passerr: "password and confirm password doesnt match", allerr: "" })
+                    res.render("user/signup", { token: false, emailerr: "", passerr: "password and confirm password doesnt match", allerr: "",category })
                     // res.send({ "status": "failed", "message": "password and confirm password doesnt match" })
 
                 }
             } else {
-                res.render("user/signup", { token: false, emailerr: "", passerr: "", allerr: "allfields required" })
+                res.render("user/signup", { token: false, emailerr: "", passerr: "", allerr: "allfields required",category })
 
                 // res.send({ "status": "failed", "message": "All fields are required" })
             }
@@ -82,6 +84,7 @@ class userController {
             const { email, password } = req.body;
             if (email && password) {
                 const user = await Usermodel.findOne({ email: email })
+                const category = await categorymodel.find()
                 if (user != null) {
                     const isMatch = await bcrypt.compare(password, user.password)
                     if (user.email === email && isMatch) {
@@ -92,17 +95,17 @@ class userController {
                         res.redirect('/')
                         // res.send({ "status": "success", "message": "login success","token":token })
                     } else {
-                        res.render("user/login", { token: false, emailerr: "", passerr: "invalid email or password", allerr: "" })
+                        res.render("user/login", { token: false, emailerr: "", passerr: "invalid email or password", allerr: "",category })
                         // res.send({ "status": "failed", "message": "invalid email or password" })
 
                     }
 
 
                 } else {
-                        res.render("user/login", { token: false, emailerr: "your not registered user", passerr: "", allerr: "" })
+                        res.render("user/login", { token: false, emailerr: "your not registered user", passerr: "", allerr: "",category })
                 }
             } else {
-                res.render("user/login", { token: false, emailerr: "", passerr: "", allerr: "All fields are required" })
+                res.render("user/login", { token: false, emailerr: "", passerr: "", allerr: "All fields are required",category })
 
             }
         } catch (error) {

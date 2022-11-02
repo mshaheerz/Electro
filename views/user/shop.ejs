@@ -1,0 +1,555 @@
+<%- include('./layouts/main'); -%>
+    <link rel="stylesheet" href="user/assets/css/skins/skin-demo-13.css">
+    <link rel="stylesheet" href="user/assets/css/demos/demo-13.css">
+    </head>
+
+    <body>
+        <div class="page-wrapper">
+            <%- include('./layouts/header'); -%>
+                <% if (alert) { %>
+                    <script>alert("your banned")</script>
+                    <% } %>
+
+                        <main class="main">
+                            <nav aria-label="breadcrumb" class="breadcrumb-nav mb-3">
+                                <div class="container">
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                                        <li class="breadcrumb-item"><a href="#">Shop</a></li>
+                                        <li class="breadcrumb-item active" aria-current="page">Electronics</li>
+                                    </ol>
+                                </div><!-- End .container -->
+                            </nav><!-- End .breadcrumb-nav -->
+
+                            <div class="page-content">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-lg-9 col-xl-4-5col">
+
+
+
+
+                                            <!-- <div class="cat-blocks-container">
+                                <div class="row">
+                                    <div class="col-6 col-md-4 col-lg-3">
+                                        <a href="category.html" class="cat-block">
+                                            <figure>
+                                                <span>
+                                                    <img src="user/assets/images/demos/demo-13/cats/cat-page/1.jpg" alt="Category image">
+                                                </span>
+                                            </figure> -->
+
+                                            <!-- <h3 class="cat-block-title">Desktop Computers</h3> -->
+                                            <!-- End .cat-block-title -->
+                                            <!-- </a> -->
+                                            <!-- </div> -->
+                                            <!-- End .col-6 col-md-4 col-lg-3 -->
+
+                                            <!-- <div class="col-6 col-md-4 col-lg-3">
+                                        <a href="category.html" class="cat-block">
+                                            <figure>
+                                                <span>
+                                                    <img src="user/assets/images/demos/demo-13/cats/cat-page/2.jpg" alt="Category image">
+                                                </span>
+                                            </figure>
+
+                                            <h3 class="cat-block-title">Monitors</h3><!-- End .cat-block-title -->
+                                            <!-- </a>  -->
+                                            <!-- </div> -->
+                                            <!-- End .col-6 col-md-4 col-lg-3 -->
+
+                                            <!-- <div class="col-6 col-md-4 col-lg-3">
+                                        <a href="category.html" class="cat-block">
+                                            <figure>
+                                                <span>
+                                                    <img src="user/assets/images/demos/demo-13/cats/cat-page/3.jpg" alt="Category image">
+                                                </span>
+                                            </figure> -->
+
+                                            <!-- <h3 class="cat-block-title">Laptops</h3> -->
+                                            <!-- End .cat-block-title -->
+                                            <!-- </a>
+                                    </div> -->
+                                            <!-- End .col-6 col-md-4 col-lg-3 -->
+
+                                            <!-- <div class="col-6 col-md-4 col-lg-3">
+                                        <a href="category.html" class="cat-block">
+                                            <figure>
+                                                <span>
+                                                    <img src="user/assets/images/demos/demo-13/cats/cat-page/4.jpg" alt="Category image">
+                                                </span>
+                                            </figure>
+
+                                            <h3 class="cat-block-title">iPads & Tablets</h3> 
+                                            End .cat-block-title -->
+                                            <!-- </a>
+                                    </div>  -->
+                                            <!-- End .col-6 col-md-4 col-lg-3 -->
+
+                                            <!-- <div class="col-6 col-md-4 col-lg-3">
+                                        <a href="category.html" class="cat-block">
+                                            <figure>
+                                                <span>
+                                                    <img src="user/assets/images/demos/demo-13/cats/cat-page/5.jpg" alt="Category image">
+                                                </span>
+                                            </figure>
+
+                                            <h3 class="cat-block-title">Hard Drives & Storage</h3><!-- End .cat-block-title -->
+                                            <!-- </a> -->
+                                            <!-- </div> -->
+                                            <!-- End .col-6 col-md-4 col-lg-3 -->
+
+                                            <!-- <div class="col-6 col-md-4 col-lg-3">
+                                        <a href="category.html" class="cat-block">
+                                            <figure>
+                                                <span>
+                                                    <img src="user/assets/images/demos/demo-13/cats/cat-page/6.jpg" alt="Category image">
+                                                </span>
+                                            </figure>
+
+                                            <h3 class="cat-block-title">Printers & Supplies</h3><!-- End .cat-block-title -->
+                                            <!-- </a> -->
+                                            <!-- </div> -->
+                                            <!-- End .col-6 col-md-4 col-lg-3 -->
+
+                                            <!-- <div class="col-6 col-md-4 col-lg-3">
+                                        <a href="category.html" class="cat-block">
+                                            <figure>
+                                                <span>
+                                                    <img src="user/assets/images/demos/demo-13/cats/cat-page/7.jpg" alt="Category image">
+                                                </span>
+                                            </figure> -->
+
+                                            <!-- <h3 class="cat-block-title">Computer Accessories</h3> -->
+                                            <!-- End .cat-block-title -->
+                                            <!-- </a>
+                                    </div> -->
+                                            <!-- End .col-6 col-md-4 col-lg-3 -->
+                                            <!-- </div> -->
+                                            <!-- End .row -->
+                                            <!-- </div>End .cat-blocks-container -->
+
+                                            <!-- <div class="mb-2"></div> -->
+                                            <!-- End .mb-2 -->
+
+
+
+
+
+
+
+
+
+
+
+                                            <h2 class="title title-border">Featured Items</h2><!-- End .title -->
+
+
+
+
+
+
+
+
+
+                                            <div class="mb-4"></div><!-- End .mb-4 -->
+
+                                            <div class="toolbox">
+                                                <div class="toolbox-left">
+                                                    <div class="toolbox-info">
+                                                        <%= products.length %> Products found
+                                                    </div><!-- End .toolbox-info -->
+                                                </div><!-- End .toolbox-left -->
+
+                                                <div class="toolbox-right">
+                                                    <div class="toolbox-sort">
+                                                        <label for="sortby">Sort by:</label>
+                                                        <div class="select-custom">
+                                                            <select name="sortby" id="sortby" class="form-control">
+                                                                <option value="popularity" selected="selected">Most
+                                                                    Popular</option>
+                                                                <option value="rating">Most Rated</option>
+                                                                <option value="date">Date</option>
+                                                            </select>
+                                                        </div>
+                                                    </div><!-- End .toolbox-sort -->
+                                                </div><!-- End .toolbox-right -->
+                                            </div><!-- End .toolbox -->
+
+                                            <div class="products mb-3">
+                                                <div class="row">
+
+
+
+                                                    <% for( let i=0; i < products.length; i++ ) { %>
+
+
+                                                        <div class="col-6 col-md-4 col-xl-3">
+                                                            <div class="product">
+                                                                <figure class="product-media">
+                                                                    <!-- <span class="product-label label-sale">Sale</span> -->
+                                                                    <a href="/product?id=<%= products[i]._id  %> ">
+                                                                        <img src="data:<%= products[i].product_image[0].contentType %>;base64,<%= products[i].product_image[0].imageBase64 %> "
+                                                                            alt="Product image" height="200px"
+                                                                            class="product-image">
+                                                                    </a>
+
+                                                                    <div class="product-action-vertical">
+                                                                        <a href="#"
+                                                                            class="btn-product-icon btn-wishlist btn-expandable"><span>add
+                                                                                to wishlist</span></a>
+                                                                        <a href="#" class="btn-product-icon btn-compare"
+                                                                            title="Compare"><span>Compare</span></a>
+                                                                        <a href="popup/quickView.html"
+                                                                            class="btn-product-icon btn-quickview"
+                                                                            title="Quick view"><span>Quick
+                                                                                view</span></a>
+                                                                    </div><!-- End .product-action-vertical -->
+
+                                                                    <div class="product-action">
+                                                                        <a href="#" class="btn-product btn-cart"
+                                                                            title="Add to cart"><span>add to
+                                                                                cart</span></a>
+                                                                    </div><!-- End .product-action -->
+                                                                </figure><!-- End .product-media -->
+
+                                                                <div class="product-body">
+                                                                    <div class="product-cat">
+                                                                        <a href="#">
+                                                                            <%= products[i].category.category_name %>
+                                                                        </a>
+                                                                    </div><!-- End .product-cat -->
+                                                                    <h3 class="product-title"><a href="product.html">
+                                                                            <%= products[i].name %>
+                                                                        </a></h3><!-- End .product-title -->
+                                                                    <div class="product-price">
+                                                                        &#8377;<%=
+                                                                            products[i].price-products[i].discount %>
+                                                                            &nbsp;
+                                                                            <span class="new-price">&#x20B9;<%=
+                                                                                    products[i].discount %></span>
+
+                                                                            <span class="old-price">Was &#x20B9;<%=
+                                                                                    products[i].price %></span>
+                                                                    </div><!-- End .product-price -->
+                                                                    <div class="ratings-container">
+                                                                        <div class="ratings">
+                                                                            <div class="ratings-val"
+                                                                                style="width: 80%;"></div>
+                                                                            <!-- End .ratings-val -->
+                                                                        </div><!-- End .ratings -->
+                                                                        <span class="ratings-text">( 10 Reviews )</span>
+                                                                    </div><!-- End .rating-container -->
+
+                                                                    <% if (products[i].colors) { %>
+                                                                        <div class="product-nav product-nav-dots">
+                                                                            <% for( let j=0; j <
+                                                                                products[i].colors.length; j++ ) { %>
+
+                                                                                <a href="#" class="active"
+                                                                                    style="background:<%= products[i].colors[j] %>;"><span
+                                                                                        class="sr-only">Color
+                                                                                        name</span></a>
+                                                                                <% } %>
+
+                                                                        </div><!-- End .product-nav -->
+                                                                        <% } %>
+
+                                                                </div><!-- End .product-body -->
+                                                            </div><!-- End .product -->
+                                                        </div><!-- End .col-sm-6 col-md-4 col-xl-3 -->
+
+
+                                                        <% } %>
+                                                </div><!-- End .row -->
+                                            </div><!-- End .products -->
+
+                                            <nav aria-label="Page navigation">
+                                                <ul class="pagination">
+                                                    <li class="page-item disabled">
+                                                        <a class="page-link page-link-prev" href="#"
+                                                            aria-label="Previous" tabindex="-1" aria-disabled="true">
+                                                            <span aria-hidden="true"><i
+                                                                    class="icon-long-arrow-left"></i></span>Prev
+                                                        </a>
+                                                    </li>
+                                                    <li class="page-item active" aria-current="page"><a
+                                                            class="page-link" href="#">1</a></li>
+                                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                                    <li class="page-item-total">of 2</li>
+                                                    <li class="page-item">
+                                                        <a class="page-link page-link-next" href="#" aria-label="Next">
+                                                            Next <span aria-hidden="true"><i
+                                                                    class="icon-long-arrow-right"></i></span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </nav>
+                                        </div><!-- End .col-lg-9 -->
+
+                                        <aside class="col-lg-3 col-xl-5col order-lg-first">
+                                            <div class="sidebar sidebar-shop">
+                                                
+
+                                                <div class="widget">
+                                                    <h3 class="widget-title">Categories</h3><!-- End .widget-title -->
+
+                                                    <div class="widget-body">
+                                                        <form action="/shop" method="get">
+                                                        <% for( let i=0; i < category.length; i++ ) { %>
+                                                            <div class="filter-items">
+
+
+
+
+                                                                <div class="filter-item">
+                                                                    <div class="custom-control custom-checkbox">
+                                                                        <input type="checkbox"
+                                                                            class="custom-control-input"
+                                                                            value="<%= category[i].category_name %>"
+                                                                            name="category"
+                                                                            id="<%= category[i].category_name %>">
+                                                                        <label class="custom-control-label"
+                                                                            for="<%= category[i].category_name %>">
+                                                                            <%= category[i].category_name %>
+                                                                        </label>
+                                                                    </div><!-- End .custom-checkbox -->
+                                                                </div><!-- End .filter-item -->
+
+
+
+                                                            </div><!-- End .filter-items -->
+                                                            <% } %>
+                                                            <button type="submit" class="btn btn-outline-primary btn-sm rounded ">submit</button>
+
+                                                        </form>
+                                                    </div><!-- End .widget-body -->
+                                                </div><!-- End .widget -->
+                                                <div class="widget">
+                                                    <h3 class="widget-title">Brands</h3><!-- End .widget-title -->
+
+                                                    <div class="widget-body">
+                                                        <% for( let i=0; i < brand.length; i++ ) { %>
+                                                            <div class="filter-items">
+
+
+
+
+                                                                <div class="filter-item">
+                                                                    <div class="custom-control custom-checkbox">
+                                                                        <input type="checkbox"
+                                                                            class="custom-control-input"
+                                                                            id="<%= brand[i] %>">
+                                                                        <label class="custom-control-label"
+                                                                            for="<%= brand[i] %>">
+                                                                            <%= brand[i] %>
+                                                                        </label>
+                                                                    </div><!-- End .custom-checkbox -->
+                                                                </div><!-- End .filter-item -->
+
+
+
+                                                            </div><!-- End .filter-items -->
+                                                            <% } %>
+                                                    </div><!-- End .widget-body -->
+                                                </div><!-- End .widget -->
+
+                                                <div class="widget">
+                                                    <h3 class="widget-title">Price</h3><!-- End .widget-title -->
+
+                                                    <div class="widget-body">
+                                                        <div class="filter-items">
+                                                            <div class="filter-item">
+                                                                <div class="custom-control custom-radio">
+                                                                    <input type="radio" class="custom-control-input"
+                                                                        id="price-1" name="filter-price">
+                                                                    <label class="custom-control-label"
+                                                                        for="price-1">Under $25</label>
+                                                                </div><!-- End .custom-checkbox -->
+                                                            </div><!-- End .filter-item -->
+
+                                                            <div class="filter-item">
+                                                                <div class="custom-control custom-radio">
+                                                                    <input type="radio" class="custom-control-input"
+                                                                        id="price-2" name="filter-price">
+                                                                    <label class="custom-control-label"
+                                                                        for="price-2">$25 to $50</label>
+                                                                </div><!-- End .custom-checkbox -->
+                                                            </div><!-- End .filter-item -->
+
+                                                            <div class="filter-item">
+                                                                <div class="custom-control custom-radio">
+                                                                    <input type="radio" class="custom-control-input"
+                                                                        id="price-3" name="filter-price">
+                                                                    <label class="custom-control-label"
+                                                                        for="price-3">$50 to $100</label>
+                                                                </div><!-- End .custom-checkbox -->
+                                                            </div><!-- End .filter-item -->
+
+                                                            <div class="filter-item">
+                                                                <div class="custom-control custom-radio">
+                                                                    <input type="radio" class="custom-control-input"
+                                                                        id="price-4" name="filter-price">
+                                                                    <label class="custom-control-label"
+                                                                        for="price-4">$100 to $200</label>
+                                                                </div><!-- End .custom-checkbox -->
+                                                            </div><!-- End .filter-item -->
+
+                                                            <div class="filter-item">
+                                                                <div class="custom-control custom-radio">
+                                                                    <input type="radio" class="custom-control-input"
+                                                                        id="price-5" name="filter-price">
+                                                                    <label class="custom-control-label"
+                                                                        for="price-5">$200 & Above</label>
+                                                                </div><!-- End .custom-checkbox -->
+                                                            </div><!-- End .filter-item -->
+                                                        </div><!-- End .filter-items -->
+                                                    </div><!-- End .widget-body -->
+                                                </div><!-- End .widget -->
+
+                                                <div class="widget">
+                                                    <h3 class="widget-title">Customer Rating</h3>
+                                                    <!-- End .widget-title -->
+
+                                                    <div class="widget-body">
+                                                        <div class="filter-items">
+                                                            <div class="filter-item">
+                                                                <div class="custom-control custom-checkbox">
+                                                                    <input type="checkbox" class="custom-control-input"
+                                                                        id="cus-rating-1">
+                                                                    <label class="custom-control-label"
+                                                                        for="cus-rating-1">
+                                                                        <span class="ratings-container">
+                                                                            <span class="ratings">
+                                                                                <span class="ratings-val"
+                                                                                    style="width: 100%;"></span>
+                                                                                <!-- End .ratings-val -->
+                                                                            </span><!-- End .ratings -->
+                                                                            <span class="ratings-text">( 24 )</span>
+                                                                        </span><!-- End .rating-container -->
+                                                                    </label>
+                                                                </div><!-- End .custom-checkbox -->
+                                                            </div><!-- End .filter-item -->
+
+                                                            <div class="filter-item">
+                                                                <div class="custom-control custom-checkbox">
+                                                                    <input type="checkbox" class="custom-control-input"
+                                                                        id="cus-rating-2">
+                                                                    <label class="custom-control-label"
+                                                                        for="cus-rating-2">
+                                                                        <span class="ratings-container">
+                                                                            <span class="ratings">
+                                                                                <span class="ratings-val"
+                                                                                    style="width: 80%;"></span>
+                                                                                <!-- End .ratings-val -->
+                                                                            </span><!-- End .ratings -->
+                                                                            <span class="ratings-text">( 8 )</span>
+                                                                        </span><!-- End .rating-container -->
+                                                                    </label>
+                                                                </div><!-- End .custom-checkbox -->
+                                                            </div><!-- End .filter-item -->
+
+                                                            <div class="filter-item">
+                                                                <div class="custom-control custom-checkbox">
+                                                                    <input type="checkbox" class="custom-control-input"
+                                                                        id="cus-rating-3">
+                                                                    <label class="custom-control-label"
+                                                                        for="cus-rating-3">
+                                                                        <span class="ratings-container">
+                                                                            <span class="ratings">
+                                                                                <span class="ratings-val"
+                                                                                    style="width: 60%;"></span>
+                                                                                <!-- End .ratings-val -->
+                                                                            </span><!-- End .ratings -->
+                                                                            <span class="ratings-text">( 5 )</span>
+                                                                        </span><!-- End .rating-container -->
+                                                                    </label>
+                                                                </div><!-- End .custom-checkbox -->
+                                                            </div><!-- End .filter-item -->
+
+                                                            <div class="filter-item">
+                                                                <div class="custom-control custom-checkbox">
+                                                                    <input type="checkbox" class="custom-control-input"
+                                                                        id="cus-rating-4">
+                                                                    <label class="custom-control-label"
+                                                                        for="cus-rating-4">
+                                                                        <span class="ratings-container">
+                                                                            <span class="ratings">
+                                                                                <span class="ratings-val"
+                                                                                    style="width: 40%;"></span>
+                                                                                <!-- End .ratings-val -->
+                                                                            </span><!-- End .ratings -->
+                                                                            <span class="ratings-text">( 1 )</span>
+                                                                        </span><!-- End .rating-container -->
+                                                                    </label>
+                                                                </div><!-- End .custom-checkbox -->
+                                                            </div><!-- End .filter-item -->
+
+                                                            <div class="filter-item">
+                                                                <div class="custom-control custom-checkbox">
+                                                                    <input type="checkbox" class="custom-control-input"
+                                                                        id="cus-rating-5">
+                                                                    <label class="custom-control-label"
+                                                                        for="cus-rating-5">
+                                                                        <span class="ratings-container">
+                                                                            <span class="ratings">
+                                                                                <span class="ratings-val"
+                                                                                    style="width: 20%;"></span>
+                                                                                <!-- End .ratings-val -->
+                                                                            </span><!-- End .ratings -->
+                                                                            <span class="ratings-text">( 3 )</span>
+                                                                        </span><!-- End .rating-container -->
+                                                                    </label>
+                                                                </div><!-- End .custom-checkbox -->
+                                                            </div><!-- End .filter-item -->
+
+                                                        </div><!-- End .filter-items -->
+                                                    </div><!-- End .widget-body -->
+                                                </div><!-- End .widget -->
+
+                                                <div class="widget">
+                                                    <h3 class="widget-title">Colour</h3><!-- End .widget-title -->
+
+                                                    <div class="widget-body">
+                                                        <div class="filter-colors">
+                                                            <a href="#" style="background: #b87145;"><span
+                                                                    class="sr-only">Color Name</span></a>
+                                                            <a href="#" style="background: #f0c04a;"><span
+                                                                    class="sr-only">Color Name</span></a>
+                                                            <a href="#" style="background: #333333;"><span
+                                                                    class="sr-only">Color Name</span></a>
+                                                            <a href="#" class="selected"
+                                                                style="background: #cc3333;"><span class="sr-only">Color
+                                                                    Name</span></a>
+                                                            <a href="#" style="background: #3399cc;"><span
+                                                                    class="sr-only">Color Name</span></a>
+                                                            <a href="#" style="background: #669933;"><span
+                                                                    class="sr-only">Color Name</span></a>
+                                                            <a href="#" style="background: #f2719c;"><span
+                                                                    class="sr-only">Color Name</span></a>
+                                                            <a href="#" style="background: #ebebeb;"><span
+                                                                    class="sr-only">Color Name</span></a>
+                                                        </div><!-- End .filter-colors -->
+                                                    </div><!-- End .widget-body -->
+                                                </div><!-- End .widget -->
+
+                                                <div class="widget widget-banner-sidebar">
+                                                    <div class="banner-sidebar-title">ad banner 218 x 430px</div>
+                                                    <!-- End .ad-title -->
+
+                                                    <div class="banner-sidebar banner-overlay">
+                                                        <a href="#">
+                                                            <img src="assets/images/demos/demo-13/banners/banner-6.jpg"
+                                                                alt="banner">
+                                                        </a>
+                                                    </div><!-- End .banner-ad -->
+                                                </div><!-- End .widget -->
+                                            </div><!-- End .sidebar sidebar-shop -->
+                                        </aside><!-- End .col-lg-3 -->
+                                    </div><!-- End .row -->
+                                </div><!-- End .container -->
+                            </div><!-- End .page-content -->
+                            <script>
+                                fetch('/shop').then(res => res.json())
+                            </script>
+                            <%- include('./layouts/footer'); -%>
