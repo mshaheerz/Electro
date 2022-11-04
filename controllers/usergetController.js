@@ -62,6 +62,8 @@ module.exports.logout_get = (req, res) => {
     res.cookie('jwt', '', { maxAge: 1 });
     res.redirect('/');
 }
+
+
 module.exports.shop = async (req, res) => {
     const token = req.cookies.jwt
     const category = await categorymodel.find()
@@ -84,8 +86,24 @@ module.exports.shop = async (req, res) => {
                if (obj.category.category_name === req.query.category) return obj
             })
         }
+    }
 
+    if (req.query.brand) {
+        console.log(req.query.category);
 
+        if (Array.isArray(req.query.brand)) {
+            
+       
+                products = products.filter(obj => {
+                    if (req.query.brand.includes(obj.brand)) return obj  
+                })
+
+        } else {
+
+            products = products.filter(obj => {
+               if (obj.brand === req.query.brand) return obj
+            })
+        }
     }
 
 
@@ -135,6 +153,6 @@ module.exports.product = async (req, res) => {
         res.render('user/product', { token, alert: false, category, products, brand })
 
     }
-
 }
+
 

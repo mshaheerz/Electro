@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const product = require('./productSchema');
 const { isEmail } = require('validator');
 const bcrypt = require('bcrypt');
 
@@ -22,12 +23,14 @@ const userSchema = new mongoose.Schema({
     minlength: [6],
   },
   isBanned:{type:Boolean, default:false},
+
  
 },
 {
   timestamps:true,
 }
 );
+
 
 const usermodel = mongoose.model("user",userSchema )
 module.exports = usermodel
