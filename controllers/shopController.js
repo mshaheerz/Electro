@@ -10,7 +10,7 @@ const { request } = require('express')
 module.exports.cart = async (req, res) => {
     const token = req.cookies.jwt
     const { id } = req.body
-    
+
     const category = await categorymodel.find()
 
     if (token) {
@@ -19,17 +19,19 @@ module.exports.cart = async (req, res) => {
         const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
         const userId = decoded.userID
         const user = await Usermodel.findById(userId)
-        const cart = await cartmodel.findOne({user:userId}).populate('user').populate('products.item')
+        const cart = await cartmodel.findOne({ user: userId }).populate('user').populate('products.item')
+        res.locals.cart = cart
+
         console.log(cart)
 
 
         const fullname = user.firstname + " " + user.lastname
         let useremail = user.email
         if (user.isBanned) {
-            res.render('user/cart', { token: "", alert: true, category,cart  })
+            res.render('user/cart', { token: "", alert: true, category, cart })
         } else {
 
-            res.render('user/cart', { token, fullname, useremail, alert: false, category,cart })
+            res.render('user/cart', { token, fullname, useremail, alert: false, category, cart })
         }
     } else {
         res.send("login first ")
@@ -42,9 +44,9 @@ exports.addToCart = async (req, res) => {
     const token = req.cookies.jwt
     const { productid } = req.body
     if (token) {
-        let proObj={
-            item:productid,
-            quantity:1
+        let proObj = {
+            item: productid,
+            quantity: 1
         }
         const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
         const userId = decoded.userID
@@ -55,24 +57,24 @@ exports.addToCart = async (req, res) => {
             // }).catch((error) => {
             //     res.send({ "status": "error", "message": error })
             // })
-            let proExist=userCart.products.findIndex(product=>product.item==productid)
+            let proExist = userCart.products.findIndex(product => product.item == productid)
             console.log(proExist)
-            if(proExist !=-1){
-                await cartmodel.updateOne({user:userId,'products.item':productid},
-                {
-                    $inc:{'products.$.quantity':1 }
-                }).then((resolve)=>{
-                  res.send({"status":"success","message":resolve})
+            if (proExist != -1) {
+                await cartmodel.updateOne({ user: userId, 'products.item': productid },
+                    {
+                        $inc: { 'products.$.quantity': 1 }
+                    }).then((resolve) => {
+                        res.redirect('/shop')
+                    })
+            } else {
+                const doc = await cartmodel.findOne({ user: userId }).populate('user', 'products')
+                doc.products.push(proObj)
+                await doc.save().then((response) => {
+                  res.redirect('/shop')
+                }).catch((err) => {
+                    res.send({ "status": "failed", "message": err })
                 })
-            }else{
-            const doc = await cartmodel.findOne({user:userId}).populate('user','products')
-            doc.products.push(proObj)
-            await doc.save().then((response)=>{
-                res.send({ "status":"success","message":"dfvd"})
-            }).catch((err)=>{
-                res.send({"status":"failed","message":err})
-            })
-        }
+            }
         } else {
             let cartObj = {
                 user: (userId),
@@ -86,37 +88,55 @@ exports.addToCart = async (req, res) => {
             })
         }
 
-        }else{
-            res.send({"message":"login required"})
-        }
-
-
-
-        //  res.redirect('/shop')
+    } else {
+        res.send({ "message": "login required" })
     }
 
-    module.exports.change_quantity= async(req,res)=>{
-        console.log(req.body);
-        const {product,cart,count,quantity}=req.body
-        if(count==-1 && quantity==1){
-            await cartmodel.updateOne({_id:cart},
+
+
+    //  res.redirect('/shop')
+}
+
+module.exports.change_quantity = async (req, res) => {
+    console.log(req.body);
+    const { product, cart, count, quantity } = req.body
+    if (count == -1 && quantity == 1) {
+        const ss = await cartmodel.findById(cart)
+        console.log(ss);
+        await cartmodel.findByIdAndUpdate(cart,
+
             {
-                $pull:{'products.$.item':product}
-            }).then((response)=>{
-              res.json({removeProduct:true})
-       
-            }).catch((err)=>{
+                $pull: { 'products': { item: product } }
+            }).populate('products').then((response) => {
+                res.json({ removeProduct: true })
+
+            }).catch((err) => {
                 console.log(err)
             })
-        }else{
-        await cartmodel.updateOne({_id:cart,'products.item':product},
-        {
-            $inc:{'products.$.quantity':count }
-        }).then((response)=>{
-          res.json(true)
-    
-        })
+    } else {
+        await cartmodel.updateOne({ _id: cart, 'products.item': product },
+            {
+                $inc: { 'products.$.quantity': count }
+            }).then((response) => {
+                res.json(true)
+
+            })
         // res.send({"message":"f"})
-         }   
     }
+}
+module.exports.delete_cart = async (req, res) => {
+    const { cart,product } = req.body
+    const ss = await cartmodel.findById(cart)
+    console.log(ss);
+    await cartmodel.findByIdAndUpdate(cart,
+
+        {
+            $pull: { 'products': { item: product } }
+        }).populate('products').then((response) => {
+            res.json(true)
+
+        }).catch((err) => {
+            console.log(err)
+        })
+}
 

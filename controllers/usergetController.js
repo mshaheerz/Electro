@@ -2,14 +2,17 @@ const Usermodel = require('../model/userschema')
 const categorymodel = require('../model/categoryschema')
 const productmodel = require('../model/productSchema')
 const jwt = require('jsonwebtoken')
+const cartmodel = require('../model/cartSchema')
 
 
 
 module.exports.home_page = async (req, res) => {
     const token = req.cookies.jwt
     const category = await categorymodel.find()
-    if (token) {
+    const cart = await cartmodel.findOne().populate('user').populate('products.item')
+    res.locals.cart=cart
 
+    if (token) {
 
         const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
         const userId = decoded.userID
@@ -32,12 +35,12 @@ module.exports.home_page = async (req, res) => {
 module.exports.signup_post = (req, res) => {
     res.send("login post")
 
-
-
 }
 
 module.exports.login_get = async (req, res) => {
     const category = await categorymodel.find()
+
+
     const token = req.cookies.jwt
     if (token) {
         res.redirect("/")
@@ -111,11 +114,13 @@ module.exports.shop = async (req, res) => {
         const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
         const userId = decoded.userID
         const user = await Usermodel.findById(userId)
-
-
+        const cart = await cartmodel.findOne().populate('user').populate('products.item')
+        res.locals.cart=cart
+        // res.locals.userDetails = user
         const fullname = user.firstname + " " + user.lastname
         let useremail = user.email
         if (user.isBanned) {
+          
             res.render('user/shop', { token: "", alert: true, category, products, brand })
         } else {
 
@@ -133,6 +138,8 @@ module.exports.product = async (req, res) => {
     const category = await categorymodel.find()
     const products = await productmodel.findById(id).populate('category')
     const brand = await productmodel.find().sort({ brand: 1 }).distinct('brand')
+    const cart = await cartmodel.findOne().populate('user').populate('products.item')
+    res.locals.cart=cart
     if (token) {
 
 

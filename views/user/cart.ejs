@@ -50,15 +50,14 @@
                                                     <td class="price-col">&#8377;<%= cart.products[i].item.price %></td>
                                                     <td class="quantity-col">
                                                         <div class="cart-product-quantity">
-                                                           <button onclick="changeQuantity('<%= cart._id%>','<%= cart.products[i].item._id%>',-1)">-</button>  <span id="<%= cart.products[i].item._id%>"><%= cart.products[i].quantity %></span><button class="" onclick="changeQuantity('<%= cart._id%>','<%= cart.products[i].item._id%>',1)">+</button>
-                                                            <input type="number" class="form-control" value="<%= cart.products[i].quantity %>" min="1" max="10" step="1" data-decimals="0" required>
+                                                           <button style="border: none;border-radius:3px; padding:0 16px 0 16px" onclick="changeQuantity('<%= cart._id%>','<%= cart.products[i].item._id%>',-1)">-</button>  <span id="<%= cart.products[i].item._id%>"><%= cart.products[i].quantity %></span><button style="border: none;border-radius:3px; padding:0 16px 0 16px" class="" onclick="changeQuantity('<%= cart._id%>','<%= cart.products[i].item._id%>',1)">+</button>
                                                         </div><!-- End .cart-product-quantity -->
                                                     </td>
                                                     <td class="total-col"><%= cart.products[i].item.price*cart.products[i].quantity %></td>
-                                                    <td class="remove-col"><button class="btn-remove"><i class="icon-close"></i></button></td>
+                                                    <td class="remove-col"><button onclick="deleteCart('<%= cart._id %>','<%= cart.products[i].item._id %>')" class="btn-remove"><i class="icon-close"></i></button></td>
                                                 </tr>
                                                 <% } %>
-                                                
+            
                                             </tbody>
                                         </table><!-- End .table table-wishlist -->
         
@@ -150,7 +149,7 @@
 <script>
     function changeQuantity(cartId,productId,count){
         let quantity=parseInt(document.getElementById(productId).innerHTML)
-        count=parseInt(count)
+         count=parseInt(count)
         $.ajax({
             url:'/change-product-quantity',
             data:{
@@ -169,6 +168,25 @@
                 }
                 
                 }
+        })
+    }
+
+    function deleteCart(cartId,productId){
+        $.ajax({
+            url:'/delete_cart',
+            data:{
+                cart:cartId,
+                product:productId
+            },
+            method:'post',
+            success:(response)=>{
+                if(response){
+                    alert("product removed from cart")
+                    location.reload()
+                }else{
+                    alert("failed to remove")
+                }
+            }
         })
     }
 </script>

@@ -67,6 +67,7 @@ router.get('/product',usergetController.product)
 router.get('/cart',shopController.cart)
 router.post('/addcart',shopController.addToCart)
 router.post('/change-product-quantity',shopController.change_quantity)
+router.post('/delete_cart',shopController.delete_cart)
 
 
 
