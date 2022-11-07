@@ -3,6 +3,7 @@ const categorymodel = require('../model/categoryschema')
 const productmodel = require('../model/productSchema')
 const jwt = require('jsonwebtoken')
 const cartmodel = require('../model/cartSchema')
+const wishlistmodel=require('../model/wishlistSchema')
 
 
 
@@ -10,6 +11,8 @@ module.exports.home_page = async (req, res) => {
     const token = req.cookies.jwt
     const category = await categorymodel.find()
     const cart = await cartmodel.findOne().populate('user').populate('products.item')
+    const wishlist = await wishlistmodel.find().populate('user').populate('products.item')
+    res.locals.wishlist=wishlist
     res.locals.cart=cart
 
     if (token) {
@@ -17,6 +20,8 @@ module.exports.home_page = async (req, res) => {
         const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
         const userId = decoded.userID
         const user = await Usermodel.findById(userId)
+        const cart = await cartmodel.findOne().populate('user').populate('products.item')
+        res.locals.cart=cart
 
 
         const fullname = user.firstname + " " + user.lastname
@@ -68,11 +73,21 @@ module.exports.logout_get = (req, res) => {
 
 
 module.exports.shop = async (req, res) => {
+    try {
+        
+    } catch (error) {
+        
+    }
     const token = req.cookies.jwt
     const category = await categorymodel.find()
     const brand = await productmodel.find().sort({ brand: 1 }).distinct('brand')
     //filtering
     let products = await productmodel.find().populate('category')
+    const cart = await cartmodel.findOne().populate('user').populate('products.item')
+    const wishlist = await wishlistmodel.find().populate('user').populate('products.item')
+    res.locals.cart=cart
+    res.locals.wishlist=wishlist
+
     if (req.query.category) {
         console.log(req.query.category);
 
@@ -114,8 +129,7 @@ module.exports.shop = async (req, res) => {
         const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
         const userId = decoded.userID
         const user = await Usermodel.findById(userId)
-        const cart = await cartmodel.findOne().populate('user').populate('products.item')
-        res.locals.cart=cart
+       
         // res.locals.userDetails = user
         const fullname = user.firstname + " " + user.lastname
         let useremail = user.email
@@ -133,33 +147,40 @@ module.exports.shop = async (req, res) => {
 
 
 module.exports.product = async (req, res) => {
-    const token = req.cookies.jwt
-    const { id } = req.query
-    const category = await categorymodel.find()
-    const products = await productmodel.findById(id).populate('category')
-    const brand = await productmodel.find().sort({ brand: 1 }).distinct('brand')
-    const cart = await cartmodel.findOne().populate('user').populate('products.item')
-    res.locals.cart=cart
-    if (token) {
-
-
-        const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
-        const userId = decoded.userID
-        const user = await Usermodel.findById(userId)
-
-
-        const fullname = user.firstname + " " + user.lastname
-        let useremail = user.email
-        if (user.isBanned) {
-            res.render('user/product', { token: "", alert: true, category, products, brand })
+    try {
+        const token = req.cookies.jwt
+        const { id } = req.query
+        const category = await categorymodel.find()
+        const products = await productmodel.findById(id).populate('category')
+        const brand = await productmodel.find().sort({ brand: 1 }).distinct('brand')
+        const cart = await cartmodel.findOne().populate('user').populate('products.item')
+        const wishlist = await wishlistmodel.find().populate('user').populate('products.item')
+        res.locals.wishlist=wishlist
+        res.locals.cart=cart
+        if (token) {
+    
+    
+            const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+            const userId = decoded.userID
+            const user = await Usermodel.findById(userId)
+    
+    
+            const fullname = user.firstname + " " + user.lastname
+            let useremail = user.email
+            if (user.isBanned) {
+                res.render('user/product', { token: "", alert: true, category, products, brand })
+            } else {
+    
+                res.render('user/product', { token, fullname, useremail, alert: false, category, products, brand })
+            }
         } else {
-
-            res.render('user/product', { token, fullname, useremail, alert: false, category, products, brand })
+            res.render('user/product', { token, alert: false, category, products, brand })
+    
         }
-    } else {
-        res.render('user/product', { token, alert: false, category, products, brand })
-
+    } catch (error) {
+        res.send("no error")
     }
+   
 }
 
 

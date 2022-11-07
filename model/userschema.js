@@ -23,7 +23,31 @@ const userSchema = new mongoose.Schema({
     minlength: [6],
   },
   isBanned:{type:Boolean, default:false},
-
+  address:[
+    {
+      name:{
+        type: String
+      },
+      address:{
+        type: String
+      },
+      city:{
+        type: String
+      },
+      state:{
+        type: String
+      },
+      zip:{
+        type:Number
+      },
+      phone:{
+        type: String
+      },
+      email:{
+        type: String
+      }
+    }
+  ]
  
 },
 {

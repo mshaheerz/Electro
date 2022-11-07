@@ -3,6 +3,7 @@ const router = express.Router()
 const userController = require("../controllers/userController")
 const usergetController = require("../controllers/usergetController")
 const shopController = require("../controllers/shopController")
+const checkoutController = require("../controllers/checkoutController")
 const authmiddleware = require('../middlewares/authmiddleware')
 const cookieParser = require("cookie-parser")
 const { logger } = require('../config/emailConfig')
@@ -22,6 +23,10 @@ router.use('/loggeduser', authmiddleware.checkUserAuth)
 router.get('/',authmiddleware.checkUserAuth)
 router.get('/shop',authmiddleware.checkUserAuth)
 router.get('/cart',authmiddleware.checkUserAuth)
+router.post('/addcart',authmiddleware.checkUserAuth)
+router.post('/change-product-quantity',authmiddleware.checkUserAuth)
+router.post('/delete_cart',authmiddleware.checkUserAuth)
+router.post('/addcartproduct',authmiddleware.checkUserAuth)
 
 
 
@@ -66,14 +71,14 @@ router.get('/shop',usergetController.shop)
 router.get('/product',usergetController.product)
 router.get('/cart',shopController.cart)
 router.post('/addcart',shopController.addToCart)
+router.get('/wishlist',shopController.wishlist)
+router.get('/checkout',checkoutController.checkout)
+router.get('/ordersuccess',checkoutController.ordersuccess)
+router.post('/place-order',checkoutController.place_order)
+router.post('/add_wishlist',shopController.addToWishlist)
 router.post('/change-product-quantity',shopController.change_quantity)
 router.post('/delete_cart',shopController.delete_cart)
-
-
-
-
-
-
+router.post('/addcartproduct',shopController.addcartproduct)
 
 
   //post routes
@@ -81,10 +86,6 @@ router.post('/signup',userController.userRegistration)
 router.post('/login',userController.userLogin)
 router.post('/send-reset-password-email',userController.sendUserPasswordResetEmail)
 router.post('/reset/:id/:token',userController.userPasswordReset)
-
-
-
-
 
 
 

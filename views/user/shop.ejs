@@ -160,6 +160,7 @@
                                                         <%= products.length %> Products found
                                                     </div><!-- End .toolbox-info -->
                                                 </div><!-- End .toolbox-left -->
+                                              
 
                                                 <div class="toolbox-right">
                                                     <div class="toolbox-sort">
@@ -193,11 +194,14 @@
                                                                             alt="Product image" height="200px"
                                                                             class="product-image">
                                                                     </a>
-
+                                                                  
                                                                     <div class="product-action-vertical">
-                                                                        <a href="#"
+                                                                       
+                                                                     <a onclick="wishlistIncrement('<%= products[i]._id %>')"
                                                                             class="btn-product-icon btn-wishlist btn-expandable"><span>add
                                                                                 to wishlist</span></a>
+                                                                         
+                                                                        
                                                                         <a href="#" class="btn-product-icon btn-compare"
                                                                             title="Compare"><span>Compare</span></a>
                                                                         <a href="popup/quickView.html"
@@ -207,13 +211,71 @@
                                                                     </div><!-- End .product-action-vertical -->
 
                                                                     <div class="product-action">
-                                                                        <form action="/addcart" method="POST">
-                                                                            <input type="hidden" name="productid" value="<%= products[i]._id %>">
-                                                                        <button type="submit"  class="btn-product btn-cart"
+                                                                        <a onclick="cartIncrement('<%= products[i]._id %>')"
+                                                                            class="btn-product btn-cart"
                                                                             title="Add to cart"><span>add to
-                                                                                cart</span></button>
-                                                                         
-                                                                            </form>
+                                                                                cart</span></a>
+                                                                        <script>
+                                                                            function wishlistIncrement(productid){
+                                                                               let wishcount= parseInt(document.getElementById('wishlistheart').innerHTML)
+                                                                                $.ajax({
+                                                                                    url: '/add_wishlist',
+                                                                                    data: {
+                                                                                        productid: productid
+                                                                                    },
+                                                                                    method: 'post',
+                                                                                    success: (response) => {
+                                                                                        if (response==1) {
+                                                                                            document.getElementById('wishlistheart').innerHTML=wishcount=wishcount+1
+                                                                                            console.log(response)
+                                                                                            // alert('added to wishlist')
+                                                                                            
+                                                                                            // location.reload()
+                                                                                    
+                                                                                        }else if(response.hh==1){
+                                                                                            if(wishcount != 1){
+                                                                                            document.getElementById('wishlistheart').innerHTML=wishcount=wishcount-1
+                                                                                        
+                                                                                        }else{
+                                                                                            document.getElementById('wishlistheart').innerHTML=0
+
+                                                                                        }
+                                                                                        } else {
+                                                                                            alert('login first')
+                                                                                            window.location = '/login'
+                                                                                        }
+                                                                                    }
+                                                                                })
+                                                                            }
+                                                                                
+                                                                            
+
+
+
+                                                                            function cartIncrement(productid) {
+                                                                                let count = document.querySelector('.cart-count')
+                                                                                let val =parseInt(count.textContent)
+                                                                                $.ajax({
+                                                                                    url: '/addcart',
+                                                                                    data: {
+                                                                                        productid: productid
+                                                                                    },
+                                                                                    method: 'post',
+                                                                                    success: (response) => {
+                                                                                        if (response) {
+                                                                                            // alert('added to cart')
+                                                                                            // location.reload()
+                                                                                            document.querySelector('.cart-count').textContent=val+1
+                                                                                        } else {
+                                                                                            alert('login first')
+                                                                                            window.location = '/login'
+                                                                                        }
+                                                                                    }
+                                                                                })
+                                                                            }
+
+                                                                        </script>
+
                                                                     </div><!-- End .product-action -->
                                                                 </figure><!-- End .product-media -->
 
@@ -230,11 +292,11 @@
                                                                         &#8377;<%=
                                                                             products[i].price-products[i].discount %>
                                                                             &nbsp;
-                                                                            <span class="new-price">&#x20B9;<%=
+                                                                            <span class="new-price">-&#x20B9;<%=
                                                                                     products[i].discount %></span>
 
-                                                                            <span class="old-price">Was &#x20B9;<%=
-                                                                                    products[i].price %></span>
+                                                                            <span class="old-price">Was <del>&#x20B9;<%=
+                                                                                    products[i].price %></del> </span>
                                                                     </div><!-- End .product-price -->
                                                                     <div class="ratings-container">
                                                                         <div class="ratings">
@@ -293,259 +355,255 @@
 
                                         <aside class="col-lg-3 col-xl-5col order-lg-first">
                                             <div class="sidebar sidebar-shop">
-                                                
+
 
                                                 <div class="widget">
-                                        
+
                                                     <h3 class="widget-title">Categories</h3><!-- End .widget-title -->
 
                                                     <div class="widget-body">
                                                         <form action="/shop" method="get">
-                                                        <% for( let i=0; i < category.length; i++ ) { %>
-                                                            <div class="filter-items">
+                                                            <% for( let i=0; i < category.length; i++ ) { %>
+                                                                <div class="filter-items">
 
 
 
 
-                                                                <div class="filter-item">
-                                                                    <div class="custom-control custom-checkbox">
-                                                                        <input type="checkbox"
-                                                                            class="custom-control-input"
-                                                                            value="<%= category[i].category_name %>"
-                                                                            name="category"
-                                                                            id="<%= category[i].category_name %>">
-                                                                        <label class="custom-control-label"
-                                                                            for="<%= category[i].category_name %>">
-                                                                            <%= category[i].category_name %>
-                                                                        </label>
-                                                                    </div><!-- End .custom-checkbox -->
-                                                                </div><!-- End .filter-item -->
+                                                                    <div class="filter-item">
+                                                                        <div class="custom-control custom-checkbox">
+                                                                            <input type="checkbox"
+                                                                                class="custom-control-input"
+                                                                                value="<%= category[i].category_name %>"
+                                                                                name="category"
+                                                                                id="<%= category[i].category_name %>">
+                                                                            <label class="custom-control-label"
+                                                                                for="<%= category[i].category_name %>">
+                                                                                <%= category[i].category_name %>
+                                                                            </label>
+                                                                        </div><!-- End .custom-checkbox -->
+                                                                    </div><!-- End .filter-item -->
 
 
 
-                                                            </div><!-- End .filter-items -->
-                                                            <% } %>
-                                                            <button type="submit" class="btn btn-outline-primary btn-sm rounded ">submit</button>
+
+                                                                </div><!-- End .filter-items -->
+                                                                <% } %>
+                                                                    <button type="submit"
+                                                                        class="btn btn-outline-primary btn-sm rounded ">submit</button>
 
                                                         </form>
+                         
                                                     </div><!-- End .widget-body -->
                                                 </div><!-- End .widget -->
                                                 <div class="widget">
                                                     <h3 class="widget-title">Brands</h3><!-- End .widget-title -->
                                                     <form action="/shop" method="get">
-                                                    <div class="widget-body">
-                                                        <% for( let i=0; i < brand.length; i++ ) { %>
-                                                            <div class="filter-items">
+                                                        <div class="widget-body">
+                                                            <% for( let i=0; i < brand.length; i++ ) { %>
+                                                                <div class="filter-items">
 
-                                                                <div class="filter-item">
-                                                                    <div class="custom-control custom-checkbox">
-                                                                        <input type="checkbox"
-                                                                            class="custom-control-input"
-                                                                            name="brand"
-                                                                            value="<%= brand[i] %>"
-                                                                            id="<%= brand[i] %>">
-                                                                        <label class="custom-control-label"
-                                                                            for="<%= brand[i] %>">
-                                                                            <%= brand[i] %>
-                                                                        </label>
-                                                                    </div><!-- End .custom-checkbox -->
-                                                                </div><!-- End .filter-item -->
-
+                                                                    <div class="filter-item">
+                                                                        <div class="custom-control custom-checkbox">
+                                                                            <input type="checkbox"
+                                                                                class="custom-control-input"
+                                                                                name="brand" value="<%= brand[i] %>"
+                                                                                id="<%= brand[i] %>">
+                                                                            <label class="custom-control-label"
+                                                                                for="<%= brand[i] %>">
+                                                                                <%= brand[i] %>
+                                                                            </label>
+                                                                        </div><!-- End .custom-checkbox -->
+                                                                    </div><!-- End .filter-item -->
 
 
-                                                            </div><!-- End .filter-items -->
-                                                            <% } %>
-                                                            <button type="submit" class="btn btn-outline-primary btn-sm rounded ">submit</button>
-                                                        </form>
-                                                    </div><!-- End .widget-body -->
-                                                </div><!-- End .widget -->
 
-                                                <div class="widget">
-                                                    <h3 class="widget-title">Price</h3><!-- End .widget-title -->
+                                                                </div><!-- End .filter-items -->
+                                                                <% } %>
+                                                                    <button type="submit"
+                                                                        class="btn btn-outline-primary btn-sm rounded ">submit</button>
+                                                    </form>
+                                                </div><!-- End .widget-body -->
+                                            </div><!-- End .widget -->
 
-                                                    <div class="widget-body">
-                                                        <div class="filter-items">
-                                                            <div class="filter-item">
-                                                                <div class="custom-control custom-radio">
-                                                                    <input type="radio" class="custom-control-input"
-                                                                        id="price-1" name="filter-price">
-                                                                    <label class="custom-control-label"
-                                                                        for="price-1">Under $25</label>
-                                                                </div><!-- End .custom-checkbox -->
-                                                            </div><!-- End .filter-item -->
+                                            <div class="widget">
+                                                <h3 class="widget-title">Price</h3><!-- End .widget-title -->
 
-                                                            <div class="filter-item">
-                                                                <div class="custom-control custom-radio">
-                                                                    <input type="radio" class="custom-control-input"
-                                                                        id="price-2" name="filter-price">
-                                                                    <label class="custom-control-label"
-                                                                        for="price-2">$25 to $50</label>
-                                                                </div><!-- End .custom-checkbox -->
-                                                            </div><!-- End .filter-item -->
+                                                <div class="widget-body">
+                                                    <div class="filter-items">
+                                                        <div class="filter-item">
+                                                            <div class="custom-control custom-radio">
+                                                                <input type="radio" class="custom-control-input"
+                                                                    id="price-1" name="filter-price">
+                                                                <label class="custom-control-label" for="price-1">Under
+                                                                    $25</label>
+                                                            </div><!-- End .custom-checkbox -->
+                                                        </div><!-- End .filter-item -->
 
-                                                            <div class="filter-item">
-                                                                <div class="custom-control custom-radio">
-                                                                    <input type="radio" class="custom-control-input"
-                                                                        id="price-3" name="filter-price">
-                                                                    <label class="custom-control-label"
-                                                                        for="price-3">$50 to $100</label>
-                                                                </div><!-- End .custom-checkbox -->
-                                                            </div><!-- End .filter-item -->
+                                                        <div class="filter-item">
+                                                            <div class="custom-control custom-radio">
+                                                                <input type="radio" class="custom-control-input"
+                                                                    id="price-2" name="filter-price">
+                                                                <label class="custom-control-label" for="price-2">$25 to
+                                                                    $50</label>
+                                                            </div><!-- End .custom-checkbox -->
+                                                        </div><!-- End .filter-item -->
 
-                                                            <div class="filter-item">
-                                                                <div class="custom-control custom-radio">
-                                                                    <input type="radio" class="custom-control-input"
-                                                                        id="price-4" name="filter-price">
-                                                                    <label class="custom-control-label"
-                                                                        for="price-4">$100 to $200</label>
-                                                                </div><!-- End .custom-checkbox -->
-                                                            </div><!-- End .filter-item -->
+                                                        <div class="filter-item">
+                                                            <div class="custom-control custom-radio">
+                                                                <input type="radio" class="custom-control-input"
+                                                                    id="price-3" name="filter-price">
+                                                                <label class="custom-control-label" for="price-3">$50 to
+                                                                    $100</label>
+                                                            </div><!-- End .custom-checkbox -->
+                                                        </div><!-- End .filter-item -->
 
-                                                            <div class="filter-item">
-                                                                <div class="custom-control custom-radio">
-                                                                    <input type="radio" class="custom-control-input"
-                                                                        id="price-5" name="filter-price">
-                                                                    <label class="custom-control-label"
-                                                                        for="price-5">$200 & Above</label>
-                                                                </div><!-- End .custom-checkbox -->
-                                                            </div><!-- End .filter-item -->
-                                                        </div><!-- End .filter-items -->
-                                                    </div><!-- End .widget-body -->
-                                                </div><!-- End .widget -->
+                                                        <div class="filter-item">
+                                                            <div class="custom-control custom-radio">
+                                                                <input type="radio" class="custom-control-input"
+                                                                    id="price-4" name="filter-price">
+                                                                <label class="custom-control-label" for="price-4">$100
+                                                                    to $200</label>
+                                                            </div><!-- End .custom-checkbox -->
+                                                        </div><!-- End .filter-item -->
 
-                                                <div class="widget">
-                                                    <h3 class="widget-title">Customer Rating</h3>
-                                                    <!-- End .widget-title -->
+                                                        <div class="filter-item">
+                                                            <div class="custom-control custom-radio">
+                                                                <input type="radio" class="custom-control-input"
+                                                                    id="price-5" name="filter-price">
+                                                                <label class="custom-control-label" for="price-5">$200 &
+                                                                    Above</label>
+                                                            </div><!-- End .custom-checkbox -->
+                                                        </div><!-- End .filter-item -->
+                                                    </div><!-- End .filter-items -->
+                                                </div><!-- End .widget-body -->
+                                            </div><!-- End .widget -->
 
-                                                    <div class="widget-body">
-                                                        <div class="filter-items">
-                                                            <div class="filter-item">
-                                                                <div class="custom-control custom-checkbox">
-                                                                    <input type="checkbox" class="custom-control-input"
-                                                                        id="cus-rating-1">
-                                                                    <label class="custom-control-label"
-                                                                        for="cus-rating-1">
-                                                                        <span class="ratings-container">
-                                                                            <span class="ratings">
-                                                                                <span class="ratings-val"
-                                                                                    style="width: 100%;"></span>
-                                                                                <!-- End .ratings-val -->
-                                                                            </span><!-- End .ratings -->
-                                                                            <span class="ratings-text">( 24 )</span>
-                                                                        </span><!-- End .rating-container -->
-                                                                    </label>
-                                                                </div><!-- End .custom-checkbox -->
-                                                            </div><!-- End .filter-item -->
+                                            <div class="widget">
+                                                <h3 class="widget-title">Customer Rating</h3>
+                                                <!-- End .widget-title -->
 
-                                                            <div class="filter-item">
-                                                                <div class="custom-control custom-checkbox">
-                                                                    <input type="checkbox" class="custom-control-input"
-                                                                        id="cus-rating-2">
-                                                                    <label class="custom-control-label"
-                                                                        for="cus-rating-2">
-                                                                        <span class="ratings-container">
-                                                                            <span class="ratings">
-                                                                                <span class="ratings-val"
-                                                                                    style="width: 80%;"></span>
-                                                                                <!-- End .ratings-val -->
-                                                                            </span><!-- End .ratings -->
-                                                                            <span class="ratings-text">( 8 )</span>
-                                                                        </span><!-- End .rating-container -->
-                                                                    </label>
-                                                                </div><!-- End .custom-checkbox -->
-                                                            </div><!-- End .filter-item -->
+                                                <div class="widget-body">
+                                                    <div class="filter-items">
+                                                        <div class="filter-item">
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input"
+                                                                    id="cus-rating-1">
+                                                                <label class="custom-control-label" for="cus-rating-1">
+                                                                    <span class="ratings-container">
+                                                                        <span class="ratings">
+                                                                            <span class="ratings-val"
+                                                                                style="width: 100%;"></span>
+                                                                            <!-- End .ratings-val -->
+                                                                        </span><!-- End .ratings -->
+                                                                        <span class="ratings-text">( 24 )</span>
+                                                                    </span><!-- End .rating-container -->
+                                                                </label>
+                                                            </div><!-- End .custom-checkbox -->
+                                                        </div><!-- End .filter-item -->
 
-                                                            <div class="filter-item">
-                                                                <div class="custom-control custom-checkbox">
-                                                                    <input type="checkbox" class="custom-control-input"
-                                                                        id="cus-rating-3">
-                                                                    <label class="custom-control-label"
-                                                                        for="cus-rating-3">
-                                                                        <span class="ratings-container">
-                                                                            <span class="ratings">
-                                                                                <span class="ratings-val"
-                                                                                    style="width: 60%;"></span>
-                                                                                <!-- End .ratings-val -->
-                                                                            </span><!-- End .ratings -->
-                                                                            <span class="ratings-text">( 5 )</span>
-                                                                        </span><!-- End .rating-container -->
-                                                                    </label>
-                                                                </div><!-- End .custom-checkbox -->
-                                                            </div><!-- End .filter-item -->
+                                                        <div class="filter-item">
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input"
+                                                                    id="cus-rating-2">
+                                                                <label class="custom-control-label" for="cus-rating-2">
+                                                                    <span class="ratings-container">
+                                                                        <span class="ratings">
+                                                                            <span class="ratings-val"
+                                                                                style="width: 80%;"></span>
+                                                                            <!-- End .ratings-val -->
+                                                                        </span><!-- End .ratings -->
+                                                                        <span class="ratings-text">( 8 )</span>
+                                                                    </span><!-- End .rating-container -->
+                                                                </label>
+                                                            </div><!-- End .custom-checkbox -->
+                                                        </div><!-- End .filter-item -->
 
-                                                            <div class="filter-item">
-                                                                <div class="custom-control custom-checkbox">
-                                                                    <input type="checkbox" class="custom-control-input"
-                                                                        id="cus-rating-4">
-                                                                    <label class="custom-control-label"
-                                                                        for="cus-rating-4">
-                                                                        <span class="ratings-container">
-                                                                            <span class="ratings">
-                                                                                <span class="ratings-val"
-                                                                                    style="width: 40%;"></span>
-                                                                                <!-- End .ratings-val -->
-                                                                            </span><!-- End .ratings -->
-                                                                            <span class="ratings-text">( 1 )</span>
-                                                                        </span><!-- End .rating-container -->
-                                                                    </label>
-                                                                </div><!-- End .custom-checkbox -->
-                                                            </div><!-- End .filter-item -->
+                                                        <div class="filter-item">
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input"
+                                                                    id="cus-rating-3">
+                                                                <label class="custom-control-label" for="cus-rating-3">
+                                                                    <span class="ratings-container">
+                                                                        <span class="ratings">
+                                                                            <span class="ratings-val"
+                                                                                style="width: 60%;"></span>
+                                                                            <!-- End .ratings-val -->
+                                                                        </span><!-- End .ratings -->
+                                                                        <span class="ratings-text">( 5 )</span>
+                                                                    </span><!-- End .rating-container -->
+                                                                </label>
+                                                            </div><!-- End .custom-checkbox -->
+                                                        </div><!-- End .filter-item -->
 
-                                                            <div class="filter-item">
-                                                                <div class="custom-control custom-checkbox">
-                                                                    <input type="checkbox" class="custom-control-input"
-                                                                        id="cus-rating-5">
-                                                                    <label class="custom-control-label"
-                                                                        for="cus-rating-5">
-                                                                        <span class="ratings-container">
-                                                                            <span class="ratings">
-                                                                                <span class="ratings-val"
-                                                                                    style="width: 20%;"></span>
-                                                                                <!-- End .ratings-val -->
-                                                                            </span><!-- End .ratings -->
-                                                                            <span class="ratings-text">( 3 )</span>
-                                                                        </span><!-- End .rating-container -->
-                                                                    </label>
-                                                                </div><!-- End .custom-checkbox -->
-                                                            </div><!-- End .filter-item -->
+                                                        <div class="filter-item">
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input"
+                                                                    id="cus-rating-4">
+                                                                <label class="custom-control-label" for="cus-rating-4">
+                                                                    <span class="ratings-container">
+                                                                        <span class="ratings">
+                                                                            <span class="ratings-val"
+                                                                                style="width: 40%;"></span>
+                                                                            <!-- End .ratings-val -->
+                                                                        </span><!-- End .ratings -->
+                                                                        <span class="ratings-text">( 1 )</span>
+                                                                    </span><!-- End .rating-container -->
+                                                                </label>
+                                                            </div><!-- End .custom-checkbox -->
+                                                        </div><!-- End .filter-item -->
 
-                                                        </div><!-- End .filter-items -->
-                                                    </div><!-- End .widget-body -->
-                                                </div><!-- End .widget -->
+                                                        <div class="filter-item">
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input"
+                                                                    id="cus-rating-5">
+                                                                <label class="custom-control-label" for="cus-rating-5">
+                                                                    <span class="ratings-container">
+                                                                        <span class="ratings">
+                                                                            <span class="ratings-val"
+                                                                                style="width: 20%;"></span>
+                                                                            <!-- End .ratings-val -->
+                                                                        </span><!-- End .ratings -->
+                                                                        <span class="ratings-text">( 3 )</span>
+                                                                    </span><!-- End .rating-container -->
+                                                                </label>
+                                                            </div><!-- End .custom-checkbox -->
+                                                        </div><!-- End .filter-item -->
 
-                                                <div class="widget">
-                                                    <h3 class="widget-title">Colour</h3><!-- End .widget-title -->
+                                                    </div><!-- End .filter-items -->
+                                                </div><!-- End .widget-body -->
+                                            </div><!-- End .widget -->
 
-                                                    <div class="widget-body">
-                                                        <div class="filter-colors">
-                                                            <a href="#" style="background: #b87145;"><span
-                                                                    class="sr-only">Color Name</span></a>
-                                                            <a href="#" style="background: #f0c04a;"><span
-                                                                    class="sr-only">Color Name</span></a>
-                                                            <a href="#" style="background: #333333;"><span
-                                                                    class="sr-only">Color Name</span></a>
-                                                            <a href="#" class="selected"
-                                                                style="background: #cc3333;"><span class="sr-only">Color
-                                                                    Name</span></a>
-                                                            <a href="#" style="background: #3399cc;"><span
-                                                                    class="sr-only">Color Name</span></a>
-                                                            <a href="#" style="background: #669933;"><span
-                                                                    class="sr-only">Color Name</span></a>
-                                                            <a href="#" style="background: #f2719c;"><span
-                                                                    class="sr-only">Color Name</span></a>
-                                                            <a href="#" style="background: #ebebeb;"><span
-                                                                    class="sr-only">Color Name</span></a>
-                                                        </div><!-- End .filter-colors -->
-                                                    </div><!-- End .widget-body -->
-                                                </div><!-- End .widget -->
+                                            <div class="widget">
+                                                <h3 class="widget-title">Colour</h3><!-- End .widget-title -->
 
-                                               
-                                            </div><!-- End .sidebar sidebar-shop -->
-                                        </aside><!-- End .col-lg-3 -->
-                                    </div><!-- End .row -->
-                                </div><!-- End .container -->
-                            </div><!-- End .page-content -->
-                            <script>
-                                fetch('/shop').then(res => res.json())
-                            </script>
-                            <%- include('./layouts/footer'); -%>
+                                                <div class="widget-body">
+                                                    <div class="filter-colors">
+                                                        <a href="#" style="background: #b87145;"><span
+                                                                class="sr-only">Color Name</span></a>
+                                                        <a href="#" style="background: #f0c04a;"><span
+                                                                class="sr-only">Color Name</span></a>
+                                                        <a href="#" style="background: #333333;"><span
+                                                                class="sr-only">Color Name</span></a>
+                                                        <a href="#" class="selected" style="background: #cc3333;"><span
+                                                                class="sr-only">Color
+                                                                Name</span></a>
+                                                        <a href="#" style="background: #3399cc;"><span
+                                                                class="sr-only">Color Name</span></a>
+                                                        <a href="#" style="background: #669933;"><span
+                                                                class="sr-only">Color Name</span></a>
+                                                        <a href="#" style="background: #f2719c;"><span
+                                                                class="sr-only">Color Name</span></a>
+                                                        <a href="#" style="background: #ebebeb;"><span
+                                                                class="sr-only">Color Name</span></a>
+                                                    </div><!-- End .filter-colors -->
+                                                </div><!-- End .widget-body -->
+                                            </div><!-- End .widget -->
+
+
+                                    </div><!-- End .sidebar sidebar-shop -->
+                                    </aside><!-- End .col-lg-3 -->
+                                </div><!-- End .row -->
+                            </div><!-- End .container -->
+        </div><!-- End .page-content -->
+
+        <%- include('./layouts/footer'); -%>

@@ -25,8 +25,6 @@
                             </ul>
                         </li>
 
-
-
                         <% } else{ %>
                             <li>
                                 <a href="#">Links</a>
@@ -113,10 +111,14 @@
                 </div><!-- End .compare-dropdown -->
 
                 <div class="wishlist">
-                    <a href="wishlist.html" title="Wishlist">
+                    <a href="/wishlist" title="Wishlist">
                         <div class="icon">
                             <i class="icon-heart-o"></i>
-                            <span class="wishlist-count badge">3</span>
+                            <% if (token) { %>
+                                 <span id="wishlistheart" class="wishlist-count badge"> 
+                               
+                                  <%= wishlist[0].products.length %>
+                              <% } %> </span>
                         </div>
                         <p>Wishlist</p>
                     </a>
@@ -127,13 +129,18 @@
                         aria-expanded="false" data-display="static">
                         <div class="icon">
                             <i class="icon-shopping-cart"></i>
-                            <span class="cart-count">
-                                <%= counts= cart.products.reduce((acc,cur)=>(acc+cur.quantity),0) %>
-
+                            <% if (token && cart) { %>
+                                  <span class="cart-count">
+                                    <%= counts= cart.products.reduce((acc,cur)=>(acc+cur.quantity),0) %>
+                                <% } %> 
+                             
                              </span>
+                             
                         </div>
                         <p>Cart</p>
                     </a>
+                     
+              
 
                     <div class="dropdown-menu dropdown-menu-right">
                         <div class="dropdown-cart-products">

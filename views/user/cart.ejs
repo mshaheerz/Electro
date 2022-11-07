@@ -9,186 +9,201 @@
                 <% if (alert) { %>
                     <script>alert("your banned")</script>
                     <% } %>
-                    <div class="page-content">
-                        <div class="cart">
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-lg-9">
-                                        <table class="table table-cart table-mobile">
-                                            <thead>
-                                                <tr>
-                                                    <th>Product</th>
-                                                    <th>Price</th>
-                                                    <th>Quantity</th>
-                                                    <th>Total</th>
-                                                    <th></th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                            <% if (cart) { %>
-                                             
-                                           
-                                                
-                                              <% for( let i = 0; i < cart.products.length; i++ ) { %>
-                                              
-                                        
-                                               
-                                                <tr>
-                                                    <td class="product-col">
-                                                        <div class="product">
-                                                            <figure class="product-media">
-                                                                <a href="#">
-                                                                    <img src="data:<%=cart.products[i].item.product_image[0].contentType %>;base64,<%= cart.products[i].item.product_image[0].imageBase64 %>" alt="Product image">
-                                                                </a>
-                                                            </figure>
-        
-                                                            <h3 class="product-title">
-                                                                <a href="#"><%= cart.products[i].item.name %>   </a>
-                                                            </h3><!-- End .product-title -->
-                                                        </div><!-- End .product -->
-                                                    </td>
-                                                    <td class="price-col">&#8377;<%= cart.products[i].item.price %></td>
-                                                    <td class="quantity-col">
-                                                        <div class="cart-product-quantity">
-                                                           <button style="border: none;border-radius:3px; padding:0 16px 0 16px" onclick="changeQuantity('<%= cart._id%>','<%= cart.products[i].item._id%>',-1)">-</button>  <span id="<%= cart.products[i].item._id%>"><%= cart.products[i].quantity %></span><button style="border: none;border-radius:3px; padding:0 16px 0 16px" class="" onclick="changeQuantity('<%= cart._id%>','<%= cart.products[i].item._id%>',1)">+</button>
-                                                        </div><!-- End .cart-product-quantity -->
-                                                    </td>
-                                                    <td class="total-col"><%= cart.products[i].item.price*cart.products[i].quantity %></td>
-                                                    <td class="remove-col"><button onclick="deleteCart('<%= cart._id %>','<%= cart.products[i].item._id %>')" class="btn-remove"><i class="icon-close"></i></button></td>
-                                                </tr>
-                                                <% } %>
-            
-                                            </tbody>
-                                        </table><!-- End .table table-wishlist -->
-        
-                                        <div class="cart-bottom">
-                                            <div class="cart-discount">
-                                                <form action="#">
-                                                    <div class="input-group">
-                                                        <input type="text" class="form-control" required placeholder="coupon code">
-                                                        <div class="input-group-append">
-                                                            <button class="btn btn-outline-primary-2" type="submit"><i class="icon-long-arrow-right"></i></button>
-                                                        </div><!-- .End .input-group-append -->
-                                                    </div><!-- End .input-group -->
-                                                </form>
-                                            </div><!-- End .cart-discount -->
-        
-                                            <a href="#" class="btn btn-outline-dark-2"><span>UPDATE CART</span><i class="icon-refresh"></i></a>
-                                        </div><!-- End .cart-bottom -->
-                                    </div><!-- End .col-lg-9 -->
-                                    <aside class="col-lg-3">
-                                        <div class="summary summary-cart">
-                                            <h3 class="summary-title">Cart Total</h3><!-- End .summary-title -->
-        
-                                            <table class="table table-summary">
-                                                <tbody>
-                                                    <tr class="summary-subtotal">
-                                                        <td>Subtotal:</td>
-                                                        <td>  <%= subtotal = cart.products.reduce((acc,cur)=>(acc+ cur.item.price*cur.quantity), 0)  %> </td>
-                                                    </tr><!-- End .summary-subtotal -->
-                                                    <tr class="summary-shipping">
-                                                        <td>Shipping:</td>
-                                                        <td>&nbsp;</td>
+                        <div class="page-content">
+                            <div class="cart">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-lg-9">
+                                            <table class="table table-cart table-mobile">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Product</th>
+                                                        <th>Price</th>
+                                                        <th>discount</th>
+                                                        <th>Quantity</th>
+                                                        <th></th>
                                                     </tr>
-        
-                                                    <tr class="summary-shipping-row">
-                                                        <td>
-                                                            <div class="custom-control custom-radio">
-                                                                <input type="radio" id="free-shipping" name="shipping" class="custom-control-input">
-                                                                <label class="custom-control-label" for="free-shipping">Free Shipping</label>
-                                                            </div><!-- End .custom-control -->
-                                                        </td>
-                                                        <td>$0.00</td>
-                                                    </tr><!-- End .summary-shipping-row -->
-        
-                                                    <tr class="summary-shipping-row">
-                                                        <td>
-                                                            <div class="custom-control custom-radio">
-                                                                <input type="radio" id="standart-shipping" name="shipping" class="custom-control-input">
-                                                                <label class="custom-control-label" for="standart-shipping">Standart:</label>
-                                                            </div><!-- End .custom-control -->
-                                                        </td>
-                                                        <td>$10.00</td>
-                                                    </tr><!-- End .summary-shipping-row -->
-        
-                                                    <tr class="summary-shipping-row">
-                                                        <td>
-                                                            <div class="custom-control custom-radio">
-                                                                <input type="radio" id="express-shipping" name="shipping" class="custom-control-input">
-                                                                <label class="custom-control-label" for="express-shipping">Express:</label>
-                                                            </div><!-- End .custom-control -->
-                                                        </td>
-                                                        <td>$20.00</td>
-                                                    </tr><!-- End .summary-shipping-row -->
-        
-                                                    <tr class="summary-shipping-estimate">
-                                                        <td>Estimate for Your Country<br> <a href="dashboard.html">Change address</a></td>
-                                                        <td>&nbsp;</td>
-                                                    </tr><!-- End .summary-shipping-estimate -->
-        
-                                                    <tr class="summary-total">
-                                                        <td>Total:</td>
-                                                        <td>$160.00</td>
-                                                    </tr><!-- End .summary-total -->
+                                                </thead>
+                                                <tbody>
+                                                    <% if (cart) { %>
+
+
+
+                                                        <% for( let i=0; i < cart.products.length; i++ ) { %>
+
+
+
+                                                            <tr>
+                                                                <td class="product-col">
+                                                                    <div class="product">
+                                                                        <figure class="product-media">
+                                                                            <a href="#">
+                                                                                <img src="data:<%=cart.products[i].item.product_image[0].contentType %>;base64,<%= cart.products[i].item.product_image[0].imageBase64 %>"
+                                                                                    alt="Product image">
+                                                                            </a>
+                                                                        </figure>
+
+                                                                        <h3 class="product-title">
+                                                                            <a href="/product?id=<%= cart.products[i].item._id%> ">
+                                                                                <%= cart.products[i].item.name %>
+                                                                            </a>
+                                                                        </h3><!-- End .product-title -->
+                                                                    </div><!-- End .product -->
+                                                                </td>
+                                                                <td class="price-col">&#8377;<span id="productprice"><%=
+                                                                        cart.products[i].item.price %></span>
+                                                                </td>
+                                                                <td class="price-col text-danger">-&#8377;<span id="productprice"><%=
+                                                                    cart.products[i].item.discount %></span>
+                                                            </td>
+                                                                <td class="quantity-col">
+                                                                    <div class="cart-product-quantity">
+                                                                        <button
+                                                                            style="border: none;border-radius:3px; padding:0 16px 0 16px"
+                                                                            onclick="changeQuantity('<%= cart._id%>','<%= cart.products[i].item._id%>',-1)">-</button>
+                                                                        <span id="<%= cart.products[i].item._id%>">
+                                                                            <%= cart.products[i].quantity %>
+                                                                        </span><button
+                                                                            style="border: none;border-radius:3px; padding:0 16px 0 16px"
+                                                                            class=""
+                                                                            onclick="changeQuantity('<%= cart._id%>','<%= cart.products[i].item._id%>',1)">+</button>
+                                                                    </div><!-- End .cart-product-quantity -->
+                                                                </td>
+                                                              
+                                                                <td class="remove-col"><button
+                                                                        onclick="deleteCart('<%= cart._id %>','<%= cart.products[i].item._id %>')"
+                                                                        class="btn-remove"><i
+                                                                            class="icon-close"></i></button></td>
+                                                            </tr>
+                                                            <% } %>
+
                                                 </tbody>
-                                            </table><!-- End .table table-summary -->
-        
-                                            <a href="checkout.html" class="btn btn-outline-primary-2 btn-order btn-block">PROCEED TO CHECKOUT</a>
-                                        </div><!-- End .summary -->
-                                        <% }else{ %>
-                                            
-                                            <%} %> 
-                                        <a href="category.html" class="btn btn-outline-dark-2 btn-block mb-3"><span>CONTINUE SHOPPING</span><i class="icon-refresh"></i></a>
-                                    </aside><!-- End .col-lg-3 -->
-                                </div><!-- End .row -->
-                            </div><!-- End .container -->
-                        </div><!-- End .cart -->
-                    </div><!-- End .page-content -->
-                </main><!-- End .main -->
+                                            </table><!-- End .table table-wishlist -->
 
-<script>
-    function changeQuantity(cartId,productId,count){
-        let quantity=parseInt(document.getElementById(productId).innerHTML)
-         count=parseInt(count)
-        $.ajax({
-            url:'/change-product-quantity',
-            data:{
-                cart:cartId,
-                product:productId,
-                count:count,
-                quantity:quantity
-            },
-            method:'post',
-            success:(response)=>{
-                if(response.removeProduct){
-                    alert("product removed from cart")
-                    location.reload()
-                }else{
-                    document.getElementById(productId).innerHTML=quantity+count
-                }
-                
-                }
-        })
-    }
+                                            <div class="cart-bottom">
+                                                <div class="cart-discount">
+                                                    <form action="#">
+                                                        <div class="input-group">
+                                                            <input type="text" class="form-control" required
+                                                                placeholder="coupon code">
+                                                            <div class="input-group-append">
+                                                                <button class="btn btn-outline-primary-2"
+                                                                    type="submit"><i
+                                                                        class="icon-long-arrow-right"></i></button>
+                                                            </div><!-- .End .input-group-append -->
+                                                        </div><!-- End .input-group -->
+                                                    </form>
+                                                </div><!-- End .cart-discount -->
 
-    function deleteCart(cartId,productId){
-        $.ajax({
-            url:'/delete_cart',
-            data:{
-                cart:cartId,
-                product:productId
-            },
-            method:'post',
-            success:(response)=>{
-                if(response){
-                    alert("product removed from cart")
-                    location.reload()
-                }else{
-                    alert("failed to remove")
-                }
-            }
-        })
-    }
-</script>
+                                                <a href="/cart" class="btn btn-outline-dark-2"><span>UPDATE
+                                                        CART</span><i class="icon-refresh"></i></a>
+                                            </div><!-- End .cart-bottom -->
+                                        </div><!-- End .col-lg-9 -->
+                                        <aside class="col-lg-3">
+                                            <div class="summary summary-cart">
+                                                <h3 class="summary-title">Cart Total</h3><!-- End .summary-title -->
 
-                    <%- include('./layouts/footer'); -%>
+                                                <table class="table table-summary">
+                                                    <tbody>
+                                                        <tr>
+                                                        <td>Discount:</td>
+                                                        <td><span id="discount" class="text-danger">-<%= discount %>  </span>
+                                                            </td>
+                                                    </tr>
+                                                        
+
+
+
+
+                                                       
+
+                                                        <tr class="summary-total">
+                                                            <td>Total:</td>
+                                                            <td><span id="total"><%= total-discount %></span></td>
+                                                        </tr><!-- End .summary-total -->
+                                                    </tbody>
+                                                </table><!-- End .table table-summary -->
+
+                                                <a href="/checkout"
+                                                    class="btn btn-outline-primary-2 btn-order btn-block">PROCEED TO
+                                                    CHECKOUT</a>
+                                            </div><!-- End .summary -->
+                                            <% }else{ %>
+
+                                                <%} %>
+                                                    <a href="/shop"
+                                                        class="btn btn-outline-dark-2 btn-block mb-3"><span>CONTINUE
+                                                            SHOPPING</span><i class="icon-refresh"></i></a>
+                                        </aside><!-- End .col-lg-3 -->
+                                    </div><!-- End .row -->
+                                </div><!-- End .container -->
+                            </div><!-- End .cart -->
+                        </div><!-- End .page-content -->
+                        </main><!-- End .main -->
+
+                        <script>
+                            function changeQuantity(cartId, productId, count) {
+                                let quantity = parseInt(document.getElementById(productId).innerHTML)
+                                count = parseInt(count)
+                                let cunt = document.querySelector('.cart-count')
+                                let val = parseInt(cunt.textContent)
+                                let productprice = parseInt(document.getElementById('productprice').innerHTML)
+
+                                $.ajax({
+                                    url: '/change-product-quantity',
+                                    data: {
+                                        cart: cartId,
+                                        product: productId,
+                                        count: count,
+                                        quantity: quantity
+                                    },
+                                    method: 'post',
+                                    success: (response) => {
+                                        if (response.removeProduct) {
+                                            alert("product removed from cart")
+                                           
+                                            location.reload()
+                                        } else {
+                                            document.getElementById(productId).innerHTML = quantity + count
+                                            if (count == 1) {
+                                                document.querySelector('.cart-count').textContent = val + 1
+                                                document.getElementById('total').innerHTML =response.total-response.discount
+                                                document.getElementById('discount').innerHTML = '-'+response.discount
+                                               
+                                               
+                                            }else{
+                                                document.querySelector('.cart-count').textContent = val - 1
+                                                document.getElementById('total').innerHTML =response.total-response.discount
+
+                                                document.getElementById('discount').innerHTML ='-'+response.discount
+                                                
+                                                
+
+                                            }
+                                        }
+
+                                    }
+                                })
+                            }
+
+                            function deleteCart(cartId, productId) {
+                                $.ajax({
+                                    url: '/delete_cart',
+                                    data: {
+                                        cart: cartId,
+                                        product: productId
+                                    },
+                                    method: 'post',
+                                    success: (response) => {
+                                        if (response) {
+                                            alert("product removed from cart")
+                                            location.reload()
+                                        } else {
+                                            alert("failed to remove")
+                                        }
+                                    }
+                                })
+                            }
+                        </script>
+
+                        <%- include('./layouts/footer'); -%>

@@ -1,0 +1,300 @@
+<%- include('./layouts/main'); -%>
+    <link rel="stylesheet" href="user/assets/css/skins/skin-demo-13.css">
+    <link rel="stylesheet" href="user/assets/css/demos/demo-13.css">
+    </head>
+
+    <body>
+        <div class="page-wrapper">
+            <%- include('./layouts/header'); -%>
+                <% if (alert) { %>
+                    <script>alert("your banned")</script>
+                    <% } %>
+
+
+
+                        <main class="main">
+                            <div class="page-header text-center"
+                                style="background-image: url('user/assets/images/page-header-bg.jpg')">
+                                <div class="container">
+                                    <h1 class="page-title">Checkout<span>Shop</span></h1>
+                                </div><!-- End .container -->
+                            </div><!-- End .page-header -->
+                            <nav aria-label="breadcrumb" class="breadcrumb-nav">
+                                <div class="container">
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item"><a href="/">Home</a></li>
+                                        <li class="breadcrumb-item"><a href="/shop">Shop</a></li>
+                                        <li class="breadcrumb-item active" aria-current="page">Checkout</li>
+                                    </ol>
+                                </div><!-- End .container -->
+                            </nav><!-- End .breadcrumb-nav -->
+
+                            <div class="page-content">
+                                <div class="checkout">
+                                    <div class="container">
+                                        <div class="checkout-discount">
+                                            <form action="#">
+                                                <input type="text" class="form-control" required
+                                                    id="checkout-discount-input">
+                                                <label for="checkout-discount-input" class="text-truncate">Have a
+                                                    coupon? <span>Click here to enter your code</span></label>
+                                            </form>
+                                        </div><!-- End .checkout-discount -->
+
+
+
+
+
+                                        <div class="row">
+                                            <div class="col-lg-9">
+
+                                                <div class="border rounded">
+
+                                                    <div class="mt-1 mb-1">
+                                                        <button style="padding:0"
+                                                            class='btn btn-outline-primary  pull-right'>edit</button>
+                                                        <div class="ml-3">
+
+                                                            <h6>current adddress</h6>
+
+                                                            <p class="text-dart"><span
+                                                                    class="_3CfVDh">Shaheer</span><span
+                                                                    class="ml-2">9746854699</span></p><span
+                                                                class="_2adSi5 WlNme0">kuttipuravan house areekode
+                                                                malappuram,
+                                                                areekode, Kizhuparamba, Kerala - <span
+                                                                    class="_2dQV-8">673639</span></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <button class="mt-2 btn btn-outline-primary" type="button"
+                                                    data-toggle="collapse" data-target="#collapseExample"
+                                                    aria-expanded="false" aria-controls="collapseExample">
+                                                    New address ?
+                                                </button>
+                                                <div class="collapse" id="collapseExample">
+
+
+
+                                                <!-- form starts -->
+                                                    <form action="#" id="checkout-form">
+                                                        <h2 class="checkout-title">Billing Details</h2>
+                                                        <!-- End .checkout-title -->
+                                                        <div class="row">
+                                                            <div class="col-sm-6">
+                                                                <label> Name *</label>
+                                                                <input name="name" type="text" class="form-control" required>
+                                                            </div><!-- End .col-sm-6 -->
+
+
+                                                        </div><!-- End .row -->
+
+                                                        <label>Address (Area and street) *</label>
+                                                        <input name="address" type="text" class="form-control"
+                                                            placeholder="House number and Street name" required>
+
+                                                        <div class="row">
+                                                            <div class="col-sm-6">
+                                                                <label>Town / City *</label>
+                                                                <input name="city" type="text" class="form-control" required>
+                                                            </div><!-- End .col-sm-6 -->
+
+                                                            <div class="col-sm-6">
+                                                                <label>State </label>
+                                                                <select name="state" id="state" class="form-control">
+                                                                    <option value="Andhra Pradesh">Andhra Pradesh
+                                                                    </option>
+                                                                    <option value="Andaman and Nicobar Islands">Andaman
+                                                                        and
+                                                                        Nicobar Islands</option>
+                                                                    <option value="Arunachal Pradesh">Arunachal Pradesh
+                                                                    </option>
+                                                                    <option value="Assam">Assam</option>
+                                                                    <option value="Bihar">Bihar</option>
+
+                                                                    <option value="Delhi">Delhi</option>
+
+                                                                    <option value="Goa">Goa</option>
+                                                                    <option value="Gujarat">Gujarat</option>
+                                                                    <option value="Haryana">Haryana</option>
+                                                                    <option value="Himachal Pradesh">Himachal Pradesh
+                                                                    </option>
+                                                                    <option value="Jammu and Kashmir">Jammu and Kashmir
+                                                                    </option>
+                                                                    <option value="Jharkhand">Jharkhand</option>
+                                                                    <option value="Karnataka">Karnataka</option>
+                                                                    <option value="Kerala">Kerala</option>
+                                                                    <option value="Madhya Pradesh">Madhya Pradesh
+                                                                    </option>
+                                                                    <option value="Maharashtra">Maharashtra</option>
+                                                                    <option value="Manipur">Manipur</option>
+                                                                    <option value="Meghalaya">Meghalaya</option>
+                                                                    <option value="Mizoram">Mizoram</option>
+                                                                    <option value="Nagaland">Nagaland</option>
+                                                                    <option value="Odisha">Odisha</option>
+                                                                    <option value="Punjab">Punjab</option>
+                                                                    <option value="Rajasthan">Rajasthan</option>
+                                                                    <option value="Sikkim">Sikkim</option>
+                                                                    <option value="Tamil Nadu">Tamil Nadu</option>
+                                                                    <option value="Telangana">Telangana</option>
+                                                                    <option value="Tripura">Tripura</option>
+                                                                    <option value="Uttar Pradesh">Uttar Pradesh</option>
+                                                                    <option value="Uttarakhand">Uttarakhand</option>
+                                                                    <option value="West Bengal">West Bengal</option>
+                                                                </select>
+                                                            </div><!-- End .col-sm-6 -->
+                                                        </div><!-- End .row -->
+
+                                                        <div class="row">
+                                                            <div class="col-sm-6">
+                                                                <label>Postcode / ZIP *</label>
+                                                                <input name="zip" type="text" class="form-control" required>
+                                                            </div><!-- End .col-sm-6 -->
+
+                                                            <div class="col-sm-6">
+                                                                <label>Phone *</label>
+                                                                <input name="phone" type="tel" class="form-control" required>
+                                                            </div><!-- End .col-sm-6 -->
+                                                        </div><!-- End .row -->
+
+                                                        <label>Email address *</label>
+                                                        <input type="email" class="form-control" required>
+
+
+                                                </div>
+                                            </div><!-- End .col-lg-9 -->
+                                            <aside class="col-lg-3">
+                                                <div class="summary">
+                                                    <h3 class="summary-title">Your Order</h3>
+                                                    <!-- End .summary-title -->
+
+                                                    <table class="table table-summary">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Product</th>
+                                                                <th>Total</th>
+                                                            </tr>
+                                                        </thead>
+
+                                                        <tbody>
+                                                            <% for( let i=0; i < cart.products.length; i++ ) { %>
+
+
+                                                                <tr>
+                                                                    <td><a href="#">
+                                                                            <%= cart.products[i].item.name %>
+                                                                        </a> (qty:<%= cart.products[i].quantity %>)
+                                                                    </td>
+                                                                    <td>
+                                                                        <%= cart.products[i].item.price*cart.products[i].quantity
+                                                                            %>
+                                                                    </td>
+                                                                </tr>
+                                                                <% } %>
+
+                                                                    <tr class="summary-subtotal">
+                                                                        <td>Subtotal:</td>
+                                                                        <td>RS. <%= total %>
+                                                                        </td>
+                                                                    </tr><!-- End .summary-subtotal -->
+                                                                    <tr>
+                                                                        <td>Shipping:</td>
+                                                                        <td>Free shipping</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Discount:</td>
+                                                                        <td><span class="text-danger"> -<%= discount  %> </span></td>
+                                                                    </tr>
+                                                                    <tr class="summary-total">
+                                                                        <td>Total:</td>
+                                                                        <td>RS. <%= total-discount %>
+                                                                        </td>
+                                                                    </tr><!-- End .summary-total -->
+                                                        </tbody>
+                                                    </table><!-- End .table table-summary -->
+
+                                                    <div class="accordion-summary" id="accordion-payment">
+                                                        <div class="card">
+                                                            <div class="card-header" id="heading-3">
+                                                                <h2 class="card-title">
+                                                                    <input value="cod" name="payment" type="radio"
+                                                                        data-toggle="collapse"
+                                                                        data-target=".collapseOne:not(.in)" checked> Cash on
+                                                                    delivery
+
+                                                                </h2>
+                                                            </div><!-- End .card-header -->
+
+
+                                                            <div class="panel-group" id="accordion">
+                                                                <div class="panel panel-default">
+                                                                   
+                                                                    <div class="collapseOne panel-collapse collapse">
+                                                                        <div class="panel-body">
+                                                                            <p>If you are not comfortable making an online payment on Flipkart.com, you can opt for the Cash on Delivery (C-o-D) payment method instead. With C-o-D you can pay in cash at the time of actual delivery of the product at your doorstep, without requiring you to make any advance payment online.</p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </div><!-- End .card -->
+                                                        <div class="card">
+                                                            <div class="card-header" id="heading-3">
+                                                                
+                                                                <h2 class="card-title mt-1 mb-2">
+                                                                    <input name="payment" type="radio"
+                                                                        data-toggle="collapse" value="online"
+                                                                        data-target=".collapseTwo:not(.in)" /> Online Payment
+
+                                                                </h2>
+                                                            </div><!-- End .card-header -->
+
+
+                                                            <div class="panel-group" id="accordion">
+                                                                <div class="panel panel-default">
+                                                                   
+                                                                    <div class="collapseTwo panel-collapse collapse">
+                                                                        <div class="panel-body">
+                                                                            <p>Online payments</p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </div><!-- End .card -->
+
+                                                
+
+                                                        
+
+                                                      
+
+                                                    <button type="submit"
+                                                        class="btn btn-outline-primary-2 btn-order btn-block">
+                                                        <span class="btn-text">Place Order</span>
+                                                        <span class="btn-hover-text">Proceed to Checkout</span>
+                                                    </button>
+                                                </div><!-- End .summary -->
+                                            </aside><!-- End .col-lg-3 -->
+                                        </div><!-- End .row -->
+                                        </form>
+                                    </div><!-- End .container -->
+                                </div><!-- End .checkout -->
+                            </div><!-- End .page-content -->
+                        </main><!-- End .main -->
+                     
+                        <%- include('./layouts/footer'); -%>  
+                         <script>
+                            $("#checkout-form").submit((e)=>{
+                                e.preventDefault()
+                                $.ajax({
+                                    url:'/place-order',
+                                    method: 'post',
+                                    data:$('#checkout-form').serialize(),
+                                    success:(response)=>{
+                                         alert(response)
+                                         console.log(response);
+                                    }   
+                                })
+                            })
+                        </script>

@@ -101,20 +101,20 @@
                                     <div class="mt-n5">
                                         <div class="sa-divider"></div>
                                         <div class="table-responsive">
-                                            <div class="choose-imagefile-wrap">
+                                            <div class="choose-imagefile-wrap mb-5">
                                                     <div >
                                                      <h2 class="ms-4 fs-exact-18">previous image preview</h2>
                                                         <% for( let i = 0; i < product.product_image.length; i++ ) { %>
-                                                            <img src="data:<%= product.product_image[i].contentType %>;base64,<%= product.product_image[i].imageBase64 %>" alt="">
+                                                            <img src="data:<%= product.product_image[i].contentType %>;base64,<%= product.product_image[i].imageBase64 %>" height="215px" width="215px" alt="">
                                                             <% } %>
+                        
                                                     </div>
-                                                    <h2 class="ms-4 fs-exact-18">replace image</h2>
+                                                    <h2 class="mt-5 ms-4 fs-exact-18">replace image</h2>
                                                     <input type="file" id="file-input"  class="form-control" name='images'  multiple>
-                                                    <div id="preview">
+                                                    <div class="mb-4" id="preview">
                                                     
                                                     </div>
                                                   
-                                                
                                               
                                             </div>
 

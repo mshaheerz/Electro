@@ -108,6 +108,7 @@
                                                         <p>
                                                             <%= products.description %>
                                                         </p>
+
                                                     </div><!-- End .product-content -->
 
                                                     <div class="details-filter-row details-row-size">
@@ -154,18 +155,53 @@
                                                     <div class="details-filter-row details-row-size">
                                                         <label for="qty">Qty:</label>
                                                         <div class="product-details-quantity">
-                                                            <input type="number" id="qty" class="form-control" value="1"
-                                                                min="1" max="10" step="1" data-decimals="0" required>
+                                                            <input id="qtybox" type="number" id="qty"
+                                                                class="form-control" value="1" min="1" max="10" step="1"
+                                                                data-decimals="0" required>
                                                         </div><!-- End .product-details-quantity -->
                                                     </div><!-- End .details-filter-row -->
 
                                                     <div class="product-details-action">
-                                                        <a href="#" class="btn-product btn-cart"><span>add to
+                                                        <a onclick="productCart('<%= products._id %>')"
+                                                            class="btn-product btn-cart"><span>add to
                                                                 cart</span></a>
+
+                                                        <script>
+                                                            function productCart(productId) {
+                                                                const count = parseInt(document.getElementById("qtybox").value)
+                                                                $.ajax({
+                                                                    url: '/addcartproduct',
+                                                                    data: {
+                                                                        productid: productId,
+                                                                        count: count
+                                                                    },
+                                                                    method: 'post',
+                                                                    success: (response) => {
+                                                                        if (response) {
+                                                                            alert("added to cart")
+                                                                            window.location = '/cart'
+                                                                        }
+
+                                                                    }
+
+                                                                })
+                                                            }
+                                                        </script>
 
                                                         <div class="details-action-wrapper">
                                                             <a href="#" class="btn-product btn-wishlist"
-                                                                title="Wishlist"><span>Add to Wishlist</span></a>
+                                                                title="Wishlist">
+
+
+
+                                                                <span>
+                                                                    <% if ( wishlist[0].products[0].item._id
+                                                                        == products._id ) { %>
+                                                                            <h1>kmiom</h1>
+                                                                                    <% } %>
+
+                                                                    Add to Wishlist 
+                                                                </span></a>
                                                         </div><!-- End .details-action-wrapper -->
                                                     </div><!-- End .product-details-action -->
 
