@@ -178,8 +178,15 @@
                                                                     method: 'post',
                                                                     success: (response) => {
                                                                         if (response) {
-                                                                            alert("added to cart")
-                                                                            window.location = '/cart'
+                                                                            Swal.fire(
+                                                                                'Added to cart!',
+                                                                                'Your cart has been Added.',
+                                                                                'success'
+                                                                            )
+                                                                            setTimeout(()=>{
+                                                                                window.location = '/cart'
+
+                                                                            },1200)
                                                                         }
 
                                                                     }
@@ -195,12 +202,9 @@
 
 
                                                                 <span>
-                                                                    <% if ( wishlist[0].products[0].item._id
-                                                                        == products._id ) { %>
-                                                                            <h1>kmiom</h1>
-                                                                                    <% } %>
+                                                                   
 
-                                                                    Add to Wishlist 
+                                                                            Add to Wishlist
                                                                 </span></a>
                                                         </div><!-- End .details-action-wrapper -->
                                                     </div><!-- End .product-details-action -->

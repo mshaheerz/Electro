@@ -215,38 +215,50 @@ module.exports.add_products = async (req, res) => {
 
 
 module.exports.add_products_post = async (req, res, next) => {
-    const files = req.files
-    const { name, description, brand, price, category, colors, stock, discount, tags } = req.body
-    if (!files) {
-        const error = new Error('Please choose files')
-        error.httpStatusCode = 400;
-        return next(error)
-    }
-    let imgArray = files.map((file) => {
-
-        let img = fs.readFileSync(file.path)
-
-        return encode_image = img.toString('base64')
-    })
-    let result = imgArray.map((src, index) => {
-        let finalimg = {
-            imageName: files[index].originalname,
-            contentType: files[index].mimetype,
-            imageBase64: src
+    try {
+        const files = req.files
+        const { name, description, brand, price, category, colors, stock, discount, tags } = req.body
+        if (!files) {
+            const error = new Error('Please choose files')
+            error.httpStatusCode = 400;
+            return next(error)
         }
-        return finalimg;
-    })
-    files.forEach((el, i) => {
-        fs.rmSync(el.path, {
-            force: true
+        let imgArray = files.map((file) => {
+    
+            let img = fs.readFileSync(file.path)
+    
+            return encode_image = img.toString('base64')
         })
-    })
-    await productmodel.create({ name, description, brand, price, category, colors, stock, discount, tags, product_image: result }).then((data) => {
-        // res.send({"success":data})
+        let result = imgArray.map((src, index) => {
+            let finalimg = {
+                imageName: files[index].originalname,
+                contentType: files[index].mimetype,
+                imageBase64: src
+            }
+            return finalimg;
+        })
+        try {
+            files.forEach((el, i) => {
+            fs.rmSync(el.path, {
+               
+            })
+        })
+        } catch (error) {
+            console.log(error);
+        }
+        
+        await productmodel.create({ name, description, brand, price, category, colors, stock, discount, tags, product_image: result }).then((data) => {
+            // res.send({"success":data})
+            res.redirect('/admin/product_lists')
+        }).catch((err) => {
+            res.send({ "failed": err })
+        })
+    } catch (error) {
+        console.log(error);
         res.redirect('/admin/product_lists')
-    }).catch((err) => {
-        res.send({ "failed": err })
-    })
+        
+    }
+   
 }
 
 
@@ -290,7 +302,7 @@ module.exports.edit_products_post = async (req, res) => {
             // res.send({"success":data})
             res.redirect('/admin/product_lists')
         }).catch((err) => {
-            res.send({ "first worked": err })
+            res.send({ "first worked": err.message })
         })
     } else {
         let imgArray = files.map((file) => {

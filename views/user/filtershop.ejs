@@ -142,7 +142,7 @@
 
 
 
-                                            <h2 class="title title-border">Featured Items</h2><!-- End .title -->
+                                            <h2 class="title title-border"><%=categorytext  %> </h2><!-- End .title -->
 
 
 
@@ -191,8 +191,8 @@
                                                                     <!-- <span class="product-label label-sale">Sale</span> -->
                                                                     <a href="/product?id=<%= products[i]._id%> ">
                                                                         <img src="data:<%= products[i].product_image[0].contentType %>;base64,<%= products[i].product_image[0].imageBase64 %> "
-                                                                            alt="Product image" 
-                                                                            class="product-image" >
+                                                                            alt="Product image" height="200px"
+                                                                            class="product-image">
                                                                     </a>
                                                                   
                                                                     <div class="product-action-vertical">
@@ -315,8 +315,8 @@
                                                                             <%= products[i].category.category_name %>
                                                                         </a>
                                                                     </div><!-- End .product-cat -->
-                                                                    <h3 id="description" class="product-title"><a href="product.html">
-                                                                            <%= products[i].name.substring(0,40)+'...' %>
+                                                                    <h3 class="product-title"><a href="product.html">
+                                                                            <%= products[i].name %>
                                                                         </a></h3><!-- End .product-title -->
                                                                     <div class="product-price">
                                                                         &#8377;<%=

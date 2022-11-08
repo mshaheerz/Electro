@@ -13,7 +13,7 @@ const orderSchema = new mongoose.Schema({
         phone:String,
     },
     user:{type:mongoose.Types.ObjectId,
-          ref:'users'
+          ref:'user'
         },
     payment:String,
     products:Array,

@@ -9,6 +9,7 @@ const { db, collection } = require('../model/productSchema')
 const { request } = require('express')
 const mongoose = require('mongoose')
 const ordermodel = require('../model/orderSchema')
+const addressmodel = require('../model/addressSchema')
 
 
 async function  getDiscountprice(token){
@@ -40,15 +41,20 @@ module.exports.checkout = async (req, res) => {
         const user = await Usermodel.findById(userId)
         let cart = await cartmodel.findOne({ user: userId }).populate('user').populate('products.item')
         const wishlist = await wishlistmodel.find().populate('user').populate('products.item')
-       
+        const address =await addressmodel.find({user:userId})
+
+        res.locals.address = address || null
     
-            
-                const total = await getTotalprice(token)
-                const discount =await getDiscountprice(token)
+            if(cart != null){
+                 const total = await getTotalprice(token)
+                const discount =await getDiscountprice(token)  
+                res.locals.total=total
+                res.locals.cart = cart
+                 res.locals.discount=discount
+            }
+               
          res.locals.wishlist=wishlist
-        res.locals.total=total
-        res.locals.cart = cart
-        res.locals.discount=discount
+      
         const fullname = user.firstname + " " + user.lastname
         let useremail = user.email
         if (user.isBanned) {
@@ -80,7 +86,7 @@ module.exports.place_order = async (req, res) => {
             zip,
             phone,
         },
-        userId,
+        user:userId,
         payment,
         products:cart.products,
         totalamount:total-discount,
@@ -89,7 +95,7 @@ module.exports.place_order = async (req, res) => {
     }
     await ordermodel.create(orderObj).then(async (data) =>{
         console.log(data);
-        await cartmodel.deleteOne({user:userId})
+        await cartmodel.updateOne({user:userId},{$set: {products:[]}})
         res.json(data)
     }).catch((error)=>{
         console.log(error);
@@ -110,12 +116,23 @@ module.exports.ordersuccess = async (req, res) => {
         const user = await Usermodel.findById(userId)
         let cart = await cartmodel.findOne({ user: userId }).populate('user').populate('products.item')
         const wishlist = await wishlistmodel.find().populate('user').populate('products.item')
-       
-    
+        
+        const order =await ordermodel.find().populate({
+            path: 'products',
+            populate: {
+                path: 'item',
+                model: 'products',
+            }
+        }).sort({createdAt: -1}).limit(1)
+        console.log(order[0].products)
+
+
             
-                const total = await getTotalprice(token)
-                const discount =await getDiscountprice(token)
-         res.locals.wishlist=wishlist
+        const total = await getTotalprice(token)
+        const discount =await getDiscountprice(token)
+        res.locals.user=user || null
+        res.locals.order=order
+        res.locals.wishlist=wishlist
         res.locals.total=total
         res.locals.cart = cart
         res.locals.discount=discount

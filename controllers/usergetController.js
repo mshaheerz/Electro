@@ -146,6 +146,64 @@ module.exports.shop = async (req, res) => {
 }
 
 
+
+
+
+
+
+module.exports.filtershop = async (req, res) => {
+    try {
+        
+    } catch (error) {
+        
+    }
+    const token = req.cookies.jwt
+    const category = await categorymodel.find()
+    const brand = await productmodel.find().sort({ brand: 1 }).distinct('brand')
+    //filtering
+    let products = await productmodel.find().populate('category')
+    const cart = await cartmodel.findOne().populate('user').populate('products.item')
+    const wishlist = await wishlistmodel.find().populate('user').populate('products.item')
+    res.locals.cart=cart
+    res.locals.wishlist=wishlist
+
+    if (req.query.category) {
+        res.locals.categorytext=req.query.category || null
+        console.log(req.query.category);
+
+
+            products = products.filter(obj => {
+               if (obj.category.category_name === req.query.category) return obj
+            })
+
+        
+    }
+
+
+
+    if (token) {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+        const userId = decoded.userID
+        const user = await Usermodel.findById(userId)
+       
+        // res.locals.userDetails = user
+        const fullname = user.firstname + " " + user.lastname
+        let useremail = user.email
+        
+        if (user.isBanned) {
+          
+            res.render('user/filtershop', { token: "", alert: true, category, products, brand })
+        } else {
+
+            res.render('user/filtershop', { token, fullname, useremail, alert: false, category, products, brand })
+        }
+    } else {
+        res.render('user/filtershop', { token, alert: false, category, products, brand })
+    }
+}
+
+
+
 module.exports.product = async (req, res) => {
     try {
         const token = req.cookies.jwt

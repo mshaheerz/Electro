@@ -1,0 +1,211 @@
+
+
+
+
+<%- include('./layouts/main'); -%>
+<link rel="stylesheet" href="user/assets/css/skins/skin-demo-13.css">
+<link rel="stylesheet" href="user/assets/css/demos/demo-13.css">
+</head>
+
+<body>
+    <div class="page-wrapper">
+        <%- include('./layouts/header'); -%>
+            <% if (alert) { %>
+                <script>alert("your banned")</script>
+                <% } %>
+
+
+
+
+
+
+
+
+
+
+ <main class="main">
+    <div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
+        <div class="container">
+            <h1 class="page-title">My Account<span>Shop</span></h1>
+        </div><!-- End .container -->
+    </div><!-- End .page-header -->
+    <nav aria-label="breadcrumb" class="breadcrumb-nav mb-3">
+        <div class="container">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item"><a href="#">Shop</a></li>
+                <li class="breadcrumb-item active" aria-current="page">My Account</li>
+            </ol>
+        </div><!-- End .container -->
+    </nav><!-- End .breadcrumb-nav -->
+
+    <div class="page-content">
+        <div class="dashboard">
+            <div class="container">
+                <div class="row">
+                    <aside class="col-md-2 col-lg-2">
+                        <ul class="nav nav-dashboard flex-column mb-3 mb-md-0" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link" id="tab-dashboard-link"
+                                     href="/profile_dashboard" role="tab"
+                                    aria-controls="tab-dashboard"
+                                    aria-selected="true">Dashboard</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" id="tab-orders-link" 
+                                    href="/profile_order"
+                                    aria-selected="false">Orders</a>
+                            </li>
+                        
+                            <li class="nav-item">
+                                <a class="nav-link" id="tab-address-link" 
+                                    href="/profile_address" 
+                                    aria-selected="false">Adresses</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="tab-account-link" 
+                                    href="/profile_details" 
+                                    aria-selected="false">Account Details</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Sign Out</a>
+                            </li>
+                        </ul>
+                    </aside><!-- End .col-lg-3 -->
+
+                    <div class="col-md-10 col-lg-10">
+                        <div class="tab-content">
+                            <% if (order!='') { %>
+                                                              <div class="" id="tab-orders" role="" aria-labelledby="tab-orders-link">
+
+                                <section class="h-100 gradient-custom">
+                                    <div class="container py-5 h-100">
+                                        <div class="row d-flex justify-content-center align-items-center h-100">
+                                            <div class="col-lg-10 col-xl-8">
+                                                <div class="card" style="border-radius: 10px;">
+                                                    <div class="card-header  py-5">
+                                                        <h5 class="text-muted mb-0">Thanks for your Order, <span
+                                                                style="color: #a8729a;"><%= user.firstname+' '+user.lastname %></span>!</h5>
+                                                    </div>
+                                                    <div class="card-body p-4">
+                                                        <div class="d-flex justify-content-between align-items-center mb-4">
+                                                            <p class="lead fw-normal mb-0" style="color: #a8729a;">Receipt</p>
+                                                            <p class="small text-muted mb-0">Receipt Voucher : 1KAU9-84UIL</p>
+                                                        </div>
+        
+                                                     
+                                                         
+                                            
+                                                        <% if (order) { %>
+                                                         
+                                                       
+                                                            <% for( let i = 0; i < order[0].products.length; i++ ) { %>
+                                                            
+                                                           
+                                                        
+                                                        <div class="card shadow-0 border mb-4">
+                                                            <div class="card-body">
+                                                                <div class="row">
+                                                                    <div class="col-md-2">
+                                                                        <img src="data:<%= order[0].products[i].item.product_image[0].contentType %>;base64,<%= order[0].products[i].item.product_image[0].imageBase64 %>"
+                                                                            class="img-fluid" alt="Phone">
+                                                                    </div>
+                                                                    <div
+                                                                        class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                                                        <p class="text-muted mb-0"><%= order[0].products[i].item.name.substring(0,40) %></p>
+                                                                    </div>
+                                                                    <div
+                                                                        class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                                                        <p class="text-muted mb-0 small">White</p>
+                                                                    </div>
+                                                               
+                                                                    <div
+                                                                        class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                                                        <p class="text-muted mb-0 small">Qty: <%= order[0].products[i].quantity %></p>
+                                                                    </div>
+                                                                    <div
+                                                                        class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                                                        <p class="text-muted mb-0 small"><%= order[0].products[i].item.price-order[0].products[i].item.discount  %> </p>
+                                                                    </div>
+                                                                </div>
+                                                                <hr class="mb-4" style="background-color: #e0e0e0; opacity: 1;">
+                                                                <div class="row d-flex align-items-center">
+                                                                    <div class="col-md-2">
+                                                                        <p class="text-muted mb-0 small">Track Order</p>
+                                                                    </div>
+                                                                    <div class="col-md-10">
+                                                                        <div class="progress"
+                                                                            style="height: 6px; border-radius: 16px;">
+                                                                            <div class="progress-bar" role="progressbar"
+                                                                                style="width: 65%; border-radius: 16px; background-color: #a8729a;"
+                                                                                aria-valuenow="65" aria-valuemin="0"
+                                                                                aria-valuemax="100"></div>
+                                                                        </div>
+                                                                        <div class="d-flex justify-content-around mb-1">
+                                                                            <p class="text-muted mt-1 mb-0 small ms-xl-5">Out
+                                                                                for delivary</p>
+                                                                            <p class="text-muted mt-1 mb-0 small ms-xl-5">
+                                                                                Delivered</p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <% } %> 
+        
+                                                        <div class="d-flex justify-content-between pt-2">
+                                                            <p class="fw-bold mb-0">Order Details</p>
+                                                            <p class="text-muted mb-0"><span class="fw-bold me-4">Total</span>
+                                                                <%= haha=order[0].products.reduce((acc,cur)=>(acc+cur.item.price),0) %></p>
+                                                        </div>
+        
+                                                        <div class="d-flex justify-content-between pt-2">
+                                                            <p class="text-muted mb-0">Invoice Number : 788152</p>
+                                                            <p class="text-muted mb-0"><span
+                                                                    class="fw-bold me-4">Discount</span> -<%= haha=order[0].products.reduce((acc,cur)=>(acc+cur.item.discount),0) %></p>
+                                                        </div>
+        
+                                                        <div class="d-flex justify-content-between">
+                                                            <p class="text-muted mb-0">Invoice Date : <%= order[0].createdAt%></p>
+                                                            <p class="text-muted mb-0"><span class="fw-bold me-4">GST 18%</span>
+                                                                123</p>
+                                                        </div>
+        
+                                                        <div class="d-flex justify-content-between mb-5">
+                                                            <p class="text-muted mb-0">Recepits Voucher : 18KU-62IIK</p>
+                                                            <p class="text-muted mb-0"><span class="fw-bold me-4">Delivery
+                                                                    Charges</span> Free</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-footer border-0 px-4 py-5"
+                                                        style="background-color: #a8729a; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">
+                                                        <h5
+                                                            class="d-flex align-items-center justify-content-end text-white text-uppercase mb-0">
+                                                            Total
+                                                            paid: <span class="h2 mb-0 ms-2">&#8377;<%= haha=order[0].products.reduce((acc,cur)=>(acc+cur.item.price-cur.item.discount),0) %> </span></h5>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <% } %> 
+        
+                                        </div>
+                                       
+                                    </div>
+                                </section>
+                            <% } {%> 
+                              <div class="" id="tab-orders" role="" aria-labelledby="tab-orders-link">
+                                <p>No order has been made yet.</p>
+                                <a href="/shop" class="btn btn-outline-primary-2"><span>GO SHOP</span><i class="icon-long-arrow-right"></i></a>
+                            </div><!-- .End .tab-pane -->
+                            <% } %>
+                          
+                            
+                            
+                        </div>
+                    </div><!-- End .col-lg-9 -->
+                </div><!-- End .row -->
+            </div><!-- End .container -->
+        </div><!-- End .dashboard -->
+    </div><!-- End .page-content -->
+</main><!-- End .main -->
+<%- include('./layouts/footer'); -%>

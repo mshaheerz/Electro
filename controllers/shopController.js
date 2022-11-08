@@ -183,6 +183,21 @@ module.exports.delete_cart = async (req, res) => {
         })
 }
 
+module.exports.delete_wishlist = async (req, res) => {
+    const { wishlist,product } = req.body
+    // const ss = await cartmodel.findById(cart)
+    // console.log(ss);
+    await wishlistmodel.findByIdAndUpdate(wishlist,
+        {
+            $pull: { 'products': { item: product } }
+        }).populate('products').then((response) => {
+            res.json(true)
+
+        }).catch((err) => {
+            console.log(err)
+        })
+}
+
 module.exports.addcartproduct= async (req,res)=>{
     
     console.log(req.body);

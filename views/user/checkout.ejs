@@ -28,6 +28,8 @@
                                     </ol>
                                 </div><!-- End .container -->
                             </nav><!-- End .breadcrumb-nav -->
+                <% if (cart !=null) { %>
+ 
 
                             <div class="page-content">
                                 <div class="checkout">
@@ -49,23 +51,29 @@
                                             <div class="col-lg-9">
 
                                                 <div class="border rounded">
-
+                                                    <% if (address !='') { %>
                                                     <div class="mt-1 mb-1">
                                                         <button style="padding:0"
                                                             class='btn btn-outline-primary  pull-right'>edit</button>
-                                                        <div class="ml-3">
+                                                      
+                                                             <div class="ml-3">
 
                                                             <h6>current adddress</h6>
 
                                                             <p class="text-dart"><span
-                                                                    class="_3CfVDh">Shaheer</span><span
-                                                                    class="ml-2">9746854699</span></p><span
-                                                                class="_2adSi5 WlNme0">kuttipuravan house areekode
-                                                                malappuram,
-                                                                areekode, Kizhuparamba, Kerala - <span
-                                                                    class="_2dQV-8">673639</span></span>
-                                                        </div>
+                                                               
+                                                                 
+                                                               
+                                                                    class="_3CfVDh"><%= address[0].address[0].name%></span><span
+                                                                    class="ml-2">+91 <%= address[0].address[0].phone%></span></p><span
+                                                                class="_2adSi5 WlNme0"><%= address[0].address[0].address%>
+                                                                
+                                                                <%= address[0].address[0].state%> - <span
+                                                                    class="_2dQV-8"><%= address[0].address[0].zip%></span></span> 
+                                                                  
+                                                        </div>  
                                                     </div>
+                                                    <% } %>
                                                 </div>
                                                 <button class="mt-2 btn btn-outline-primary" type="button"
                                                     data-toggle="collapse" data-target="#collapseExample"
@@ -76,14 +84,15 @@
 
 
 
-                                                <!-- form starts -->
+                                                    <!-- form starts -->
                                                     <form action="#" id="checkout-form">
                                                         <h2 class="checkout-title">Billing Details</h2>
                                                         <!-- End .checkout-title -->
                                                         <div class="row">
                                                             <div class="col-sm-6">
                                                                 <label> Name *</label>
-                                                                <input name="name" type="text" class="form-control" required>
+                                                                <input name="name" type="text" class="form-control"
+                                                                    required>
                                                             </div><!-- End .col-sm-6 -->
 
 
@@ -96,7 +105,8 @@
                                                         <div class="row">
                                                             <div class="col-sm-6">
                                                                 <label>Town / City *</label>
-                                                                <input name="city" type="text" class="form-control" required>
+                                                                <input name="city" type="text" class="form-control"
+                                                                    required>
                                                             </div><!-- End .col-sm-6 -->
 
                                                             <div class="col-sm-6">
@@ -148,12 +158,14 @@
                                                         <div class="row">
                                                             <div class="col-sm-6">
                                                                 <label>Postcode / ZIP *</label>
-                                                                <input name="zip" type="text" class="form-control" required>
+                                                                <input name="zip" type="text" class="form-control"
+                                                                    required>
                                                             </div><!-- End .col-sm-6 -->
 
                                                             <div class="col-sm-6">
                                                                 <label>Phone *</label>
-                                                                <input name="phone" type="tel" class="form-control" required>
+                                                                <input name="phone" type="tel" class="form-control"
+                                                                    required>
                                                             </div><!-- End .col-sm-6 -->
                                                         </div><!-- End .row -->
 
@@ -177,6 +189,9 @@
                                                         </thead>
 
                                                         <tbody>
+                                                            <% if (cart != null) { %>
+                                                             
+                                                         
                                                             <% for( let i=0; i < cart.products.length; i++ ) { %>
 
 
@@ -191,6 +206,7 @@
                                                                     </td>
                                                                 </tr>
                                                                 <% } %>
+                                                               
 
                                                                     <tr class="summary-subtotal">
                                                                         <td>Subtotal:</td>
@@ -203,15 +219,18 @@
                                                                     </tr>
                                                                     <tr>
                                                                         <td>Discount:</td>
-                                                                        <td><span class="text-danger"> -<%= discount  %> </span></td>
+                                                                        <td><span class="text-danger"> -<%= discount %>
+                                                                            </span></td>
                                                                     </tr>
                                                                     <tr class="summary-total">
                                                                         <td>Total:</td>
                                                                         <td>RS. <%= total-discount %>
                                                                         </td>
                                                                     </tr><!-- End .summary-total -->
+                                                                    <% } %>
                                                         </tbody>
                                                     </table><!-- End .table table-summary -->
+                                                   
 
                                                     <div class="accordion-summary" id="accordion-payment">
                                                         <div class="card">
@@ -219,19 +238,28 @@
                                                                 <h2 class="card-title">
                                                                     <input value="cod" name="payment" type="radio"
                                                                         data-toggle="collapse"
-                                                                        data-target=".collapseOne:not(.in)" checked> Cash on
+                                                                        data-target=".collapseOne:not(.in)" checked>
+                                                                    Cash on
                                                                     delivery
 
                                                                 </h2>
                                                             </div><!-- End .card-header -->
+                                                          
 
 
                                                             <div class="panel-group" id="accordion">
                                                                 <div class="panel panel-default">
-                                                                   
+
                                                                     <div class="collapseOne panel-collapse collapse">
                                                                         <div class="panel-body">
-                                                                            <p>If you are not comfortable making an online payment on Flipkart.com, you can opt for the Cash on Delivery (C-o-D) payment method instead. With C-o-D you can pay in cash at the time of actual delivery of the product at your doorstep, without requiring you to make any advance payment online.</p>
+                                                                            <p>If you are not comfortable making an
+                                                                                online payment on electroshop.com, you
+                                                                                can opt for the Cash on Delivery (C-o-D)
+                                                                                payment method instead. With C-o-D you
+                                                                                can pay in cash at the time of actual
+                                                                                delivery of the product at your
+                                                                                doorstep, without requiring you to make
+                                                                                any advance payment online.</p>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -240,11 +268,12 @@
                                                         </div><!-- End .card -->
                                                         <div class="card">
                                                             <div class="card-header" id="heading-3">
-                                                                
+
                                                                 <h2 class="card-title mt-1 mb-2">
                                                                     <input name="payment" type="radio"
                                                                         data-toggle="collapse" value="online"
-                                                                        data-target=".collapseTwo:not(.in)" /> Online Payment
+                                                                        data-target=".collapseTwo:not(.in)" /> Online
+                                                                    Payment
 
                                                                 </h2>
                                                             </div><!-- End .card-header -->
@@ -252,7 +281,7 @@
 
                                                             <div class="panel-group" id="accordion">
                                                                 <div class="panel panel-default">
-                                                                   
+
                                                                     <div class="collapseTwo panel-collapse collapse">
                                                                         <div class="panel-body">
                                                                             <p>Online payments</p>
@@ -263,38 +292,67 @@
 
                                                         </div><!-- End .card -->
 
-                                                
 
-                                                        
 
-                                                      
 
-                                                    <button type="submit"
-                                                        class="btn btn-outline-primary-2 btn-order btn-block">
-                                                        <span class="btn-text">Place Order</span>
-                                                        <span class="btn-hover-text">Proceed to Checkout</span>
-                                                    </button>
-                                                </div><!-- End .summary -->
+
+
+
+                                                        <button type="submit"
+                                                            class="btn btn-outline-primary-2 btn-order btn-block">
+                                                            <span class="btn-text">Place Order</span>
+                                                            <span class="btn-hover-text">Proceed to Checkout</span>
+                                                        </button>
+                                                    </div><!-- End .summary -->
                                             </aside><!-- End .col-lg-3 -->
                                         </div><!-- End .row -->
                                         </form>
                                     </div><!-- End .container -->
-                                </div><!-- End .checkout -->
+                                </div>
+                                <% } else{%> 
+                                    <div class="text-center" id="tab-orders" role="" aria-labelledby="tab-orders-link">
+                                        <p>checkout is empty.</p>
+                                        <a href="/shop" class="btn btn-outline-primary-2"><span>GO SHOP</span><i class="icon-long-arrow-right"></i></a>
+                                    </div><!-- .End .tab-pane -->
+                               <!-- End .checkout -->
                             </div><!-- End .page-content -->
+                             <% } %>
                         </main><!-- End .main -->
-                     
-                        <%- include('./layouts/footer'); -%>  
-                         <script>
-                            $("#checkout-form").submit((e)=>{
-                                e.preventDefault()
-                                $.ajax({
+
+                        <%- include('./layouts/footer'); -%>
+                            <script>
+                                $("#checkout-form").submit((e) => {
+                                    e.preventDefault()
+                                    Swal.fire({
+                                        title: 'Are you sure?',
+                                        text: "You won't be able to revert this!",
+                                        icon: 'warning',
+                                        showCancelButton: true,
+                                        confirmButtonColor: '#3085d6',
+                                        cancelButtonColor: '#d33',
+                                        confirmButtonText: 'Yes, proceed to checkout!'
+                                    }).then((result) => {
+                                        if (result.isConfirmed) {
+                                            Swal.fire(
+                                                'Order placed!',
+                                                'Thank you for order.',
+                                                'success'
+                                            )
+                                            $.ajax({
                                     url:'/place-order',
                                     method: 'post',
                                     data:$('#checkout-form').serialize(),
                                     success:(response)=>{
-                                         alert(response)
-                                         console.log(response);
+                                        setTimeout(()=>{
+                                            window.location.href='/ordersuccess'
+
+                                        },1200)
+                                        
                                     }   
                                 })
-                            })
-                        </script>
+                           
+                                        }
+                                    })
+ })
+
+                            </script>

@@ -4,6 +4,7 @@ const userController = require("../controllers/userController")
 const usergetController = require("../controllers/usergetController")
 const shopController = require("../controllers/shopController")
 const checkoutController = require("../controllers/checkoutController")
+const profileController = require("../controllers/profileController")
 const authmiddleware = require('../middlewares/authmiddleware')
 const cookieParser = require("cookie-parser")
 const { logger } = require('../config/emailConfig')
@@ -68,16 +69,36 @@ router.get('/signup',usergetController.signup_get)
 router.get('/logout',usergetController.logout_get)
 router.get('/',usergetController.home_page)
 router.get('/shop',usergetController.shop)
+router.get('/shopfilter',usergetController.filtershop)
 router.get('/product',usergetController.product)
 router.get('/cart',shopController.cart)
 router.post('/addcart',shopController.addToCart)
 router.get('/wishlist',shopController.wishlist)
 router.get('/checkout',checkoutController.checkout)
 router.get('/ordersuccess',checkoutController.ordersuccess)
+
+
+
+
+router.get('/profile',profileController.profile)
+router.get('/profile_dashboard',profileController.profile_dashboard)
+router.get('/profile_order',profileController.profile_orders)
+router.get('/profile_address',profileController.profile_address)
+router.get('/profile_details',profileController.profile_accountdetails)
+
+
+
+
+
+
+
+
+router.post('/add_address',profileController.add_address)
 router.post('/place-order',checkoutController.place_order)
 router.post('/add_wishlist',shopController.addToWishlist)
 router.post('/change-product-quantity',shopController.change_quantity)
 router.post('/delete_cart',shopController.delete_cart)
+router.post('/delete_wishlist',shopController.delete_wishlist)
 router.post('/addcartproduct',shopController.addcartproduct)
 
 

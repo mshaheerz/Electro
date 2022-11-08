@@ -142,61 +142,7 @@
                      
               
 
-                    <div class="dropdown-menu dropdown-menu-right">
-                        <div class="dropdown-cart-products">
-                            <div class="product">
-                                <div class="product-cart-details">
-                                    <h4 class="product-title">
-                                        <a href="product.html">xiomi redmi 14 pro</a>
-                                    </h4>
-
-                                    <span class="cart-product-info">
-                                        <span class="cart-product-qty">1</span>
-                                        x $84.00
-                                    </span>
-                                </div><!-- End .product-cart-details -->
-
-                                <figure class="product-image-container">
-                                    <a href="product.html" class="product-image">
-                                        <img src="user/assets/images/products/cart/product-1.jpg" alt="product">
-                                    </a>
-                                </figure>
-                                <a href="#" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
-                            </div><!-- End .product -->
-
-                            <div class="product">
-                                <div class="product-cart-details">
-                                    <h4 class="product-title">
-                                        <a href="product.html">samsung galaxy gear s3</a>
-                                    </h4>
-
-                                    <span class="cart-product-info">
-                                        <span class="cart-product-qty">1</span>
-                                        x $76.00
-                                    </span>
-                                </div><!-- End .product-cart-details -->
-
-                                <figure class="product-image-container">
-                                    <a href="product.html" class="product-image">
-                                        <img src="user/assets/images/products/cart/product-2.jpg" alt="product">
-                                    </a>
-                                </figure>
-                                <a href="#" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
-                            </div><!-- End .product -->
-                        </div><!-- End .cart-product -->
-
-                        <div class="dropdown-cart-total">
-                            <span>Total</span>
-
-                            <span class="cart-total-price">$160.00</span>
-                        </div><!-- End .dropdown-cart-total -->
-
-                        <div class="dropdown-cart-action">
-                            <a href="/cart" class="btn btn-primary">View Cart</a>
-                            <a href="checkout.html" class="btn btn-outline-primary-2"><span>Checkout</span><i
-                                    class="icon-long-arrow-right"></i></a>
-                        </div><!-- End .dropdown-cart-total -->
-                    </div>
+                  
                     <!-- End .dropdown-menu -->
                 </div><!-- End .cart-dropdown -->
             </div><!-- End .header-right -->
@@ -215,10 +161,11 @@
                     <div class="dropdown-menu">
                         <nav class="side-nav">
                             <ul class="menu-vertical sf-arrows">
+                                <li><a href="/shop">All Products</a></li>
                                 <!-- <li class="item-lead"><a href="#">More discount</a></li>
                                 <li class="item-lead"><a href="#">Premium</a></li> -->
                                 <% for( let i = 0; i < category.length; i++ ) { %>
-                                 <li><a href="#"><%= category[i].category_name %> </a></li>
+                                 <li><a href="/shopfilter?category=<%= category[i].category_name %>"><%= category[i].category_name %> </a></li>
                                 <% } %>
                                <!-- 
                                 <li><a href="#">Computer & Laptop</a></li>
@@ -248,8 +195,8 @@
                                             <div class="menu-title">Shop options</div><!-- End .menu-title -->
                                             <ul>
                                                 <li><a href="/cart">Sopping cart</a></li>
-                                                <li><a href="product-centered.html">Wishlist</a></li>
-                                                <li><a href="product-sticky.html">Orders</a></li>
+                                                <li><a href="/wishlist">Wishlist</a></li>
+                                                <li><a href="/profile_order">Orders</a></li>
                                
                                             </ul>
                                         </div><!-- End .menu-col -->
@@ -272,7 +219,7 @@
                             </div><!-- End .megamenu megamenu-sm -->
                         </li>
                         <li>
-                            <a href="product.html" >Orders</a>
+                            <a href="/profile_order" >Orders</a>
                         </li>
                         <li>
                             <a href="#" class="">Contact</a>
@@ -280,7 +227,7 @@
                            
                         </li>
                         <li>
-                            <a href="blog.html" class="">About</a>
+                            <a href="/profile_dashboard" class="">Profile</a>
 
                            
                         </li>

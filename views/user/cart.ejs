@@ -44,18 +44,22 @@
                                                                         </figure>
 
                                                                         <h3 class="product-title">
-                                                                            <a href="/product?id=<%= cart.products[i].item._id%> ">
+                                                                            <a
+                                                                                href="/product?id=<%= cart.products[i].item._id%> ">
                                                                                 <%= cart.products[i].item.name %>
                                                                             </a>
                                                                         </h3><!-- End .product-title -->
                                                                     </div><!-- End .product -->
                                                                 </td>
-                                                                <td class="price-col">&#8377;<span id="productprice"><%=
-                                                                        cart.products[i].item.price %></span>
+                                                                <td class="price-col">&#8377;<span id="productprice">
+                                                                        <%= cart.products[i].item.price %>
+                                                                    </span>
                                                                 </td>
-                                                                <td class="price-col text-danger">-&#8377;<span id="productprice"><%=
-                                                                    cart.products[i].item.discount %></span>
-                                                            </td>
+                                                                <td class="price-col text-danger">-&#8377;<span
+                                                                        id="productprice">
+                                                                        <%= cart.products[i].item.discount %>
+                                                                    </span>
+                                                                </td>
                                                                 <td class="quantity-col">
                                                                     <div class="cart-product-quantity">
                                                                         <button
@@ -69,7 +73,7 @@
                                                                             onclick="changeQuantity('<%= cart._id%>','<%= cart.products[i].item._id%>',1)">+</button>
                                                                     </div><!-- End .cart-product-quantity -->
                                                                 </td>
-                                                              
+
                                                                 <td class="remove-col"><button
                                                                         onclick="deleteCart('<%= cart._id %>','<%= cart.products[i].item._id %>')"
                                                                         class="btn-remove"><i
@@ -106,20 +110,23 @@
                                                 <table class="table table-summary">
                                                     <tbody>
                                                         <tr>
-                                                        <td>Discount:</td>
-                                                        <td><span id="discount" class="text-danger">-<%= discount %>  </span>
+                                                            <td>Discount:</td>
+                                                            <td><span id="discount" class="text-danger">-<%= discount %>
+                                                                </span>
                                                             </td>
-                                                    </tr>
-                                                        
+                                                        </tr>
 
 
 
 
-                                                       
+
+
 
                                                         <tr class="summary-total">
                                                             <td>Total:</td>
-                                                            <td><span id="total"><%= total-discount %></span></td>
+                                                            <td><span id="total">
+                                                                    <%= total-discount %>
+                                                                </span></td>
                                                         </tr><!-- End .summary-total -->
                                                     </tbody>
                                                 </table><!-- End .table table-summary -->
@@ -160,24 +167,32 @@
                                     method: 'post',
                                     success: (response) => {
                                         if (response.removeProduct) {
-                                            alert("product removed from cart")
+                                            
+                                        
+                                            Swal.fire(
+                                            'Deleted!',
+                                            'Your cart has been deleted.',
+                                            'success'
+                                        )
+                                            setTimeout(()=>{
+                                                 location.reload()
+                                            },1200)
                                            
-                                            location.reload()
                                         } else {
                                             document.getElementById(productId).innerHTML = quantity + count
                                             if (count == 1) {
                                                 document.querySelector('.cart-count').textContent = val + 1
-                                                document.getElementById('total').innerHTML =response.total-response.discount
-                                                document.getElementById('discount').innerHTML = '-'+response.discount
-                                               
-                                               
-                                            }else{
-                                                document.querySelector('.cart-count').textContent = val - 1
-                                                document.getElementById('total').innerHTML =response.total-response.discount
+                                                document.getElementById('total').innerHTML = response.total - response.discount
+                                                document.getElementById('discount').innerHTML = '-' + response.discount
 
-                                                document.getElementById('discount').innerHTML ='-'+response.discount
-                                                
-                                                
+
+                                            } else {
+                                                document.querySelector('.cart-count').textContent = val - 1
+                                                document.getElementById('total').innerHTML = response.total - response.discount
+
+                                                document.getElementById('discount').innerHTML = '-' + response.discount
+
+
 
                                             }
                                         }
@@ -187,7 +202,18 @@
                             }
 
                             function deleteCart(cartId, productId) {
-                                $.ajax({
+                                Swal.fire({
+                                    title: 'Are you sure?',
+                                    text: "You won't be able to revert this!",
+                                    icon: 'warning',
+                                    showCancelButton: true,
+                                    confirmButtonColor: '#3085d6',
+                                    cancelButtonColor: '#d33',
+                                    confirmButtonText: 'Yes, delete it!'
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                      
+                                    $.ajax({
                                     url: '/delete_cart',
                                     data: {
                                         cart: cartId,
@@ -196,13 +222,31 @@
                                     method: 'post',
                                     success: (response) => {
                                         if (response) {
-                                            alert("product removed from cart")
-                                            location.reload()
+                                            Swal.fire(
+                                            'Deleted!',
+                                            'Your cart has been deleted.',
+                                            'success'
+                                        )
+                                        setTimeout(()=>{
+                                        location.reload()
+                                        },1500)
+                                            
                                         } else {
-                                            alert("failed to remove")
+                                            Swal.fire(
+                                            'failed!',
+                                            'failed to remove.',
+                                            'error'
+                                        )
                                         }
+
+                                      
+                                    }
+                                    
+                                })
                                     }
                                 })
+
+                             
                             }
                         </script>
 
