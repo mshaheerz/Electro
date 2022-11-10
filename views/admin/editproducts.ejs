@@ -132,7 +132,7 @@
                                         <div class="mb-5">
                                             <h2 class="mb-0 fs-exact-18">Categories</h2>
                                         </div><select name="category" class="sa-select2 form-select" required>
-                                            <option value="<%= product.category._id %> " selected><%= product.category.category_name %></option>
+                                            <option value="<%= product.category._id %>" selected><%= product.category.category_name %></option>
                                             <% for( let i=0; i < category.length; i++ ) { %>
                                                 <option value="<%= category[i]._id %>">
                                                     <%= category[i].category_name %>

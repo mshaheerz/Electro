@@ -1,6 +1,7 @@
 <%- include('./layouts/main'); -%>
     <link rel="stylesheet" href="user/assets/css/skins/skin-demo-13.css">
     <link rel="stylesheet" href="user/assets/css/demos/demo-13.css">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
     </head>
 
     <body>
@@ -13,16 +14,17 @@
 
                         <section class="h-100 gradient-custom">
                             <div class="container py-5 h-100">
-                                <div class="row d-flex justify-content-center align-items-center h-100">
+                                <div id="printer"  class="row d-flex justify-content-center align-items-center h-100">
                                     <div class="col-lg-10 col-xl-8">
                                         <div class="card" style="border-radius: 10px;">
                                             <div class="card-header px-4 py-5">
                                                 <h5 class="text-muted mb-0">Thanks for your Order, <span
-                                                        style="color: #a8729a;"><%= user.firstname+' '+user.lastname %></span>!</h5>
+                                                        style="color: #1494a9;">
+                                                        <%= user.firstname+' '+user.lastname %></span>!</h5>
                                             </div>
                                             <div class="card-body p-4">
                                                 <div class="d-flex justify-content-between align-items-center mb-4">
-                                                    <p class="lead fw-normal mb-0" style="color: #a8729a;">Receipt</p>
+                                                    <p class="lead fw-normal mb-0" style="color: #1494a9;">Receipt</p>
                                                     <p class="small text-muted mb-0">Receipt Voucher : 1KAU9-84UIL</p>
                                                 </div>
 
@@ -39,92 +41,84 @@
                                                 <div class="card shadow-0 border mb-4">
                                                     <div class="card-body">
                                                         <div class="row">
-                                                            <div class="col-md-2">
+                                                            <div class="col-12 col-md-2 col-sm-2 ">
                                                                 <img src="data:<%= order[0].products[i].item.product_image[0].contentType %>;base64,<%= order[0].products[i].item.product_image[0].imageBase64 %>"
                                                                     class="img-fluid" alt="Phone">
                                                             </div>
                                                             <div
-                                                                class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                                                                <p class="text-muted mb-0"><%= order[0].products[i].item.name %></p>
+                                                                class=" col-md-4 col-sm-3  text-center d-flex justify-content-center align-items-center">
+                                                                <p class=" mb-0"><%= order[0].products[i].item.name.substring(0,70) %>...</p>
                                                             </div>
                                                             <div
-                                                                class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                                                                <p class="text-muted mb-0 small">White</p>
+                                                                class="col-12 col-md-2 col-sm-3 text-center d-flex justify-content-center align-items-center">
+                                                                <p class="text-muted mb-0 small"><%= order[0].products[i].item.brand %></p>
                                                             </div>
                                                        
                                                             <div
-                                                                class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                                                class="col-md-2 col-sm-2 text-center d-flex justify-content-center align-items-center">
                                                                 <p class="text-muted mb-0 small">Qty: <%= order[0].products[i].quantity %></p>
                                                             </div>
                                                             <div
-                                                                class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                                                                <p class="text-muted mb-0 small"><%= order[0].products[i].item.price-order[0].products[i].item.discount  %> </p>
+                                                                class="col-md-2 col-sm-2 text-center d-flex justify-content-center align-items-center">
+                                                                <p class="text-muted mb-0 small">&#8377;<%= order[0].products[i].item.price-order[0].products[i].item.discount  %> </p>
                                                             </div>
                                                         </div>
                                                         <hr class="mb-4" style="background-color: #e0e0e0; opacity: 1;">
-                                                        <div class="row d-flex align-items-center">
-                                                            <div class="col-md-2">
-                                                                <p class="text-muted mb-0 small">Track Order</p>
-                                                            </div>
-                                                            <div class="col-md-10">
-                                                                <div class="progress"
-                                                                    style="height: 6px; border-radius: 16px;">
-                                                                    <div class="progress-bar" role="progressbar"
-                                                                        style="width: 65%; border-radius: 16px; background-color: #a8729a;"
-                                                                        aria-valuenow="65" aria-valuemin="0"
-                                                                        aria-valuemax="100"></div>
-                                                                </div>
-                                                                <div class="d-flex justify-content-around mb-1">
-                                                                    <p class="text-muted mt-1 mb-0 small ms-xl-5">Out
-                                                                        for delivary</p>
-                                                                    <p class="text-muted mt-1 mb-0 small ms-xl-5">
-                                                                        Delivered</p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <% } %> 
-
-                                                <div class="d-flex justify-content-between pt-2">
-                                                    <p class="fw-bold mb-0">Order Details</p>
-                                                    <p class="text-muted mb-0"><span class="fw-bold me-4">Total</span>
-                                                        <%= haha=order[0].products.reduce((acc,cur)=>(acc+cur.item.price),0) %></p>
-                                                </div>
-
-                                                <div class="d-flex justify-content-between pt-2">
-                                                    <p class="text-muted mb-0">Invoice Number : 788152</p>
-                                                    <p class="text-muted mb-0"><span
-                                                            class="fw-bold me-4">Discount</span> -<%= haha=order[0].products.reduce((acc,cur)=>(acc+cur.item.discount),0) %></p>
-                                                </div>
-
-                                                <div class="d-flex justify-content-between">
-                                                    <p class="text-muted mb-0">Invoice Date : <%= order[0].createdAt%></p>
-                                                    <p class="text-muted mb-0"><span class="fw-bold me-4">GST 18%</span>
-                                                        123</p>
-                                                </div>
-
-                                                <div class="d-flex justify-content-between mb-5">
-                                                    <p class="text-muted mb-0">Recepits Voucher : 18KU-62IIK</p>
-                                                    <p class="text-muted mb-0"><span class="fw-bold me-4">Delivery
-                                                            Charges</span> Free</p>
-                                                </div>
-                                            </div>
-                                            <div class="card-footer border-0 px-4 py-5"
-                                                style="background-color: #a8729a; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">
-                                                <h5
-                                                    class="d-flex align-items-center justify-content-end text-white text-uppercase mb-0">
-                                                    Total
-                                                    paid: <span class="h2 mb-0 ms-2"><%= haha=order[0].products.reduce((acc,cur)=>(acc+cur.item.price-cur.item.discount),0) %> </span></h5>
+                                                          <div>
+                                                            <button onclick="window.location=' /profile_order'"
+                                                            class="btn btn-outline-primary rounded">go to
+                                                            orders</button>
                                             </div>
                                         </div>
                                     </div>
-                                    <% } %> 
+                                    <% } %>
 
+                                        <div class="d-flex justify-content-between pt-2">
+                                            <p class="fw-bold mb-0">Order Details</p>
+                                            <p class="text-muted mb-0"><span class="fw-bold me-4">Total</span>
+                                                &#8377;<%= haha=order[0].products.reduce((acc,cur)=>
+                                                    (acc+cur.item.price),0) %></p>
+                                        </div>
+
+                                        <div class="d-flex justify-content-between pt-2">
+                                            <p class="text-muted mb-0">Invoice Number : <%=
+                                                    order[0].id.toString().substring(0,3)%>
+                                            </p>
+                                            <p class="text-muted mb-0"><span class="fw-bold me-4">Discount</span>
+                                                -&#8377;<%= haha=order[0].products.reduce((acc,cur)=>
+                                                    (acc+cur.item.discount),0) %></p>
+                                        </div>
+
+                                        <div class="d-flex justify-content-between">
+                                            <p class="text-muted mb-0">Invoice Date : <%= order[0].createdAt%>
+                                            </p>
+                                            <p class="text-muted mb-0"><span class="fw-bold me-4">GST 18%</span>
+                                                123</p>
+                                        </div>
+
+                                        <div class="d-flex justify-content-between mb-5">
+                                            <p class="text-muted mb-0">Recepits Voucher : 18KU-62IIK</p>
+                                            <p class="text-muted mb-0"><span class="fw-bold me-4">Delivery
+                                                    Charges</span> Free</p>
+                                        </div>
                                 </div>
-                               
+                                <div id="editor" class="card-footer border-0 px-4 py-5"
+                                    style="background-color: #1494a9; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">
+                                    <h5
+                                        class="d-flex align-items-center justify-content-end text-white text-uppercase mb-0">
+                                        Total
+                                        paid: <span class="h2 mb-0 ms-2 text-white"> &#8377;<%=
+                                                haha=order[0].products.reduce((acc,cur)=>
+                                                (acc+cur.item.price-cur.item.discount),0) %> </span></h5>
+                                </div>
                             </div>
-                        </section>
+        </div>
+        <% } %>
+            <!-- <button id="cmd">to pdf</button> -->
+            </div>
+
+            </div>
+            </section>
 
 
 
@@ -134,6 +128,22 @@
 
 
 
+            <%- include('./layouts/footer'); -%>
 
 
-                        <%- include('./layouts/footer'); -%>
+                <!-- <script>
+                    var doc = new jsPDF();
+                    var specialElementHandlers = {
+                        '#editor': function (element, renderer) {
+                            return true;
+                        }
+                    };
+
+                    $('#cmd').click(function () {
+                        doc.fromHTML($('#printer').html(), 15, 15, {
+                            'width': 200,
+                            'elementHandlers': specialElementHandlers
+                        });
+                        doc.save('sample-file.pdf');
+                    }); -->
+                <!-- </script> -->

@@ -6,6 +6,7 @@ const shopController = require("../controllers/shopController")
 const checkoutController = require("../controllers/checkoutController")
 const profileController = require("../controllers/profileController")
 const authmiddleware = require('../middlewares/authmiddleware')
+const multipleuploadmiddleware = require('../middlewares/uploadresizemiddleware')
 const cookieParser = require("cookie-parser")
 const { logger } = require('../config/emailConfig')
 const { Router } = require('express')
@@ -19,6 +20,13 @@ router.use(express.static("public"))
 //   })
 
 //route level middleware
+router.get('/uploadmultiple',(req,res)=>{
+  res.render('user/newfile')
+})
+router.post('/multiple-upload',multipleuploadmiddleware.uploadImages,multipleuploadmiddleware.resizeImages,multipleuploadmiddleware.getResult)
+
+
+
 router.use('/changepassword',authmiddleware.checkUserAuth)
 router.use('/loggeduser', authmiddleware.checkUserAuth)
 router.get('/',authmiddleware.checkUserAuth)
@@ -100,6 +108,8 @@ router.post('/change-product-quantity',shopController.change_quantity)
 router.post('/delete_cart',shopController.delete_cart)
 router.post('/delete_wishlist',shopController.delete_wishlist)
 router.post('/addcartproduct',shopController.addcartproduct)
+router.post('/delete_address',profileController.delete_address)
+router.post('/edit_address',profileController.edit_address)
 
 
   //post routes

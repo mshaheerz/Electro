@@ -13,3 +13,6 @@ const storage=multer.diskStorage({
 module.exports = store = multer({storage:storage})
 //if multiple imag specify array  eg: .array('category_thumbnail',3)
   //group end
+
+
+  

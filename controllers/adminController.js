@@ -10,6 +10,7 @@ const { request, response } = require('express');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
+const sharp = require('sharp');
 const { log } = require('console');
 const { encode } = require('punycode');
 const { loadFont } = require('figlet');
@@ -216,30 +217,39 @@ module.exports.add_products = async (req, res) => {
 
 module.exports.add_products_post = async (req, res, next) => {
     try {
-        const files = req.files
+        const files = req.body.images
+        const file = req.files
+      
+        
         const { name, description, brand, price, category, colors, stock, discount, tags } = req.body
         if (!files) {
             const error = new Error('Please choose files')
             error.httpStatusCode = 400;
             return next(error)
         }
+
+//sharp image
+
+        
+        
         let imgArray = files.map((file) => {
     
-            let img = fs.readFileSync(file.path)
+            let img = fs.readFileSync('./public/productuploads/'+file)
     
             return encode_image = img.toString('base64')
         })
+      
         let result = imgArray.map((src, index) => {
             let finalimg = {
-                imageName: files[index].originalname,
-                contentType: files[index].mimetype,
+                imageName: file[index].originalname,
+                contentType: file[index].mimetype,
                 imageBase64: src
             }
             return finalimg;
         })
         try {
             files.forEach((el, i) => {
-            fs.rmSync(el.path, {
+            fs.rmSync('./public/productuploads/'+el, {
                
             })
         })
@@ -255,7 +265,8 @@ module.exports.add_products_post = async (req, res, next) => {
         })
     } catch (error) {
         console.log(error);
-        res.redirect('/admin/product_lists')
+        res.send(error)
+        // res.redirect('/admin/product_lists')
         
     }
    
@@ -295,9 +306,10 @@ module.exports.edit_product = async (req, res) => {
 
 module.exports.edit_products_post = async (req, res) => {
     const { id } = req.query
-    const files = req.files
+    const file = req.files
+    const files = req.body.images
     const { name, description, brand, price, category, colors, stock, discount, tags } = req.body
-    if (files == '') {
+    if (file == '') {
         await productmodel.findOneAndUpdate({ _id: id }, { name, description, brand, price, category, colors, stock, discount, tags }).then((data) => {
             // res.send({"success":data})
             res.redirect('/admin/product_lists')
@@ -306,22 +318,27 @@ module.exports.edit_products_post = async (req, res) => {
         })
     } else {
         let imgArray = files.map((file) => {
-            let img = fs.readFileSync(file.path)
+            let img = fs.readFileSync('./public/productuploads/'+file)
             return encode_image = img.toString('base64')
         })
         let result = imgArray.map((src, index) => {
             let finalimg = {
-                imageName: files[index].originalname,
-                contentType: files[index].mimetype,
+                imageName: file[index].originalname,
+                contentType: file[index].mimetype,
                 imageBase64: src
             }
             return finalimg;
         })
-        files.forEach((el, i) => {
-            fs.rmSync(el.path, {
+        try {
+             files.forEach((el, i) => {
+            fs.rmSync('./public/productuploads/'+el, {
                 force: true
             })
         })
+        } catch (error) {
+            res.send(error)
+        }
+       
         await productmodel.findByIdAndUpdate(id, { name, description, brand, price, category, colors, stock, discount, tags, product_image: result }).then((data) => {
             // res.send({ "success": data, "files": files })
             res.redirect('/admin/product_lists')

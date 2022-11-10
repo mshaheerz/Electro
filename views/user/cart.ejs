@@ -46,7 +46,7 @@
                                                                         <h3 class="product-title">
                                                                             <a
                                                                                 href="/product?id=<%= cart.products[i].item._id%> ">
-                                                                                <%= cart.products[i].item.name %>
+                                                                                <%= cart.products[i].item.name.substring(0,80) %>...
                                                                             </a>
                                                                         </h3><!-- End .product-title -->
                                                                     </div><!-- End .product -->
@@ -111,7 +111,7 @@
                                                     <tbody>
                                                         <tr>
                                                             <td>Discount:</td>
-                                                            <td><span id="discount" class="text-danger">-<%= discount %>
+                                                            <td><span id="discount" class="text-danger">-&#8377;<%= discount %>
                                                                 </span>
                                                             </td>
                                                         </tr>
@@ -125,7 +125,7 @@
                                                         <tr class="summary-total">
                                                             <td>Total:</td>
                                                             <td><span id="total">
-                                                                    <%= total-discount %>
+                                                                &#8377;<%= total-discount %>
                                                                 </span></td>
                                                         </tr><!-- End .summary-total -->
                                                     </tbody>

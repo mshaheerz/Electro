@@ -7,6 +7,8 @@ const authmiddleware = require('../middlewares/authmiddleware')
 const { Router } = require('express')
 const uploadfile = require('../middlewares/fileuploadmiddleware');
 const store = require('../middlewares/arrayfileupload');
+const multipleuploadmiddleware = require('../middlewares/uploadresizemiddleware')
+
 // const userController = require("../controllers/userController")
 router.use(cookieParser())
 
@@ -64,8 +66,8 @@ const upload = adminController.upload
 
   //protected post routes
   router.post('/edit_category',adminController.edit_category)
-  router.post('/add_products',store.array('images',4),adminController.add_products_post)
-  router.post('/edit_product',store.array('images',4),adminController.edit_products_post)
+  router.post('/add_products',multipleuploadmiddleware.uploadImages,multipleuploadmiddleware.resizeImages,adminController.add_products_post)
+  router.post('/edit_product',multipleuploadmiddleware.uploadImages,multipleuploadmiddleware.resizeImages,adminController.edit_products_post)
       //file upload middleware
   router.post('/add_category',uploadfile.upload.single('category_thumbnail'),adminController.add_category)
   
