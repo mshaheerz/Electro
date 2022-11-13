@@ -28,6 +28,8 @@ router.use(function (req, res, next) {
   //route level middle wares
   router.use('/users_list', authmiddleware.checkAdminAuth)
   router.get('/user_details',authmiddleware.checkAdminAuth)
+  router.get('/order_list',authmiddleware.checkAdminAuth)
+  router.get('/order_details',authmiddleware.checkAdminAuth)
   router.get('/category_list',authmiddleware.checkAdminAuth)
   router.get('/products',authmiddleware.checkAdminAuth)
   router.get('/product_lists',authmiddleware.checkAdminAuth)
@@ -51,6 +53,8 @@ router.post('/login',adminController.admin_login_post)
 
 const upload = adminController.upload
 //protected routes
+router.get('/order_list',adminController.order_list)
+router.get('/order_details',adminController.order_details)
   router.get('/users_list',adminController.user_list)
   router.get('/user_details',adminController.user_details)
   router.get('/flag_user',adminController.flag_user)

@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt')
 const usermodel = require('../model/userschema');
 const categorymodel = require('../model/categoryschema')
 const productmodel = require('../model/productSchema')
+const ordermodel = require('../model/orderSchema')
 const moment = require('moment');
 const { reset } = require('nodemon');
 const { request, response } = require('express');
@@ -346,4 +347,32 @@ module.exports.edit_products_post = async (req, res) => {
             res.send({ "second workde": err })
         })
     }
+}
+
+module.exports.order_list = async (req, res) => {
+    const token = req.cookies.jwts
+    const adminemail = await admincheck(token)
+    const order =await ordermodel.find().populate('user').populate('products').sort({createdAt:-1})
+    // const products = await productmodel.find().populate('category')
+    res.locals.order = order|| null 
+    res.locals.moment = moment
+    res.render('admin/orderlist', { adminemail })
+}
+
+module.exports.order_details = async (req,res)=>{
+    try {
+    const token = req.cookies.jwts
+    const {id}=req.query
+    const adminemail = await admincheck(token)
+    const order =await ordermodel.findById(id).populate('user').populate({path:'products',populate: {path: 'item',model:'products'},
+      })
+    // const products = await productmodel.find().populate('category')
+    res.locals.order = order|| null 
+    res.locals.moment = moment
+    res.render('admin/orderdetails', { adminemail })
+    } catch (error) {
+       res.redirect('/admin/order_list')
+        
+    }
+  
 }

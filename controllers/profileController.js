@@ -11,6 +11,7 @@ const mongoose = require('mongoose')
 const ordermodel = require('../model/orderSchema')
 const addressModel = require('../model/addressSchema')
 const addressmodel = require('../model/addressSchema')
+const moment = require('moment');
 
 
 async function getDiscountprice(token) {
@@ -129,7 +130,7 @@ module.exports.profile_orders = async (req, res) => {
 
 
 
-
+        res.locals.moment=moment || null
         res.locals.user = user || null
         res.locals.wishlist = wishlist
         res.locals.order = order || null

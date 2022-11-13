@@ -884,6 +884,73 @@ payment-card {
     -o-transition: all linear .3s
 }
 
+.modal-dialog {
+    max-width: -webkit-max-content;
+    max-width: -moz-max-content;
+    max-width: max-content
+}
+
+.modal-content {
+    border: none;
+    background: none;
+    border-radius: 0px
+}
+
+.modal-close {
+    position: absolute;
+    top: -15px;
+    right: -15px;
+    z-index: 1;
+    width: 35px;
+    height: 35px;
+    font-size: 18px;
+    line-height: 35px;
+    border-radius: 50%;
+    text-align: center;
+    display: inline-block;
+    background: var(--white);
+    -webkit-box-shadow: 0px 5px 12px 0px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 5px 12px 0px rgba(0, 0, 0, 0.2);
+    transition: all linear .3s;
+    -webkit-transition: all linear .3s;
+    -moz-transition: all linear .3s;
+    -ms-transition: all linear .3s;
+    -o-transition: all linear .3s
+}
+
+.modal-close:hover {
+    color: var(--white);
+    background: var(--primary)
+}
+
+.modal-form {
+    width: 400px;
+    padding: 30px;
+    border-radius: 8px;
+    background: var(--white)
+}
+
+@media (max-width: 400px) {
+
+    .modal-form,
+    .modal-dialog {
+        width: 100%;
+        max-width: inherit
+    }
+}
+
+@media (max-width: 1100px) {
+    .modal-dialog {
+        margin: 80px auto 50px
+    }
+
+    .modal-close {
+        right: 50%;
+        top: -45px;
+        -webkit-transform: translateX(50%);
+        transform: translateX(50%)
+    }
+}
 
 
 

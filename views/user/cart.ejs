@@ -14,6 +14,7 @@
                                 <div class="container">
                                     <div class="row">
                                         <div class="col-lg-9">
+                                            <% if (cart.products != '') { %>
                                             <table class="table table-cart table-mobile">
                                                 <thead>
                                                     <tr>
@@ -25,7 +26,7 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <% if (cart) { %>
+                                                   
 
 
 
@@ -46,7 +47,8 @@
                                                                         <h3 class="product-title">
                                                                             <a
                                                                                 href="/product?id=<%= cart.products[i].item._id%> ">
-                                                                                <%= cart.products[i].item.name.substring(0,80) %>...
+                                                                                <%= cart.products[i].item.name.substring(0,80)
+                                                                                    %>...
                                                                             </a>
                                                                         </h3><!-- End .product-title -->
                                                                     </div><!-- End .product -->
@@ -111,21 +113,16 @@
                                                     <tbody>
                                                         <tr>
                                                             <td>Discount:</td>
-                                                            <td><span id="discount" class="text-danger">-&#8377;<%= discount %>
+                                                            <td><span id="discount" class="text-danger">-&#8377;<%=
+                                                                        discount %>
                                                                 </span>
                                                             </td>
                                                         </tr>
 
-
-
-
-
-
-
                                                         <tr class="summary-total">
                                                             <td>Total:</td>
                                                             <td><span id="total">
-                                                                &#8377;<%= total-discount %>
+                                                                    &#8377;<%= total-discount %>
                                                                 </span></td>
                                                         </tr><!-- End .summary-total -->
                                                     </tbody>
@@ -136,7 +133,10 @@
                                                     CHECKOUT</a>
                                             </div><!-- End .summary -->
                                             <% }else{ %>
-
+                                                <div class="text-center"><img style=" display: block;
+                                                    margin-left: auto;
+                                                    margin-right: auto;
+                                                    width: 50%;" src="https://mir-s3-cdn-cf.behance.net/projects/404/54b13147340145.Y3JvcCw0MDUsMzE3LDAsNDI.png" alt="cart empty"><h4> Cart is empty</h4></div>
                                                 <%} %>
                                                     <a href="/shop"
                                                         class="btn btn-outline-dark-2 btn-block mb-3"><span>CONTINUE
@@ -167,17 +167,17 @@
                                     method: 'post',
                                     success: (response) => {
                                         if (response.removeProduct) {
-                                            
-                                        
+
+
                                             Swal.fire(
-                                            'Deleted!',
-                                            'Your cart has been deleted.',
-                                            'success'
-                                        )
-                                            setTimeout(()=>{
-                                                 location.reload()
-                                            },1200)
-                                           
+                                                'Deleted!',
+                                                'Your cart has been deleted.',
+                                                'success'
+                                            )
+                                            setTimeout(() => {
+                                                location.reload()
+                                            }, 1200)
+
                                         } else {
                                             document.getElementById(productId).innerHTML = quantity + count
                                             if (count == 1) {
@@ -212,41 +212,41 @@
                                     confirmButtonText: 'Yes, delete it!'
                                 }).then((result) => {
                                     if (result.isConfirmed) {
-                                      
-                                    $.ajax({
-                                    url: '/delete_cart',
-                                    data: {
-                                        cart: cartId,
-                                        product: productId
-                                    },
-                                    method: 'post',
-                                    success: (response) => {
-                                        if (response) {
-                                            Swal.fire(
-                                            'Deleted!',
-                                            'Your cart has been deleted.',
-                                            'success'
-                                        )
-                                        setTimeout(()=>{
-                                        location.reload()
-                                        },1500)
-                                            
-                                        } else {
-                                            Swal.fire(
-                                            'failed!',
-                                            'failed to remove.',
-                                            'error'
-                                        )
-                                        }
 
-                                      
-                                    }
-                                    
-                                })
+                                        $.ajax({
+                                            url: '/delete_cart',
+                                            data: {
+                                                cart: cartId,
+                                                product: productId
+                                            },
+                                            method: 'post',
+                                            success: (response) => {
+                                                if (response) {
+                                                    Swal.fire(
+                                                        'Deleted!',
+                                                        'Your cart has been deleted.',
+                                                        'success'
+                                                    )
+                                                    setTimeout(() => {
+                                                        location.reload()
+                                                    }, 1500)
+
+                                                } else {
+                                                    Swal.fire(
+                                                        'failed!',
+                                                        'failed to remove.',
+                                                        'error'
+                                                    )
+                                                }
+
+
+                                            }
+
+                                        })
                                     }
                                 })
 
-                             
+
                             }
                         </script>
 

@@ -125,6 +125,30 @@
     text-transform: capitalize
 }
 
+
+
+.orderlist-head .failed {
+    padding: 25px 0px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    cursor: pointer
+}
+
+.orderlist-head .failed h5 {
+    color: var(--red);
+    text-transform: capitalize
+}
+
 .orderlist-details {
     padding: 25px;
     border-radius: 8px;

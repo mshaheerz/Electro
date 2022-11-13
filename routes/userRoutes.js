@@ -99,8 +99,8 @@ router.get('/profile_details',profileController.profile_accountdetails)
 
 
 
-
-
+router.post('/place_failed_order',checkoutController.place_failed_order)
+router.post('/verify-payment',checkoutController.verify_payment)
 router.post('/add_address',profileController.add_address)
 router.post('/place-order',checkoutController.place_order)
 router.post('/add_wishlist',shopController.addToWishlist)
