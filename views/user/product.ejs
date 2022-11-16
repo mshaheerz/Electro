@@ -1,6 +1,79 @@
 <%- include('./layouts/main'); -%>
     <link rel="stylesheet" href="user/assets/css/demos/demo-4.css">
     <link rel="stylesheet" href="user/assets/css/skins/skin-demo-4.css">
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        .rating {
+            display: inline-block;
+            position: relative;
+            height: 50px;
+            line-height: 50px;
+            font-size: 50px;
+        }
+
+        .iconstar {
+            font-size: 36px;
+        }
+
+        .rating label {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        .rating label:last-child {
+            position: static;
+        }
+
+        .rating label:nth-child(1) {
+            z-index: 5;
+        }
+
+        .rating label:nth-child(2) {
+            z-index: 4;
+        }
+
+        .rating label:nth-child(3) {
+            z-index: 3;
+        }
+
+        .rating label:nth-child(4) {
+            z-index: 2;
+        }
+
+        .rating label:nth-child(5) {
+            z-index: 1;
+        }
+
+        .rating label input {
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+        }
+
+        .rating label .iconstar {
+            float: left;
+            color: transparent;
+        }
+
+        .rating label:last-child .iconstar {
+            color: #000;
+        }
+
+        .rating:not(:hover) label input:checked~.iconstar,
+        .rating:hover label:hover input~.iconstar {
+            color: #FDCC0D;
+        }
+
+        .rating label input:focus:not(:checked)~.iconstar:last-child {
+            color: #000;
+            text-shadow: 0 0 5px #09f;
+        }
+    </style>
+
     </head>
 
     <body>
@@ -183,10 +256,10 @@
                                                                                 'Your cart has been Added.',
                                                                                 'success'
                                                                             )
-                                                                            setTimeout(()=>{
+                                                                            setTimeout(() => {
                                                                                 window.location = '/cart'
 
-                                                                            },1200)
+                                                                            }, 1200)
                                                                         }
 
                                                                     }
@@ -202,9 +275,9 @@
 
 
                                                                 <span>
-                                                                   
 
-                                                                            Add to Wishlist
+
+                                                                    Add to Wishlist
                                                                 </span></a>
                                                         </div><!-- End .details-action-wrapper -->
                                                     </div><!-- End .product-details-action -->
@@ -253,7 +326,7 @@
                                                 <a class="nav-link" id="product-review-link" data-toggle="tab"
                                                     href="#product-review-tab" role="tab"
                                                     aria-controls="product-review-tab" aria-selected="false">Reviews
-                                                    (2)</a>
+                                                    (<%=review !=null?review.length : 0 %>)</a>
                                             </li>
                                         </ul>
                                         <div class="tab-content">
@@ -284,32 +357,39 @@
                                                             href="#">Returns information</a></p>
                                                 </div><!-- End .product-desc-content -->
                                             </div><!-- .End .tab-pane -->
+
+
+
                                             <div class="tab-pane fade" id="product-review-tab" role="tabpanel"
                                                 aria-labelledby="product-review-link">
+
+
+                                            
+
+               
                                                 <div class="reviews">
-                                                    <h3>Reviews (2)</h3>
+                                                    <% if (review != null) { %>
+                                                    <h3>Reviews (<%= review.length %>)</h3>
+                                               
+                                                    <% for( let i = 0; i < review.length; i++ ) { %>
+
                                                     <div class="review">
                                                         <div class="row no-gutters">
                                                             <div class="col-auto">
-                                                                <h4><a href="#">Samanta J.</a></h4>
+                                                                <h4><a href="#"><%= review[i].user.firstname+' '+review[i].user.lastname %></a></h4>
                                                                 <div class="ratings-container">
                                                                     <div class="ratings">
-                                                                        <div class="ratings-val" style="width: 80%;">
+                                                                        <div class="ratings-val" style="width:<%= ss= (review[i].stars*20)%>%">
                                                                         </div><!-- End .ratings-val -->
                                                                     </div><!-- End .ratings -->
                                                                 </div><!-- End .rating-container -->
                                                                 <span class="review-date">6 days ago</span>
                                                             </div><!-- End .col -->
                                                             <div class="col">
-                                                                <h4>Good, perfect size</h4>
+                                                                <h4><%= review[i].title %></h4>
 
                                                                 <div class="review-content">
-                                                                    <p>Lorem ipsum dolor sit amet, consectetur
-                                                                        adipisicing elit. Ducimus cum dolores assumenda
-                                                                        asperiores facilis porro reprehenderit animi
-                                                                        culpa atque blanditiis commodi perspiciatis
-                                                                        doloremque, possimus, explicabo, autem fugit
-                                                                        beatae quae voluptas!</p>
+                                                                    <p><%=review[i].review %></p>
                                                                 </div><!-- End .review-content -->
 
                                                                 <div class="review-action">
@@ -322,45 +402,80 @@
                                                             </div><!-- End .col-auto -->
                                                         </div><!-- End .row -->
                                                     </div><!-- End .review -->
+                                                    <% } %>
+                                                    <% } %>
 
-                                                    <div class="review">
-                                                        <div class="row no-gutters">
-                                                            <div class="col-auto">
-                                                                <h4><a href="#">John Doe</a></h4>
-                                                                <div class="ratings-container">
-                                                                    <div class="ratings">
-                                                                        <div class="ratings-val" style="width: 100%;">
-                                                                        </div><!-- End .ratings-val -->
-                                                                    </div><!-- End .ratings -->
-                                                                </div><!-- End .rating-container -->
-                                                                <span class="review-date">5 days ago</span>
-                                                            </div><!-- End .col -->
-                                                            <div class="col">
-                                                                <h4>Very good</h4>
+                                                    
 
-                                                                <div class="review-content">
-                                                                    <p>Sed, molestias, tempore? Ex dolor esse iure hic
-                                                                        veniam laborum blanditiis laudantium iste amet.
-                                                                        Cum non voluptate eos enim, ab cumque nam, modi,
-                                                                        quas iure illum repellendus, blanditiis
-                                                                        perspiciatis beatae!</p>
-                                                                </div><!-- End .review-content -->
+                                                    <div class="">
+                                                            <label for="review">
+                                                                <h3>
+                                                                    <ul> Review </ul>
+                                                                </h3>
+                                                            </label>
+                                                        
+                                                            <form action="/review?productId=<%= products._id %>"
+                                                                method="post" class="">
 
-                                                                <div class="review-action">
-                                                                    <a href="#"><i class="icon-thumbs-up"></i>Helpful
-                                                                        (0)</a>
-                                                                    <a href="#"><i
-                                                                            class="icon-thumbs-down"></i>Unhelpful
-                                                                        (0)</a>
-                                                                </div><!-- End .review-action -->
-                                                            </div><!-- End .col-auto -->
-                                                        </div><!-- End .row -->
-                                                    </div><!-- End .review -->
+                                                                <div class="rating">
+                                                                    <label>
+                                                                        <input type="radio" name="stars" value="1"
+                                                                            checked />
+                                                                        <span class="iconstar">★</span>
+                                                                    </label>
+                                                                    <label>
+                                                                        <input type="radio" name="stars" value="2" />
+                                                                        <span class="iconstar">★</span>
+                                                                        <span class="iconstar">★</span>
+                                                                    </label>
+                                                                    <label>
+                                                                        <input type="radio" name="stars" value="3" />
+                                                                        <span class="iconstar">★</span>
+                                                                        <span class="iconstar">★</span>
+                                                                        <span class="iconstar">★</span>
+                                                                    </label>
+                                                                    <label>
+                                                                        <input type="radio" name="stars" value="4" />
+                                                                        <span class="iconstar">★</span>
+                                                                        <span class="iconstar">★</span>
+                                                                        <span class="iconstar">★</span>
+                                                                        <span class="iconstar">★</span>
+                                                                    </label>
+                                                                    <label>
+                                                                        <input type="radio" name="stars" value="5" />
+                                                                        <span class="iconstar">★</span>
+                                                                        <span class="iconstar">★</span>
+                                                                        <span class="iconstar">★</span>
+                                                                        <span class="iconstar">★</span>
+                                                                        <span class="iconstar">★</span>
+                                                                    </label>
+                                                                </div>
+                                                                <div class=""><input type="text" class="form-control"
+                                                                        name="title" placeholder="Title" required></div>
+                                                                <div>
+
+                                                                    <textarea name="review" id="" class="form-control"
+                                                                        rows="9" required></textarea>
+                                                                </div>
+                                                                <button class="btn btn-outline-primary"
+                                                                    type="submit">submit</button>
+                                                            </form>
+                                                        </div>
+
+
+
+
+
+
+
+
+
+
+
                                                 </div><!-- End .reviews -->
                                             </div><!-- .End .tab-pane -->
                                         </div><!-- End .tab-content -->
                                     </div><!-- End .product-details-tab -->
-
 
 
 
@@ -381,9 +496,7 @@
 
 
 
-                        <%- include('./layouts/footer'); -%>
-
-                            <!-- Plugins JS File -->
+                        <%- include('./layouts/footeronly'); -%>
                             <script src="user/assets/js/jquery.min.js"></script>
                             <script src="user/assets/js/bootstrap.bundle.min.js"></script>
                             <script src="user/assets/js/jquery.hoverIntent.min.js"></script>
@@ -394,12 +507,21 @@
                             <script src="user/assets/js/jquery.elevateZoom.min.js"></script>
                             <script src="user/assets/js/bootstrap-input-spinner.js"></script>
                             <script src="user/assets/js/jquery.magnific-popup.min.js"></script>
+                            <script src="user/assets/js/main.js"></script>
+                            <script>
+                                $(':radio').change(function () {
+                                    console.log('New star rating: ' + this.value);
+                                });
+                            </script>
+
+                            <!-- Plugins JS File -->
+
                             <!-- Main JS File -->
 
 
     </body>
 
 
-    <!-- molla/product.html  22 Nov 2019 09:55:05 GMT -->
+
 
     </html>

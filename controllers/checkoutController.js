@@ -13,6 +13,7 @@ const addressmodel = require('../model/addressSchema')
 const moment = require('moment')
 const Razorpay = require('razorpay')
 const crypto = require('crypto')  
+const couponmodel = require('../model/couponSchema')
 
 async function getDiscountprice(token) {
   const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY)
@@ -34,10 +35,13 @@ async function getTotalprice(token) {
     .findOne({ user: userId })
     .populate('user')
     .populate('products.item')
+ 
+
   return (total = cart.products.reduce(
     (acc, cur) => acc + cur.item.price * cur.quantity,
     0,
   ))
+
 }
 
 module.exports.checkout = async (req, res) => {
@@ -53,7 +57,7 @@ module.exports.checkout = async (req, res) => {
       .populate('user')
       .populate('products.item')
     const wishlist = await wishlistmodel
-      .find()
+      .findOne({user: userId})
       .populate('user')
       .populate('products.item')
     const address = await addressmodel.find({ user: userId })
@@ -97,7 +101,8 @@ module.exports.place_order = async (req, res) => {
   const body = req.body
   console.log(req.body)
 
-  const { address, payment } = req.body
+  const { address, payment, coupon } = req.body
+
   let adrs = await addressmodel.findOne({ user: userId })
   let finaladress = adrs.address[address]
 
@@ -109,7 +114,62 @@ module.exports.place_order = async (req, res) => {
     .populate('products.item')
   let status = payment === 'cod' ? 'placed' : 'pending'
   const total = await getTotalprice(token)
-  const discount = await getDiscountprice(token)
+  let discount = await getDiscountprice(token)
+  if(coupon){
+    
+    const coupons = await couponmodel.findOne({code:coupon})
+    if(coupons){
+      discount=discount+coupons.discount
+      const orderObj = {
+        address: {
+          name: finaladress.name,
+          address: finaladress.address,
+          city: finaladress.city,
+          state: finaladress.state,
+          zip: finaladress.zip,
+          phone: finaladress.phone,
+          email: finaladress.email,
+        },
+        user: userId,
+        payment,
+        products: cart.products,
+        totalamount: total - discount,
+        status: status,
+      }
+      
+      await ordermodel
+        .create(orderObj)
+        .then(async (data) => {
+          console.log(data)
+          const orderId = data._id.toString()
+         
+          if (payment == 'cod') {
+            await cartmodel.updateOne({ user: userId }, { $set: { products: [] } })
+            res.json({ status: true })
+          } else {
+            var instance = new Razorpay({
+              key_id: process.env.key_id,
+              key_secret: process.env.key_secret,
+            })
+            let amount = total-discount
+            instance.orders.create({
+              amount: amount*100,
+              currency: 'INR',
+              receipt: orderId,
+           
+            },(err,order)=>{
+              console.log("new order:",order)
+              res.json({status:false,order});
+            })
+          }
+        })
+      
+    }else{
+      res.json({couponerr:true,coupons})
+    }
+  
+  }else{
+
   const orderObj = {
     address: {
       name: finaladress.name,
@@ -153,6 +213,7 @@ module.exports.place_order = async (req, res) => {
         })
       }
     })
+  }
    
 }
 
@@ -196,7 +257,7 @@ module.exports.ordersuccess = async (req, res) => {
       .populate('user')
       .populate('products.item')
     const wishlist = await wishlistmodel
-      .find()
+      .findOne({user: userId})
       .populate('user')
       .populate('products.item')
 
@@ -211,16 +272,20 @@ module.exports.ordersuccess = async (req, res) => {
       })
       .sort({ updatedAt: -1 })
       .limit(1)
-    console.log(order[0].products)
-
+      console.log(order)
+    if (cart != null) {
     const total = await getTotalprice(token)
     const discount = await getDiscountprice(token)
+    res.locals.total = total ||null
+    res.locals.discount = discount ||null
+    }
     res.locals.user = user || null
-    res.locals.order = order
+    res.locals.order = order ||null
     res.locals.wishlist = wishlist
-    res.locals.total = total
-    res.locals.cart = cart
-    res.locals.discount = discount
+
+    res.locals.cart = cart ||null
+
+    
     const fullname = user.firstname + ' ' + user.lastname
     let useremail = user.email
     if (user.isBanned) {

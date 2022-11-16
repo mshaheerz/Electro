@@ -34,18 +34,28 @@
         <div class="container">
             <table class="table table-wishlist table-mobile">
                 <thead>
+                
+                    <% if (wishlist !=null ) { %>
+                      
+                         
+                       
+                <% if (wishlist.products.length!=0 ) { %>
+                 
+               
                     <tr>
                         <th>Product</th>
                         <th>Price</th>
+                        <th> </th>
                         <th></th>
-                        <th></th>
-                    </tr>
-                </thead>
+                    </tr> 
+                </thead> 
 
                 <tbody>
-
+                 
+                
                   
-                    <% for( let i = 0; i < wishlist[0].products.length; i++ ) { %>
+            
+                    <% for( let i = 0; i < wishlist.products.length; i++ ) { %>
                     
                  
                     
@@ -55,23 +65,44 @@
                             <div class="product">
                                 <figure class="product-media">
                                     <a href="#">
-                                        <img src="data:<%= wishlist[0].products[i].item.product_image[0].contentType %>;base64,<%= wishlist[0].products[i].item.product_image[0].imageBase64 %>" alt="Product image">
+                                        <img src="data:<%= wishlist.products[i].item.product_image[0].contentType %>;base64,<%= wishlist.products[i].item.product_image[0].imageBase64 %>" alt="Product image">
                                     </a>
                                 </figure>
                                 
                                 <h3 class="product-title">
-                                    <a href="/product?id=<%= wishlist[0].products[i].item._id %> "><%= wishlist[0].products[i].item.name %> </a>
+                                    <a href="/product?id=<%= wishlist.products[i].item._id %> "><%= wishlist.products[i].item.name %> </a>
                                 </h3><!-- End .product-title -->
                             </div><!-- End .product -->
                         </td>
-                        <td class="price-col"><%= wishlist[0].products[i].item.price %></td>
+                        <td class="price-col"><%= wishlist.products[i].item.price %></td>
                         <td class="action-col">
-                            <button onclick="productCarts('<%= wishlist[0].products[i].item._id %>')" class="btn btn-block btn-outline-primary-2"><i class="icon-cart-plus"></i>Add to Cart</button>
+                            <button onclick="productCarts('<%= wishlist.products[i].item._id %>')" class="btn btn-block btn-outline-primary-2"><i class="icon-cart-plus"></i>Add to Cart</button>
                         </td>
-                        <td class="remove-col"><button  onclick="deletewishlist('<%= wishlist[0]._id %>','<%= wishlist[0].products[i].item._id %>')"  class="btn-remove"><i class="icon-close"></i></button></td>
+                        <td class="remove-col"><button  onclick="deletewishlist('<%= wishlist._id %>','<%= wishlist.products[i].item._id %>')"  class="btn-remove"><i class="icon-close"></i></button></td>
                     </tr>
                
                     <% } %>
+
+                    <% }else{ %>  
+                        <div class="text-center"><img style=" display: block;
+                            margin-left: auto;
+                            margin-right: auto;
+                            width: 50%;" src="https://www.saugatonline.com/images/emptywishlist.jpg" alt="cart empty"><h4> Wishlist is empty</h4></div>
+                            <a href="/shop"
+                            class="btn btn-outline-dark-2 btn-block mb-3"><span>CONTINUE
+                                SHOPPING</span><i class="icon-refresh"></i></a>
+                        
+                        <% } %>
+                    <% } else{ %>  
+                        <div class="text-center"><img style=" display: block;
+                            margin-left: auto;
+                            margin-right: auto;
+                            width: 50%;" src="https://www.saugatonline.com/images/emptywishlist.jpg" alt="cart empty"><h4> Wishlist is empty</h4></div>
+                            <a href="/shop"
+                            class="btn btn-outline-dark-2 btn-block mb-3"><span>CONTINUE
+                                SHOPPING</span><i class="icon-refresh"></i></a>
+                        
+                        <% } %>
            
                     
                     

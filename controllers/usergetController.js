@@ -4,6 +4,8 @@ const productmodel = require('../model/productSchema')
 const jwt = require('jsonwebtoken')
 const cartmodel = require('../model/cartSchema')
 const wishlistmodel=require('../model/wishlistSchema')
+const reviewmodel = require('../model/reviewSchema')
+const ordermodel = require('../model/orderSchema')
 
 
 
@@ -11,14 +13,15 @@ module.exports.home_page = async (req, res) => {
     const token = req.cookies.jwt
     const category = await categorymodel.find()
     const cart = await cartmodel.findOne().populate('user').populate('products.item')
-    const wishlist = await wishlistmodel.find().populate('user').populate('products.item')
-    res.locals.wishlist=wishlist
-    res.locals.cart=cart
+
+    res.locals.cart=cart ||null
 
     if (token) {
 
         const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
         const userId = decoded.userID
+        const wishlist = await wishlistmodel.findOne({user:userId}).populate('user').populate('products.item')
+        res.locals.wishlist=wishlist
         const user = await Usermodel.findById(userId)
         const cart = await cartmodel.findOne().populate('user').populate('products.item')
         res.locals.cart=cart
@@ -37,15 +40,13 @@ module.exports.home_page = async (req, res) => {
     }
 }
 
-module.exports.signup_post = (req, res) => {
-    res.send("login post")
+// module.exports.signup_post = (req, res) => {
+//     res.send("login post")
 
-}
+// }
 
 module.exports.login_get = async (req, res) => {
     const category = await categorymodel.find()
-
-
     const token = req.cookies.jwt
     if (token) {
         res.redirect("/")
@@ -79,14 +80,20 @@ module.exports.shop = async (req, res) => {
         
     }
     const token = req.cookies.jwt
+    if(token){
+    const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+    const userId = decoded.userID 
+    const cart = await cartmodel.findOne({ user: userId }).populate('user').populate('products.item')
+    const wishlist = await wishlistmodel.findOne({user:userId}).populate('user').populate('products.item')
+    res.locals.cart=cart || null
+    res.locals.wishlist=wishlist ||null
+    }
     const category = await categorymodel.find()
     const brand = await productmodel.find().sort({ brand: 1 }).distinct('brand')
     //filtering
     let products = await productmodel.find().populate('category')
-    const cart = await cartmodel.findOne().populate('user').populate('products.item')
-    const wishlist = await wishlistmodel.find().populate('user').populate('products.item')
-    res.locals.cart=cart
-    res.locals.wishlist=wishlist
+  
+
 
     if (req.query.category) {
         console.log(req.query.category);
@@ -123,7 +130,7 @@ module.exports.shop = async (req, res) => {
             })
         }
     }
-
+   
 
     if (token) {
         const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
@@ -152,20 +159,14 @@ module.exports.shop = async (req, res) => {
 
 
 module.exports.filtershop = async (req, res) => {
-    try {
-        
-    } catch (error) {
-        
-    }
+
+
     const token = req.cookies.jwt
+
     const category = await categorymodel.find()
     const brand = await productmodel.find().sort({ brand: 1 }).distinct('brand')
     //filtering
     let products = await productmodel.find().populate('category')
-    const cart = await cartmodel.findOne().populate('user').populate('products.item')
-    const wishlist = await wishlistmodel.find().populate('user').populate('products.item')
-    res.locals.cart=cart
-    res.locals.wishlist=wishlist
 
     if (req.query.category) {
         res.locals.categorytext=req.query.category || null
@@ -185,6 +186,11 @@ module.exports.filtershop = async (req, res) => {
         const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
         const userId = decoded.userID
         const user = await Usermodel.findById(userId)
+        const cart = await cartmodel.findOne({ user: userId }).populate('user').populate('products.item')
+        const wishlist = await wishlistmodel.findOne({user:userId}).populate('user').populate('products.item')
+        res.locals.cart=cart
+        res.locals.wishlist=wishlist
+    
        
         // res.locals.userDetails = user
         const fullname = user.firstname + " " + user.lastname
@@ -206,21 +212,26 @@ module.exports.filtershop = async (req, res) => {
 
 module.exports.product = async (req, res) => {
     try {
+
         const token = req.cookies.jwt
         const { id } = req.query
+        
         const category = await categorymodel.find()
         const products = await productmodel.findById(id).populate('category')
+        const review = await reviewmodel.find({product:id}).populate('user').populate('product')
         const brand = await productmodel.find().sort({ brand: 1 }).distinct('brand')
-        const cart = await cartmodel.findOne().populate('user').populate('products.item')
-        const wishlist = await wishlistmodel.find().populate('user').populate('products.item')
-        res.locals.wishlist=wishlist
-        res.locals.cart=cart
+       
+        res.locals.review =review||null
         if (token) {
     
     
             const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
             const userId = decoded.userID
             const user = await Usermodel.findById(userId)
+            const cart = await cartmodel.findOne({ user: userId }).populate('user').populate('products.item')
+            const wishlist = await wishlistmodel.findOne({user:userId}).populate('user').populate('products.item')
+            res.locals.wishlist=wishlist
+            res.locals.cart=cart
     
     
             const fullname = user.firstname + " " + user.lastname
@@ -236,7 +247,7 @@ module.exports.product = async (req, res) => {
     
         }
     } catch (error) {
-        res.send("no error")
+        res.send(error)
     }
    
 }

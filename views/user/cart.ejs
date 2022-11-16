@@ -14,6 +14,9 @@
                                 <div class="container">
                                     <div class="row">
                                         <div class="col-lg-9">
+                                            <% if (cart || cart!=null) { %>
+                                             
+                                            
                                             <% if (cart.products != '') { %>
                                             <table class="table table-cart table-mobile">
                                                 <thead>
@@ -132,12 +135,19 @@
                                                     class="btn btn-outline-primary-2 btn-order btn-block">PROCEED TO
                                                     CHECKOUT</a>
                                             </div><!-- End .summary -->
+                                            <% } else{%> 
+                                                <div class="text-center"><img style=" display: block;
+                                                    margin-left: auto;
+                                                    margin-right: auto;
+                                                    width: 50%;" src="https://mir-s3-cdn-cf.behance.net/projects/404/54b13147340145.Y3JvcCw0MDUsMzE3LDAsNDI.png" alt="cart empty"><h4> Cart is empty</h4></div>
+                                                
+                                                <% } %>
                                             <% }else{ %>
                                                 <div class="text-center"><img style=" display: block;
                                                     margin-left: auto;
                                                     margin-right: auto;
                                                     width: 50%;" src="https://mir-s3-cdn-cf.behance.net/projects/404/54b13147340145.Y3JvcCw0MDUsMzE3LDAsNDI.png" alt="cart empty"><h4> Cart is empty</h4></div>
-                                                <%} %>
+                                                <%}%>
                                                     <a href="/shop"
                                                         class="btn btn-outline-dark-2 btn-block mb-3"><span>CONTINUE
                                                             SHOPPING</span><i class="icon-refresh"></i></a>

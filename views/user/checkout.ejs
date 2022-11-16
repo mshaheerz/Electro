@@ -37,12 +37,12 @@
                                     <div class="checkout">
                                         <div class="container">
                                             <div class="checkout-discount">
-                                                <form action="#">
-                                                    <input type="text" class="form-control" required
+                                                <form action="" id="checkout-form">
+                                                    <input type="text" name="coupon" class="form-control" 
                                                         id="checkout-discount-input">
-                                                    <label for="checkout-discount-input" class="text-truncate">Have a
+                                                    <label for="checkout-discount-input" class="text-truncate coupon">Have a
                                                         coupon? <span>Click here to enter your code</span></label>
-                                                </form>
+                                         
                                             </div><!-- End .checkout-discount -->
 
 
@@ -60,6 +60,9 @@
                                                         </div>
                                                         <div class="account-content">
                                                             <div class="row">
+                                                            <% if (address != '') { %>
+                                                             
+                                                            
 
                                                                 <% for( let i=0; i < address[0].address.length; i++ ) {
                                                                     %>
@@ -95,6 +98,7 @@
                                                                         </div>
                                                                     </div>
                                                                     <% } %>
+                                                                    <% } %> 
 
 
                                                             </div>
@@ -172,7 +176,7 @@
                                                             </tbody>
                                                         </table><!-- End .table table-summary -->
 
-                                                        <form action="" id="checkout-form">
+                                                       
                                                             <div class="accordion-summary" id="accordion-payment">
                                                                 <div class="card">
                                                                     <div class="card-header" id="heading-3">
@@ -315,6 +319,13 @@
                                 $("#checkout-form").submit((e) => {
                                     e.preventDefault()
                                     const address = $(".address.active").data('address')
+                                    if(address ==null){
+                                        Swal.fire(('Pleas add or select address'))
+                                        setTimeout(()=>{
+                                            window.location.href='/profile_address'
+                                        },1300)
+                                        
+                                    }else{
                                     // const address =document.querySelector(.slctaddress .active)
                                     Swal.fire({
                                         title: 'Are you sure?',
@@ -332,7 +343,14 @@
                                                 method: 'post',
                                                 data: $('#checkout-form').serialize() + "&address=" + address,
                                                 success: (response) => {
-                                                    if (response.status) {
+                                                    console.log(response)
+                                                    if(response.couponerr){
+                                                        Swal.fire(
+                                                            'Invalid coupon!',
+                                                            'Please select valid coupon',
+                                                            'warning'
+                                                        )
+                                                    }else if (response.status) {
                                                         Swal.fire(
                                                             'Order placed!',
                                                             'Thank you for order.',
@@ -351,6 +369,7 @@
 
                                         }
                                     })
+                                }
                                 })
 
                             </script>
@@ -384,7 +403,7 @@
                                     };
                              
                                     var rzp1 = new Razorpay(options);
-                                    rzp1.open().then()
+                                    rzp1.open()
                                     
                                 
                                    

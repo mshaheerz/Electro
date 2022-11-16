@@ -17,6 +17,9 @@ const { encode } = require('punycode');
 const { loadFont } = require('figlet');
 const { send } = require('process');
 const { format } = require('path');
+const { validateExpressRequest } = require('twilio/lib/webhooks/webhooks');
+const couponmodel = require('../model/couponSchema');
+const { cursorTo } = require('readline');
 
 
 //helper function
@@ -44,9 +47,15 @@ module.exports.admin_home = async (req, res) => {
     const user = await usermodel.find().count()
     const product = await productmodel.find().count()
     const category = await categorymodel.find().count()
+    const order = await ordermodel.find().populate('user').sort({ updatedAt: -1 }).limit(8)
+    res.locals.order=order ||null
     const token = req.cookies.jwts
+    res.locals.moment=moment
     if (token) {
         adminemail = await admincheck(token)
+        const orders=await ordermodel.find()
+        const totalsale = orders.reduce((acc,cur)=>(acc+cur.totalamount),0)
+        res.locals.totalsale  = totalsale || null
         res.render('admin/index', { adminemail: adminemail, user: user, product: product, category: category })
     } else {
         res.render('admin/login', { emailerr: "", passerr: "", allerr: "" });
@@ -375,4 +384,65 @@ module.exports.order_details = async (req,res)=>{
         
     }
   
+}
+module.exports.change_status= async (req, res) => {
+    const {orderId,status}=req.body
+    await ordermodel.findByIdAndUpdate(orderId,{
+        status:status
+    })
+    res.json(true)
+}
+
+module.exports.coupon_list = async (req,res)=>{
+    try {
+    const token = req.cookies.jwts
+    const {id}=req.query
+    const adminemail = await admincheck(token)
+    const  coupon = await couponmodel.find({})
+    res.locals.coupon = coupon || null
+    // const products = await productmodel.find().populate('category')
+    res.locals.moment = moment
+    res.render('admin/couponlist', { adminemail })
+    } catch (error) {
+       res.redirect('/admin/coupon_list')
+        
+    }
+  
+}
+
+module.exports.add_coupon = async (req, res) => {
+    const token = req.cookies.jwts
+    const adminemail = await admincheck(token)
+
+    res.render('admin/coupondetails', {adminemail})
+}
+module.exports.add_coupon_post = async(req,res)=>{
+    const{...data}=req.body
+    console.log(data)
+   
+    await couponmodel.create(data)
+   
+    res.redirect('/admin/coupon_list')
+    
+}
+
+module.exports.coupon_edit_post = async(req,res)=>{
+    const{...data}=req.body
+    const {id}=req.query
+    console.log(data)
+   
+    await couponmodel.findByIdAndUpdate(id,data)
+   
+    res.redirect('/admin/coupon_list')
+    
+}
+module.exports.coupon_edit = async(req,res)=>{
+    const token = req.cookies.jwts
+    const adminemail = await admincheck(token)
+    const{id}=req.query
+
+    const coupon = await couponmodel.findById(id)
+    res.locals.coupon=coupon
+    res.locals.moment=moment
+    res.render('admin/couponedit',{adminemail})
 }

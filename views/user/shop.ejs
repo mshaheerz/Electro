@@ -1,6 +1,7 @@
 <%- include('./layouts/main'); -%>
     <link rel="stylesheet" href="user/assets/css/skins/skin-demo-13.css">
     <link rel="stylesheet" href="user/assets/css/demos/demo-13.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     </head>
 
     <body>
@@ -187,19 +188,32 @@
 
                                                         <div class="col-6 col-md-4 col-xl-3">
                                                             <div class="product">
+                                                            <% if (token) { %>
+
+                                                                <% if (wishlist != null) { %>
+                                                                 
+                                                              
+                                                            
+                                                                <i style="color: red;" class="heartlove<%= i %>  pl-5 <%=  wishlist.products.some( produc => produc.item._id.toString() == products[i]._id.toString()) ? 'fa fa-heart' : '' ;%> " aria-hidden="false"></i>
+                                                                    <% } %> 
+                                                                    <% } %> 
+                                                                    
+                                                             
                                                                 <figure class="product-media">
+
                                                                     <!-- <span class="product-label label-sale">Sale</span> -->
                                                                     <a href="/product?id=<%= products[i]._id%> ">
                                                                         <img src="data:<%= products[i].product_image[0].contentType %>;base64,<%= products[i].product_image[0].imageBase64 %> "
                                                                             alt="Product image" 
                                                                             class="product-image" >
+
                                                                     </a>
-                                                                  
                                                                     <div class="product-action-vertical">
-                                                                       
-                                                                     <a onclick="wishlistIncrement('<%= products[i]._id %>')"
-                                                                            class="btn-product-icon btn-wishlist btn-expandable"><span>add
+                                                                      
+                                                                     <a onclick="wishlistIncrement('<%= products[i]._id %>','<%= i %>')"
+                                                                            class="btn-product-icon btn-wishlist  btn-expandable"><span>add
                                                                                 to wishlist</span></a>
+                                                                               
                                                                          
                                                                         
                                                                         <a href="#" class="btn-product-icon btn-compare"
@@ -216,8 +230,10 @@
                                                                             title="Add to cart"><span>add to
                                                                                 cart</span></a>
                                                                         <script>
-                                                                            function wishlistIncrement(productid){
+                                                                            function wishlistIncrement(productid,index){
+                                                                               
                                                                                let wishcount= parseInt(document.getElementById('wishlistheart').innerHTML)
+                                                                            
                                                                                 $.ajax({
                                                                                     url: '/add_wishlist',
                                                                                     data: {
@@ -226,7 +242,9 @@
                                                                                     method: 'post',
                                                                                     success: (response) => {
                                                                                         if (response==1) {
+                                                                                          
                                                                                             document.getElementById('wishlistheart').innerHTML=wishcount=wishcount+1
+                                                                                            $(`.heartlove${index}`).addClass('fa fa-heart')
                                                                                             Swal.fire({
                                                                                             position: 'top-end',
                                                                                               icon: 'success',
@@ -242,16 +260,25 @@
                                                                                         }else if(response.hh==1){
                                                                                             if(wishcount != 1){
                                                                                             document.getElementById('wishlistheart').innerHTML=wishcount=wishcount-1
+                                                                                            $(`.heartlove${index}`).removeClass('fa fa-heart')
                                                                                             Swal.fire({
                                                                                             position: 'top-end',
                                                                                               icon: 'success',
                                                                                               title: 'Product removed from wishlist',
                                                                                              showConfirmButton: false,
-                                                                                             timer: 2000
+                                                                                             timer: 1500
                                                                                             })
                                                                                         
                                                                                         }else{
+                                                                                            Swal.fire({
+                                                                                            position: 'top-end',
+                                                                                              icon: 'success',
+                                                                                              title: 'Product removed from wishlist',
+                                                                                             showConfirmButton: false,
+                                                                                             timer: 1500
+                                                                                            })
                                                                                             document.getElementById('wishlistheart').innerHTML=0
+                                                                                            $(`.heartlove${index}`).removeClass('fa fa-heart')
 
                                                                                         }
                                                                                         } else {
@@ -268,6 +295,7 @@
 
                                                                             function cartIncrement(productid) {
                                                                                 let count = document.querySelector('.cart-count')
+                                                                                
                                                                                 let val =parseInt(count.textContent)
                                                                                 $.ajax({
                                                                                     url: '/addcart',

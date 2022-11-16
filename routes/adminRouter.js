@@ -53,8 +53,10 @@ router.post('/login',adminController.admin_login_post)
 
 const upload = adminController.upload
 //protected routes
-router.get('/order_list',adminController.order_list)
-router.get('/order_details',adminController.order_details)
+  router.get('/add_coupon',adminController.add_coupon)
+  router.get('/coupon_list',adminController.coupon_list)
+  router.get('/order_list',adminController.order_list)
+  router.get('/order_details',adminController.order_details)
   router.get('/users_list',adminController.user_list)
   router.get('/user_details',adminController.user_details)
   router.get('/flag_user',adminController.flag_user)
@@ -66,10 +68,14 @@ router.get('/order_details',adminController.order_details)
   router.get('/product_lists',adminController.product_list)
   router.get('/delete_product',adminController.delete_product)
   router.get('/edit_product',adminController.edit_product)
+  router.get('/edit_coupon',adminController.coupon_edit)
+  router.post('/edit_coupon',adminController.coupon_edit_post)
 
 
   //protected post routes
+  router.post('/add_coupon',adminController.add_coupon_post)
   router.post('/edit_category',adminController.edit_category)
+  router.post('/change_status',adminController.change_status)
   router.post('/add_products',multipleuploadmiddleware.uploadImages,multipleuploadmiddleware.resizeImages,adminController.add_products_post)
   router.post('/edit_product',multipleuploadmiddleware.uploadImages,multipleuploadmiddleware.resizeImages,adminController.edit_products_post)
       //file upload middleware

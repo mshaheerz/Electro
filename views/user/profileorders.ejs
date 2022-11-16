@@ -22,13 +22,8 @@
 
 
 
-
-
-
-
-
  <main class="main">
-    <div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
+    <div class="page-header text-center" style="background-image: url('user/assets/images/page-header-bg.jpg')">
         <div class="container">
             <h1 class="page-title">My Account<span>Shop</span></h1>
         </div><!-- End .container -->
@@ -110,13 +105,13 @@
                                              
                                   
                                             <% for( let i = 0; i < order.length; i++ ) { %>
-                                            <% if (order[i].status =='placed') { %>
+                                            <% if (order[i].status !='pending') { %>
                                              
                                            
                                            
                                             <div class="orderlist">
                                                 <div class="orderlist-head">
-                                                    <h5>order#0<%= i+1  %> </h5><span><%=order[i].createdAt  %> </span>
+                                                    <h5><%= order[i]._id.toString().substring(16,22) %> </h5><span><%=order[i].createdAt  %> </span>
                                                     <h5>order recieved</h5>
                                                 </div>
                                                 <div class="orderlist-body">
@@ -124,13 +119,12 @@
                                                         <div class="col-lg-12">
                                                             <div class="order-track">
                                                                 <ul class="order-track-list">
-                                                                    <li class="order-track-item active"><i class="icofont-check"></i><span>order
-                                                                            recieved</span></li>
-                                                                    <li class="order-track-item active"><i class="icofont-check"></i><span>order
-                                                                            processed</span></li>
-                                                                    <li class="order-track-item"><i class="icofont-close"></i><span>order
+                                                                    <li class="order-track-item active"><i class="icofont-check"></i><span>order recieved</span></li>
+                                                                    <li class="order-track-item <%= order[i].status=='processed'||order[i].status=='shipped'|| order[i].status=='delivered'? 'active' : ' ' %>"><i class="<%= order[i].status=='processed'||order[i].status=='shipped'||order[i].status=='delivered'?'icofont-check':'icofont-close' %>">
+                                                                    </i><span>order processed</span></li>
+                                                                    <li class="order-track-item <%= order[i].status=='shipped'||order[i].status=='delivered'? 'active' : ' ' %>"><i class="<%= order[i].status=='shipped'|| order[i].status=='delivered'?'icofont-check':'icofont-close' %>"></i><span>order
                                                                             shipped</span></li>
-                                                                    <li class="order-track-item"><i class="icofont-close"></i><span>order
+                                                                    <li class="order-track-item <%= order[i].status=='delivered' ? 'active': ' ' %>"><i class="<%= order[i].status=='delivered'?'icofont-check':'icofont-close' %>"></i><span>order
                                                                             delivered</span></li>
                                                                 </ul>
                                                             </div>
@@ -139,7 +133,7 @@
                                                             <ul class="orderlist-details">
                                                                 <li>
                                                                     <h6>order id</h6>
-                                                                    <p><%= order[i]._id.toString().substring(16,20) %> </p>
+                                                                    <p><%= order[i]._id.toString().substring(16,22) %> </p>
                                                                 </li>
                                                                 <li>
                                                                     <h6>Total Item</h6>
@@ -159,11 +153,11 @@
                                                             <ul class="orderlist-details">
                                                                 <li>
                                                                     <h6>Sub Total</h6>
-                                                                    <p>$<%=price = order[i].products.reduce((acc,cur)=>(acc+cur.item.price),0) %> </p>
+                                                                    <p>&#8377;<%=price = order[i].products.reduce((acc,cur)=>(acc+cur.item.price),0) %> </p>
                                                                 </li>
                                                                 <li>
                                                                     <h6>discount</h6>
-                                                                    <p>$<%=discount = order[i].products.reduce((acc,cur)=>(acc+cur.item.discount),0)  %> </p>
+                                                                    <p>&#8377;<%=discount = order[i].products.reduce((acc,cur)=>(acc+cur.item.discount),0)  %> </p>
                                                                 </li>
                                                                 <li>
                                                                     <h6>delivery fee</h6>
@@ -171,7 +165,7 @@
                                                                 </li>
                                                                 <li>
                                                                     <h6>Total<small>(Incl. VAT)</small></h6>
-                                                                    <p>$<%= order[i].totalamount %>.00</p>
+                                                                    <p>&#8377;<%= order[i].totalamount %>.00</p>
                                                                 </li>
                                                             </ul>
                                                         </div>
@@ -210,7 +204,7 @@
                                                                                 </a>
                                                                             </td>
                                                                             <td class="table-price">
-                                                                                <h6>$<%= element.item.price-element.item.discount %></h6>
+                                                                                <h6>&#8377;<%= element.item.price-element.item.discount %></h6>
                                                                             </td>
                                                                             <td class="table-brand">
                                                                                 <h6><%= element.item.brand %> </h6>
@@ -233,8 +227,8 @@
 
                                                 <div class="orderlist text-danger">
                                                     <div class="orderlist-head failed">
-                                                        <h5>order#0<%= i+1  %> </h5><span><%=order[i].createdAt  %> </span>
-                                                        <h5>order failed</h5>
+                                                        <h5 class="text-danger">failed </h5><span><%=order[i].createdAt  %> </span>
+                                                        <h5 class="text-danger">order failed</h5>
                                                     </div>
                                                     <div class="orderlist-body">
                                                         <div class="row">
@@ -276,11 +270,11 @@
                                                                 <ul class="orderlist-details">
                                                                     <li>
                                                                         <h6>Sub Total</h6>
-                                                                        <p>$<%=price = order[i].products.reduce((acc,cur)=>(acc+cur.item.price),0) %> </p>
+                                                                        <p>&#8377;<%=price = order[i].products.reduce((acc,cur)=>(acc+cur.item.price),0) %> </p>
                                                                     </li>
                                                                     <li>
                                                                         <h6>discount</h6>
-                                                                        <p>$<%=discount = order[i].products.reduce((acc,cur)=>(acc+cur.item.discount),0)  %> </p>
+                                                                        <p>&#8377;<%=discount = order[i].products.reduce((acc,cur)=>(acc+cur.item.discount),0)  %> </p>
                                                                     </li>
                                                                     <li>
                                                                         <h6>delivery fee</h6>
@@ -288,7 +282,7 @@
                                                                     </li>
                                                                     <li>
                                                                         <h6>Total<small>(Incl. VAT)</small></h6>
-                                                                        <p>$<%= order[i].totalamount %>.00</p>
+                                                                        <p>&#8377;<%= order[i].totalamount %>.00</p>
                                                                     </li>
                                                                 </ul>
                                                             </div>
@@ -327,7 +321,7 @@
                                                                                     </a>
                                                                                 </td>
                                                                                 <td class="table-price">
-                                                                                    <h6>$<%= element.item.price-element.item.discount %></h6>
+                                                                                    <h6>&#8377;<%= element.item.price-element.item.discount %></h6>
                                                                                 </td>
                                                                                 <td class="table-brand">
                                                                                     <h6><%= element.item.brand %> </h6>

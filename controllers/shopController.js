@@ -7,6 +7,9 @@ const usermodel = require('../model/userschema')
 const wishlistmodel = require('../model/wishlistSchema')
 const { db } = require('../model/productSchema')
 const { request, response } = require('express')
+const reviewmodel = require('../model/reviewSchema')
+const couponmodel = require('../model/couponSchema')
+const moment = require('moment')
 
 
 
@@ -39,7 +42,7 @@ module.exports.cart = async (req, res) => {
         const userId = decoded.userID
         const user = await Usermodel.findById(userId)
         const cart = await cartmodel.findOne({ user: userId }).populate('user').populate('products.item')
-        const wishlist = await wishlistmodel.find().populate('user').populate('products.item')
+        const wishlist = await wishlistmodel.findOne({user:userId}).populate('user').populate('products.item')
         res.locals.wishlist=wishlist
         if(cart){
         const total = await getTotalprice(token)
@@ -79,14 +82,17 @@ exports.addToCart = async (req, res) => {
     const token = req.cookies.jwt
     const { productid } = req.body
     if (token) {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
         let proObj = {
             item: productid,
             quantity: 1
+            
         }
-        const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+        
         const userId = decoded.userID
         let userCart = await cartmodel.findOne({ user: userId }).populate('user').populate('products')
         if (userCart) {
+
             // await cartmodel.findByIdAndUpdate(userId, { products: [productid] }).then((response) => {
             //     res.send({ "status": "success", "message": response })
             // }).catch((error) => {
@@ -263,12 +269,13 @@ module.exports.wishlist = async(req,res)=>{
     const { id } = req.body
 
     const category = await categorymodel.find()
-    const wishlist = await wishlistmodel.find().populate('user').populate('products.item')
-    res.locals.wishlist=wishlist
+   
 
     if (token) {
         const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
         const userId = decoded.userID
+        const wishlist = await wishlistmodel.findOne({user:userId}).populate('user').populate('products.item')
+        res.locals.wishlist=wishlist || null
         const user = await Usermodel.findById(userId)
         const cart = await cartmodel.findOne({ user: userId }).populate('user').populate('products.item')
         res.locals.cart = cart
@@ -310,7 +317,7 @@ exports.addToWishlist = async (req, res) => {
             if (proExist != -1) {
                 const docs = await wishlistmodel.findOne({ user: userId, 'products.item': productid }).populate('user').populate('products')
                 console.log(docs)
-                docs.products.splice(0,1)
+                docs.products.splice(proExist,1)
                 await docs.save().then((response) =>{
                       res.json({response:false,hh:true})
                 })
@@ -345,4 +352,50 @@ exports.addToWishlist = async (req, res) => {
         res.send(false)
     }
     //  res.redirect('/shop')
+}
+
+module.exports.review= async (req, res) => {
+    const token = req.cookies.jwt
+    const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+    const userId = decoded.userID
+    const {...data}=req.body
+    const {productId}=req.query
+    data.product=productId
+    data.user=userId
+    await reviewmodel.create(data)
+    res.redirect(req.get('referer'));
+}
+
+
+module.exports.coupons = async (req, res) => {
+    const token = req.cookies.jwt
+    const { id } = req.body
+
+    const category = await categorymodel.find()
+   
+
+    if (token) {
+        const coupons = await couponmodel.find({})
+        const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+        const userId = decoded.userID
+        const wishlist = await wishlistmodel.findOne({user:userId}).populate('user').populate('products.item')
+        res.locals.wishlist=wishlist || null
+        const user = await Usermodel.findById(userId)
+        const cart = await cartmodel.findOne({ user: userId }).populate('user').populate('products.item')
+        res.locals.coupons = coupons
+        res.locals.cart = cart
+        res.locals.moment=moment
+        console.log(cart)
+        const fullname = user.firstname + " " + user.lastname
+        let useremail = user.email
+        if (user.isBanned) {
+            res.render('user/coupons', { token: "", alert: true, category, cart })
+        } else {
+
+            res.render('user/coupons', { token, fullname, useremail, alert: false, category, cart })
+        }
+    } else {
+        res.send('<script>alert("Login first "); window.location.href = "/login"; </script>')
+
+    }
 }

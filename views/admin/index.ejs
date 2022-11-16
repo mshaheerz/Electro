@@ -60,7 +60,7 @@
                             <div class="card saw-indicator flex-grow-1"
                                 data-sa-container-query="{&quot;340&quot;:&quot;saw-indicator--size--lg&quot;}">
                                 <div class="sa-widget-header saw-indicator__header">
-                                    <h2 class="sa-widget-header__title">Total Products</h2>
+                                    <h2 class="sa-widget-header__title">Total Sales amount</h2>
                                     <div class="sa-widget-header__actions">
                                         <div class="dropdown"><button type="button"
                                                 class="btn btn-sm btn-sa-muted d-block" id="widget-context-menu-2"
@@ -84,7 +84,7 @@
                                     </div>
                                 </div>
                                 <div class="saw-indicator__body">
-                                    <div class="saw-indicator__value"><%= product %> </div>
+                                    <div class="saw-indicator__value">&#8377;<%= totalsale %> </div>
                                     <div class="saw-indicator__delta saw-indicator__delta--fall">
                                        
                                     </div>
@@ -128,14 +128,15 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- <div class="col-12 col-lg-4 col-xxl-3 d-flex"> -->
-                            <!-- <div class="card flex-grow-1 saw-pulse"
-                                data-sa-container-query="{&quot;560&quot;:&quot;saw-pulse--size--lg&quot;}"> -->
-                                <!-- <div class="sa-widget-header saw-pulse__header">
-                                    <h2 class="sa-widget-header__title">Active users</h2>
+                        <div class="col-12 col-xxl-3 d-flex">
+                            <div class="card flex-grow-1 saw-chart-circle"
+                                data-sa-data="[{&quot;label&quot;:&quot;Yandex&quot;,&quot;value&quot;:2742,&quot;color&quot;:&quot;#ffd333&quot;,&quot;orders&quot;:12},{&quot;label&quot;:&quot;YouTube&quot;,&quot;value&quot;:3272,&quot;color&quot;:&quot;#e62e2e&quot;,&quot;orders&quot;:51},{&quot;label&quot;:&quot;Google&quot;,&quot;value&quot;:2303,&quot;color&quot;:&quot;#3377ff&quot;,&quot;orders&quot;:4},{&quot;label&quot;:&quot;Facebook&quot;,&quot;value&quot;:1434,&quot;color&quot;:&quot;#29cccc&quot;,&quot;orders&quot;:10},{&quot;label&quot;:&quot;Instagram&quot;,&quot;value&quot;:799,&quot;color&quot;:&quot;#5dc728&quot;,&quot;orders&quot;:1}]"
+                                data-sa-container-query="{&quot;600&quot;:&quot;saw-chart-circle--size--lg&quot;}">
+                                <div class="sa-widget-header saw-chart-circle__header">
+                                    <h2 class="sa-widget-header__title">Sales by products</h2>
                                     <div class="sa-widget-header__actions">
                                         <div class="dropdown"><button type="button"
-                                                class="btn btn-sm btn-sa-muted d-block" id="widget-context-menu-4"
+                                                class="btn btn-sm btn-sa-muted d-block" id="widget-context-menu-7"
                                                 data-bs-toggle="dropdown" aria-expanded="false" aria-label="More"><svg
                                                     xmlns="http://www.w3.org/2000/svg" width="3" height="13"
                                                     fill="currentColor">
@@ -144,7 +145,7 @@
                                                     </path>
                                                 </svg></button>
                                             <ul class="dropdown-menu dropdown-menu-end"
-                                                aria-labelledby="widget-context-menu-4">
+                                                aria-labelledby="widget-context-menu-7">
                                                 <li><a class="dropdown-item" href="#">Settings</a></li>
                                                 <li><a class="dropdown-item" href="#">Move</a></li>
                                                 <li>
@@ -154,51 +155,101 @@
                                             </ul>
                                         </div>
                                     </div>
-                                </div> -->
-                                <!-- <div class="saw-pulse__counter">148</div> -->
-                                <!-- <div class="sa-widget-table saw-pulse__table">
+                                </div>
+                                <div class="saw-chart-circle__body">
+                                    <div class="saw-chart-circle__container"><canvas></canvas></div>
+                                </div>
+                                <div class="sa-widget-table saw-chart-circle__table">
                                     <table>
                                         <thead>
                                             <tr>
-                                                <th>Active pages</th>
-                                                <th class="text-end">Users</th>
+                                                <th>Product</th>
+                                                <th class="text-center">Orders</th>
+                                                <th class="text-end">Amount</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td><a href="#" class="text-reset">/products/brandix-z4</a></td>
-                                                <td class="text-end">15</td>
+                                                <td>
+                                                    <div class="d-flex align-items-center">
+                                                        <div class="saw-chart-circle__symbol"
+                                                            style="--saw-chart-circle__symbol--color:#ffd333"></div>
+                                                        <div class="ps-2">Samsung galaxy</div>
+                                                    </div>
+                                                </td>
+                                                <td class="text-center">12</td>
+                                                <td class="text-end">
+                                                    <div class="sa-price"><span class="sa-price__symbol">$</span><span
+                                                            class="sa-price__integer">2,742</span><span
+                                                            class="sa-price__decimal">.00</span></div>
+                                                </td>
                                             </tr>
                                             <tr>
-                                                <td><a href="#" class="text-reset">/categories/drivetrain</a></td>
-                                                <td class="text-end">11</td>
+                                                <td>
+                                                    <div class="d-flex align-items-center">
+                                                        <div class="saw-chart-circle__symbol"
+                                                            style="--saw-chart-circle__symbol--color:#e62e2e"></div>
+                                                        <div class="ps-2">Canon dslr</div>
+                                                    </div>
+                                                </td>
+                                                <td class="text-center">51</td>
+                                                <td class="text-end">
+                                                    <div class="sa-price"><span class="sa-price__symbol">$</span><span
+                                                            class="sa-price__integer">3,272</span><span
+                                                            class="sa-price__decimal">.00</span></div>
+                                                </td>
                                             </tr>
                                             <tr>
-                                                <td><a href="#" class="text-reset">/categories/monitors</a></td>
-                                                <td class="text-end">7</td>
+                                                <td>
+                                                    <div class="d-flex align-items-center">
+                                                        <div class="saw-chart-circle__symbol"
+                                                            style="--saw-chart-circle__symbol--color:#3377ff"></div>
+                                                        <div class="ps-2">Apple watch</div>
+                                                    </div>
+                                                </td>
+                                                <td class="text-center">4</td>
+                                                <td class="text-end">
+                                                    <div class="sa-price"><span class="sa-price__symbol">$</span><span
+                                                            class="sa-price__integer">2,303</span><span
+                                                            class="sa-price__decimal">.00</span></div>
+                                                </td>
                                             </tr>
                                             <tr>
-                                                <td><a href="#" class="text-reset">/account/orders</a></td>
-                                                <td class="text-end">4</td>
+                                                <td>
+                                                    <div class="d-flex align-items-center">
+                                                        <div class="saw-chart-circle__symbol"
+                                                            style="--saw-chart-circle__symbol--color:#29cccc"></div>
+                                                        <div class="ps-2">Samsung odyssy</div>
+                                                    </div>
+                                                </td>
+                                                <td class="text-center">10</td>
+                                                <td class="text-end">
+                                                    <div class="sa-price"><span class="sa-price__symbol">$</span><span
+                                                            class="sa-price__integer">1,434</span><span
+                                                            class="sa-price__decimal">.00</span></div>
+                                                </td>
                                             </tr>
                                             <tr>
-                                                <td><a href="#" class="text-reset">/cart</a></td>
-                                                <td class="text-end">3</td>
-                                            </tr>
-                                            <tr>
-                                                <td><a href="#" class="text-reset">/checkout</a></td>
-                                                <td class="text-end">3</td>
-                                            </tr>
-                                            <tr>
-                                                <td><a href="#" class="text-reset">/pages/about-us</a></td>
-                                                <td class="text-end">1</td>
+                                                <td>
+                                                    <div class="d-flex align-items-center">
+                                                        <div class="saw-chart-circle__symbol"
+                                                            style="--saw-chart-circle__symbol--color:#5dc728"></div>
+                                                        <div class="ps-2">Bot rockers earbuds</div>
+                                                    </div>
+                                                </td>
+                                                <td class="text-center">1</td>
+                                                <td class="text-end">
+                                                    <div class="sa-price"><span class="sa-price__symbol">$</span><span
+                                                            class="sa-price__integer">799</span><span
+                                                            class="sa-price__decimal">.00</span></div>
+                                                </td>
                                             </tr>
                                         </tbody>
                                     </table>
-                                </div> -->
-                            <!-- </div> -->
-                        <!-- </div> -->
-                        <div class="col-12 col-lg-8 col-xxl-12 d-flex">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-8 col-xxl-9 d-flex">
                             <div class="card flex-grow-1 saw-chart"
                                 data-sa-data="[{&quot;label&quot;:&quot;Jan&quot;,&quot;value&quot;:50},{&quot;label&quot;:&quot;Feb&quot;,&quot;value&quot;:130},{&quot;label&quot;:&quot;Mar&quot;,&quot;value&quot;:525},{&quot;label&quot;:&quot;Apr&quot;,&quot;value&quot;:285},{&quot;label&quot;:&quot;May&quot;,&quot;value&quot;:470},{&quot;label&quot;:&quot;Jun&quot;,&quot;value&quot;:130},{&quot;label&quot;:&quot;Jul&quot;,&quot;value&quot;:285},{&quot;label&quot;:&quot;Aug&quot;,&quot;value&quot;:240},{&quot;label&quot;:&quot;Sep&quot;,&quot;value&quot;:710},{&quot;label&quot;:&quot;Oct&quot;,&quot;value&quot;:470},{&quot;label&quot;:&quot;Nov&quot;,&quot;value&quot;:640},{&quot;label&quot;:&quot;Dec&quot;,&quot;value&quot;:1110}]">
                                 <div class="sa-widget-header saw-chart__header">
@@ -230,6 +281,8 @@
                                 </div>
                             </div>
                         </div>
+
+                        
                         <div class="col-12 col-xxl-9 d-flex">
                             <div class="card flex-grow-1 saw-table">
                                 <div class="sa-widget-header saw-table__header">
@@ -262,307 +315,48 @@
                                             <tr>
                                                 <th>No.</th>
                                                 <th>Status</th>
-                                                <th>Co.</th>
+                                                <th>Payment</th>
                                                 <th>Customer</th>
                                                 <th>Date</th>
                                                 <th>Total</th>
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            <% if (order!=null) { %>
+
+                                                
+                                             <% for( let i = 0; i < order.length; i++ ) { %>
+                                             
+
                                             <tr>
-                                                <td><a href="app-order.html" class="text-reset">#00745</a></td>
+                                                <td><a href="#" class="text-reset">#<%= order[i]._id.toString().substring(8,14) %>  </a></td>
                                                 <td>
                                                     <div class="d-flex fs-6">
-                                                        <div class="badge badge-sa-primary">Pending</div>
+                                                        <div class="badge badge-sa-primary"><%= order[i].status %> </div>
                                                     </div>
                                                 </td>
-                                                <td><img src="vendor/flag-icons/24/IT.png"
-                                                        class="sa-language-icon d-block" alt="" title="Italy" /></td>
+                                                <td><%= order[i].payment %> </td>
                                                 <td>
-                                                    <div class="d-flex align-items-center"><a href="app-customer.html"
+                                                    <div class="d-flex align-items-center"><a href="#"
                                                             class="sa-symbol sa-symbol--shape--circle sa-symbol--size--md me-3">
-                                                            <div class="sa-symbol__text">GB</div>
+                                                            <div class="sa-symbol__text"><%=order[i].user.firstname.toString().substring(0,1)+''+order[i].user.lastname.toString().substring(0,1)%> </div>
                                                         </a>
-                                                        <div><a href="app-customer.html" class="text-reset">Giordano
-                                                                Bruno</a></div>
+                                                        <div><a href="#" class="text-reset"><%= order[i].user.firstname +' '+order[i].user.lastname %> </a></div>
                                                     </div>
                                                 </td>
-                                                <td>2020-11-02</td>
-                                                <td>$2,742.00</td>
+                                                <td><%= moment(order[i].updatedAt).format('D-MMMM-YYYY') %> </td>
+                                                <td>&#8377;<%= order[i].totalamount %> </td>
                                             </tr>
-                                            <tr>
-                                                <td><a href="app-order.html" class="text-reset">#00513</a></td>
-                                                <td>
-                                                    <div class="d-flex fs-6">
-                                                        <div class="badge badge-sa-warning">Hold</div>
-                                                    </div>
-                                                </td>
-                                                <td><img src="vendor/flag-icons/24/DE.png"
-                                                        class="sa-language-icon d-block" alt="" title="Germany" /></td>
-                                                <td>
-                                                    <div class="d-flex align-items-center"><a href="app-customer.html"
-                                                            class="sa-symbol sa-symbol--shape--circle sa-symbol--size--md me-3">
-                                                            <div class="sa-symbol__text">HW</div>
-                                                        </a>
-                                                        <div><a href="app-customer.html" class="text-reset">Hans
-                                                                Weber</a></div>
-                                                    </div>
-                                                </td>
-                                                <td>2020-09-05</td>
-                                                <td>$204.00</td>
-                                            </tr>
-                                            <tr>
-                                                <td><a href="app-order.html" class="text-reset">#00507</a></td>
-                                                <td>
-                                                    <div class="d-flex fs-6">
-                                                        <div class="badge badge-sa-primary">Pending</div>
-                                                    </div>
-                                                </td>
-                                                <td><img src="vendor/flag-icons/24/IT.png"
-                                                        class="sa-language-icon d-block" alt="" title="Italy" /></td>
-                                                <td>
-                                                    <div class="d-flex align-items-center"><a href="app-customer.html"
-                                                            class="sa-symbol sa-symbol--shape--circle sa-symbol--size--md me-3">
-                                                            <div class="sa-symbol__text">AR</div>
-                                                        </a>
-                                                        <div><a href="app-customer.html" class="text-reset">Andrea
-                                                                Rossi</a></div>
-                                                    </div>
-                                                </td>
-                                                <td>2020-08-21</td>
-                                                <td>$5,039.00</td>
-                                            </tr>
-                                            <tr>
-                                                <td><a href="app-order.html" class="text-reset">#00104</a></td>
-                                                <td>
-                                                    <div class="d-flex fs-6">
-                                                        <div class="badge badge-sa-danger">Canceled</div>
-                                                    </div>
-                                                </td>
-                                                <td><img src="vendor/flag-icons/24/US.png"
-                                                        class="sa-language-icon d-block" alt="" title="USA" /></td>
-                                                <td>
-                                                    <div class="d-flex align-items-center"><a href="app-customer.html"
-                                                            class="sa-symbol sa-symbol--shape--circle sa-symbol--size--md me-3">
-                                                            <div class="sa-symbol__text">RF</div>
-                                                        </a>
-                                                        <div><a href="app-customer.html" class="text-reset">Richard
-                                                                Feynman</a></div>
-                                                    </div>
-                                                </td>
-                                                <td>2020-06-22</td>
-                                                <td>$79.00</td>
-                                            </tr>
-                                            <tr>
-                                                <td><a href="app-order.html" class="text-reset">#00097</a></td>
-                                                <td>
-                                                    <div class="d-flex fs-6">
-                                                        <div class="badge badge-sa-success">Completed</div>
-                                                    </div>
-                                                </td>
-                                                <td><img src="vendor/flag-icons/24/CO.png"
-                                                        class="sa-language-icon d-block" alt="" title="Columbia" /></td>
-                                                <td>
-                                                    <div class="d-flex align-items-center"><a href="app-customer.html"
-                                                            class="sa-symbol sa-symbol--shape--circle sa-symbol--size--md me-3">
-                                                            <div class="sa-symbol__text">LG</div>
-                                                        </a>
-                                                        <div><a href="app-customer.html" class="text-reset">Leonardo
-                                                                Garcia</a></div>
-                                                    </div>
-                                                </td>
-                                                <td>2020-05-09</td>
-                                                <td>$826.00</td>
-                                            </tr>
-                                            <tr>
-                                                <td><a href="app-order.html" class="text-reset">#00082</a></td>
-                                                <td>
-                                                    <div class="d-flex fs-6">
-                                                        <div class="badge badge-sa-success">Completed</div>
-                                                    </div>
-                                                </td>
-                                                <td><img src="vendor/flag-icons/24/RS.png"
-                                                        class="sa-language-icon d-block" alt="" title="Srbija" /></td>
-                                                <td>
-                                                    <div class="d-flex align-items-center"><a href="app-customer.html"
-                                                            class="sa-symbol sa-symbol--shape--circle sa-symbol--size--md me-3">
-                                                            <div class="sa-symbol__text">NT</div>
-                                                        </a>
-                                                        <div><a href="app-customer.html" class="text-reset">Nikola
-                                                                Tesla</a></div>
-                                                    </div>
-                                                </td>
-                                                <td>2020-04-27</td>
-                                                <td>$1,052.00</td>
-                                            </tr>
-                                            <tr>
-                                                <td><a href="app-order.html" class="text-reset">#00063</a></td>
-                                                <td>
-                                                    <div class="d-flex fs-6">
-                                                        <div class="badge badge-sa-primary">Pending</div>
-                                                    </div>
-                                                </td>
-                                                <td><img src="vendor/flag-icons/24/FR.png"
-                                                        class="sa-language-icon d-block" alt="" title="France" /></td>
-                                                <td>
-                                                    <div class="d-flex align-items-center"><a href="app-customer.html"
-                                                            class="sa-symbol sa-symbol--shape--circle sa-symbol--size--md me-3">
-                                                            <div class="sa-symbol__text">MC</div>
-                                                        </a>
-                                                        <div><a href="app-customer.html" class="text-reset">Marie
-                                                                Curie</a></div>
-                                                    </div>
-                                                </td>
-                                                <td>2020-02-09</td>
-                                                <td>$441.00</td>
-                                            </tr>
-                                            <tr>
-                                                <td><a href="app-order.html" class="text-reset">#00012</a></td>
-                                                <td>
-                                                    <div class="d-flex fs-6">
-                                                        <div class="badge badge-sa-success">Completed</div>
-                                                    </div>
-                                                </td>
-                                                <td><img src="vendor/flag-icons/24/RU.png"
-                                                        class="sa-language-icon d-block" alt="" title="Russia" /></td>
-                                                <td>
-                                                    <div class="d-flex align-items-center"><a href="app-customer.html"
-                                                            class="sa-symbol sa-symbol--shape--circle sa-symbol--size--md me-3">
-                                                            <div class="sa-symbol__text">KT</div>
-                                                        </a>
-                                                        <div><a href="app-customer.html" class="text-reset">Konstantin
-                                                                Tsiolkovsky</a></div>
-                                                    </div>
-                                                </td>
-                                                <td>2020-01-01</td>
-                                                <td>$12,961.00</td>
-                                            </tr>
+                                            <% } %>
+                                            
+                                            <% } %> 
+
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12 col-xxl-3 d-flex">
-                            <div class="card flex-grow-1 saw-chart-circle"
-                                data-sa-data="[{&quot;label&quot;:&quot;Yandex&quot;,&quot;value&quot;:2742,&quot;color&quot;:&quot;#ffd333&quot;,&quot;orders&quot;:12},{&quot;label&quot;:&quot;YouTube&quot;,&quot;value&quot;:3272,&quot;color&quot;:&quot;#e62e2e&quot;,&quot;orders&quot;:51},{&quot;label&quot;:&quot;Google&quot;,&quot;value&quot;:2303,&quot;color&quot;:&quot;#3377ff&quot;,&quot;orders&quot;:4},{&quot;label&quot;:&quot;Facebook&quot;,&quot;value&quot;:1434,&quot;color&quot;:&quot;#29cccc&quot;,&quot;orders&quot;:10},{&quot;label&quot;:&quot;Instagram&quot;,&quot;value&quot;:799,&quot;color&quot;:&quot;#5dc728&quot;,&quot;orders&quot;:1}]"
-                                data-sa-container-query="{&quot;600&quot;:&quot;saw-chart-circle--size--lg&quot;}">
-                                <div class="sa-widget-header saw-chart-circle__header">
-                                    <h2 class="sa-widget-header__title">Sales by traffic source</h2>
-                                    <div class="sa-widget-header__actions">
-                                        <div class="dropdown"><button type="button"
-                                                class="btn btn-sm btn-sa-muted d-block" id="widget-context-menu-7"
-                                                data-bs-toggle="dropdown" aria-expanded="false" aria-label="More"><svg
-                                                    xmlns="http://www.w3.org/2000/svg" width="3" height="13"
-                                                    fill="currentColor">
-                                                    <path
-                                                        d="M1.5,8C0.7,8,0,7.3,0,6.5S0.7,5,1.5,5S3,5.7,3,6.5S2.3,8,1.5,8z M1.5,3C0.7,3,0,2.3,0,1.5S0.7,0,1.5,0 S3,0.7,3,1.5S2.3,3,1.5,3z M1.5,10C2.3,10,3,10.7,3,11.5S2.3,13,1.5,13S0,12.3,0,11.5S0.7,10,1.5,10z">
-                                                    </path>
-                                                </svg></button>
-                                            <ul class="dropdown-menu dropdown-menu-end"
-                                                aria-labelledby="widget-context-menu-7">
-                                                <li><a class="dropdown-item" href="#">Settings</a></li>
-                                                <li><a class="dropdown-item" href="#">Move</a></li>
-                                                <li>
-                                                    <hr class="dropdown-divider" />
-                                                </li>
-                                                <li><a class="dropdown-item text-danger" href="#">Remove</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="saw-chart-circle__body">
-                                    <div class="saw-chart-circle__container"><canvas></canvas></div>
-                                </div>
-                                <div class="sa-widget-table saw-chart-circle__table">
-                                    <table>
-                                        <thead>
-                                            <tr>
-                                                <th>Source</th>
-                                                <th class="text-center">Orders</th>
-                                                <th class="text-end">Amount</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>
-                                                    <div class="d-flex align-items-center">
-                                                        <div class="saw-chart-circle__symbol"
-                                                            style="--saw-chart-circle__symbol--color:#ffd333"></div>
-                                                        <div class="ps-2">Yandex</div>
-                                                    </div>
-                                                </td>
-                                                <td class="text-center">12</td>
-                                                <td class="text-end">
-                                                    <div class="sa-price"><span class="sa-price__symbol">$</span><span
-                                                            class="sa-price__integer">2,742</span><span
-                                                            class="sa-price__decimal">.00</span></div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="d-flex align-items-center">
-                                                        <div class="saw-chart-circle__symbol"
-                                                            style="--saw-chart-circle__symbol--color:#e62e2e"></div>
-                                                        <div class="ps-2">YouTube</div>
-                                                    </div>
-                                                </td>
-                                                <td class="text-center">51</td>
-                                                <td class="text-end">
-                                                    <div class="sa-price"><span class="sa-price__symbol">$</span><span
-                                                            class="sa-price__integer">3,272</span><span
-                                                            class="sa-price__decimal">.00</span></div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="d-flex align-items-center">
-                                                        <div class="saw-chart-circle__symbol"
-                                                            style="--saw-chart-circle__symbol--color:#3377ff"></div>
-                                                        <div class="ps-2">Google</div>
-                                                    </div>
-                                                </td>
-                                                <td class="text-center">4</td>
-                                                <td class="text-end">
-                                                    <div class="sa-price"><span class="sa-price__symbol">$</span><span
-                                                            class="sa-price__integer">2,303</span><span
-                                                            class="sa-price__decimal">.00</span></div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="d-flex align-items-center">
-                                                        <div class="saw-chart-circle__symbol"
-                                                            style="--saw-chart-circle__symbol--color:#29cccc"></div>
-                                                        <div class="ps-2">Facebook</div>
-                                                    </div>
-                                                </td>
-                                                <td class="text-center">10</td>
-                                                <td class="text-end">
-                                                    <div class="sa-price"><span class="sa-price__symbol">$</span><span
-                                                            class="sa-price__integer">1,434</span><span
-                                                            class="sa-price__decimal">.00</span></div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="d-flex align-items-center">
-                                                        <div class="saw-chart-circle__symbol"
-                                                            style="--saw-chart-circle__symbol--color:#5dc728"></div>
-                                                        <div class="ps-2">Instagram</div>
-                                                    </div>
-                                                </td>
-                                                <td class="text-center">1</td>
-                                                <td class="text-end">
-                                                    <div class="sa-price"><span class="sa-price__symbol">$</span><span
-                                                            class="sa-price__integer">799</span><span
-                                                            class="sa-price__decimal">.00</span></div>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
+                      
                         <div class="col-12 col-lg-6 d-flex">
                             <div class="card flex-grow-1">
                                 <div class="card-body">
@@ -622,7 +416,7 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- <div class="col-12 col-lg-6 d-flex">
+                        <div class="col-12 col-lg-6 d-flex">
                             <div class="card flex-grow-1">
                                 <div class="card-body">
                                     <div class="sa-widget-header">
@@ -652,17 +446,17 @@
                                 </div>
                                 <ul class="list-group list-group-flush">
                                     <li class="list-group-item py-2">
-                                        <div class="d-flex align-items-center py-3"><a href="app-product.html"
+                                        <div class="d-flex align-items-center py-3"><a href="#"
                                                 class="me-4">
                                                 <div class="sa-symbol sa-symbol--shape--rounded sa-symbol--size--lg">
                                                     <img src="images/products/product-1-40x40.jpg" width="40"
                                                         height="40" alt="" /></div>
                                             </a>
                                             <div class="d-flex align-items-center flex-grow-1 flex-wrap">
-                                                <div class="col"><a href="app-product.html"
+                                                <div class="col"><a href="#"
                                                         class="text-reset fs-exact-14">Wiper Blades Brandix WL2</a>
                                                     <div class="text-muted fs-exact-13">Reviewed by <a
-                                                            href="app-customer.html" class="text-reset">Ryan Ford</a>
+                                                            href="#" class="text-reset">Ryan Ford</a>
                                                     </div>
                                                 </div>
                                                 <div class="col-12 col-sm-auto">
@@ -675,18 +469,18 @@
                                         </div>
                                     </li>
                                     <li class="list-group-item py-2">
-                                        <div class="d-flex align-items-center py-3"><a href="app-product.html"
+                                        <div class="d-flex align-items-center py-3"><a href="#"
                                                 class="me-4">
                                                 <div class="sa-symbol sa-symbol--shape--rounded sa-symbol--size--lg">
                                                     <img src="images/products/product-7-40x40.jpg" width="40"
                                                         height="40" alt="" /></div>
                                             </a>
                                             <div class="d-flex align-items-center flex-grow-1 flex-wrap">
-                                                <div class="col"><a href="app-product.html"
+                                                <div class="col"><a href="#"
                                                         class="text-reset fs-exact-14">Electric Planer Brandix KL370090G
                                                         300 Watts</a>
                                                     <div class="text-muted fs-exact-13">Reviewed by <a
-                                                            href="app-customer.html" class="text-reset">Adam Taylor</a>
+                                                            href="#" class="text-reset">Adam Taylor</a>
                                                     </div>
                                                 </div>
                                                 <div class="col-12 col-sm-auto">
@@ -699,7 +493,7 @@
                                         </div>
                                     </li>
                                     <li class="list-group-item py-2">
-                                        <div class="d-flex align-items-center py-3"><a href="app-product.html"
+                                        <div class="d-flex align-items-center py-3"><a href="#"
                                                 class="me-4">
                                                 <div class="sa-symbol sa-symbol--shape--rounded sa-symbol--size--lg">
                                                     <img src="images/products/product-10-40x40.jpg" width="40"
@@ -709,7 +503,7 @@
                                                 <div class="col"><a href="app-product.html"
                                                         class="text-reset fs-exact-14">Water Tap</a>
                                                     <div class="text-muted fs-exact-13">Reviewed by <a
-                                                            href="app-customer.html" class="text-reset">Jessica
+                                                            href="#" class="text-reset">Jessica
                                                             Moore</a></div>
                                                 </div>
                                                 <div class="col-12 col-sm-auto">
@@ -722,18 +516,18 @@
                                         </div>
                                     </li>
                                     <li class="list-group-item py-2">
-                                        <div class="d-flex align-items-center py-3"><a href="app-product.html"
+                                        <div class="d-flex align-items-center py-3"><a href="#"
                                                 class="me-4">
                                                 <div class="sa-symbol sa-symbol--shape--rounded sa-symbol--size--lg">
                                                     <img src="images/products/product-5-40x40.jpg" width="40"
                                                         height="40" alt="" /></div>
                                             </a>
                                             <div class="d-flex align-items-center flex-grow-1 flex-wrap">
-                                                <div class="col"><a href="app-product.html"
+                                                <div class="col"><a href="#"
                                                         class="text-reset fs-exact-14">Brandix Router Power Tool
                                                         2017ERXPK</a>
                                                     <div class="text-muted fs-exact-13">Reviewed by <a
-                                                            href="app-customer.html" class="text-reset">Helena
+                                                            href="#" class="text-reset">Helena
                                                             Garcia</a></div>
                                                 </div>
                                                 <div class="col-12 col-sm-auto">
@@ -746,18 +540,18 @@
                                         </div>
                                     </li>
                                     <li class="list-group-item py-2">
-                                        <div class="d-flex align-items-center py-3"><a href="app-product.html"
+                                        <div class="d-flex align-items-center py-3"><a href="#"
                                                 class="me-4">
                                                 <div class="sa-symbol sa-symbol--shape--rounded sa-symbol--size--lg">
                                                     <img src="images/products/product-2-40x40.jpg" width="40"
                                                         height="40" alt="" /></div>
                                             </a>
                                             <div class="d-flex align-items-center flex-grow-1 flex-wrap">
-                                                <div class="col"><a href="app-product.html"
+                                                <div class="col"><a href="#"
                                                         class="text-reset fs-exact-14">Undefined Tool IRadix DPS3000SY
                                                         2700 Watts</a>
                                                     <div class="text-muted fs-exact-13">Reviewed by <a
-                                                            href="app-customer.html" class="text-reset">Ryan Ford</a>
+                                                            href="#" class="text-reset">Ryan Ford</a>
                                                     </div>
                                                 </div>
                                                 <div class="col-12 col-sm-auto">
@@ -770,17 +564,17 @@
                                         </div>
                                     </li>
                                     <li class="list-group-item py-2">
-                                        <div class="d-flex align-items-center py-3"><a href="app-product.html"
+                                        <div class="d-flex align-items-center py-3"><a href="#"
                                                 class="me-4">
                                                 <div class="sa-symbol sa-symbol--shape--rounded sa-symbol--size--lg">
                                                     <img src="images/products/product-16-40x40.jpg" width="40"
                                                         height="40" alt="" /></div>
                                             </a>
                                             <div class="d-flex align-items-center flex-grow-1 flex-wrap">
-                                                <div class="col"><a href="app-product.html"
+                                                <div class="col"><a href="#"
                                                         class="text-reset fs-exact-14">Brandix Screwdriver SCREW150</a>
                                                     <div class="text-muted fs-exact-13">Reviewed by <a
-                                                            href="app-customer.html" class="text-reset">Charlotte
+                                                            href="#" class="text-reset">Charlotte
                                                             Jones</a></div>
                                                 </div>
                                                 <div class="col-12 col-sm-auto">
@@ -794,7 +588,7 @@
                                     </li>
                                 </ul>
                             </div>
-                        </div> -->
+                        </div>
                     </div>
                 </div>
             </div><!-- sa-app__body / end -->

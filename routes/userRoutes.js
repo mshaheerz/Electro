@@ -83,7 +83,9 @@ router.get('/cart',shopController.cart)
 router.post('/addcart',shopController.addToCart)
 router.get('/wishlist',shopController.wishlist)
 router.get('/checkout',checkoutController.checkout)
+router.get('/coupons',shopController.coupons)
 router.get('/ordersuccess',checkoutController.ordersuccess)
+
 
 
 
@@ -98,7 +100,7 @@ router.get('/profile_details',profileController.profile_accountdetails)
 
 
 
-
+router.post('/review',shopController.review)
 router.post('/place_failed_order',checkoutController.place_failed_order)
 router.post('/verify-payment',checkoutController.verify_payment)
 router.post('/add_address',profileController.add_address)

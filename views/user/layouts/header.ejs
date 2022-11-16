@@ -115,10 +115,15 @@
                         <div class="icon">
                             <i class="icon-heart-o"></i>
                             <% if (token) { %>
-                                 <span id="wishlistheart" class="wishlist-count badge"> 
+                                <span id="wishlistheart" class="wishlist-count badge"> 
+                                <% if (wishlist !=null) { %>
+                                 
                                
-                                  <%= wishlist[0].products.length %>
-                              <% } %> </span>
+                                
+                               
+                                  <%= wishlist.products.length %>
+                              <% } %>  <% } %></span>
+                           
                         </div>
                         <p>Wishlist</p>
                     </a>
@@ -129,10 +134,16 @@
                         aria-expanded="false" data-display="static">
                         <div class="icon">
                             <i class="icon-shopping-cart"></i>
+                            
                             <% if (token && cart) { %>
                                   <span class="cart-count">
                                     <%= counts= cart.products.reduce((acc,cur)=>(acc+cur.quantity),0) %>
-                                <% } %> 
+                                </span>
+                                <% }else{ %> 
+                                    <span class="cart-count">
+                                        0
+                                    </span>
+                                    <% }%>
                              
                              </span>
                              
@@ -222,7 +233,7 @@
                             <a href="/profile_order" >Orders</a>
                         </li>
                         <li>
-                            <a href="#" class="">Contact</a>
+                            <a href="/coupons" class="">Offers</a>
 
                            
                         </li>

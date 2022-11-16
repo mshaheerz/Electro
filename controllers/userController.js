@@ -95,16 +95,19 @@ class userController {
                         res.redirect('/')
                         // res.send({ "status": "success", "message": "login success","token":token })
                     } else {
-                        res.render("user/login", { token: false, emailerr: "", passerr: "invalid email or password", allerr: "",category })
+                   
+                        res.render("user/login", { token: false, emailerr:"", passerr: "invalid email or password", allerr: "",category })
                         // res.send({ "status": "failed", "message": "invalid email or password" })
 
                     }
 
 
                 } else {
-                        res.render("user/login", { token: false, emailerr: "your not registered user", passerr: "", allerr: "",category })
+                    console.log('workedd second');
+                        res.render("user/login", { token: false, emailerr:"your not registered user", passerr: "", allerr: "",category })
                 }
             } else {
+               
                 res.render("user/login", { token: false, emailerr: "", passerr: "", allerr: "All fields are required",category })
 
             }

@@ -42,7 +42,7 @@ module.exports.profile = async (req, res) => {
         const userId = decoded.userID
         const user = await Usermodel.findById(userId)
         let cart = await cartmodel.findOne({ user: userId }).populate('user').populate('products.item')
-        const wishlist = await wishlistmodel.find().populate('user').populate('products.item')
+        const wishlist = await wishlistmodel.findOne({user:userId}).populate('user').populate('products.item')
         const order = ordermodel.find().populate('user').populate('products.item')
 
 
@@ -78,7 +78,7 @@ module.exports.profile_dashboard = async (req, res) => {
         const userId = decoded.userID
         const user = await Usermodel.findById(userId)
         let cart = await cartmodel.findOne({ user: userId }).populate('user').populate('products.item')
-        const wishlist = await wishlistmodel.find().populate('user').populate('products.item')
+        const wishlist = await wishlistmodel.findOne({ user: userId }).populate('user').populate('products.item')
         const order = ordermodel.find().populate('user').populate('products.item')
 
 
@@ -118,14 +118,14 @@ module.exports.profile_orders = async (req, res) => {
         const userId = decoded.userID
         const user = await Usermodel.findById(userId)
         let cart = await cartmodel.findOne({ user: userId }).populate('user').populate('products.item')
-        const wishlist = await wishlistmodel.find().populate('user').populate('products.item')
+        const wishlist = await wishlistmodel.findOne({ user: userId }).populate('user').populate('products.item')
         const order = await ordermodel.find({ user: userId }).populate({
             path: 'products',
             populate: {
                 path: 'item',
                 model: 'products',
             }
-        }).sort({ createdAt: -1 })
+        }).sort({ updatedAt: -1 })
 
 
 
@@ -167,7 +167,7 @@ module.exports.profile_address = async (req, res) => {
         const userId = decoded.userID
         const user = await Usermodel.findById(userId)
         let cart = await cartmodel.findOne({ user: userId }).populate('user').populate('products.item')
-        const wishlist = await wishlistmodel.find().populate('user').populate('products.item')
+        const wishlist = await wishlistmodel.findOne({user:userId}).populate('user').populate('products.item')
         const order = await ordermodel.find().populate('user').populate('products.item')
         const address = await addressmodel.find({ user: userId })
 
@@ -209,7 +209,7 @@ module.exports.profile_accountdetails = async (req, res) => {
         const userId = decoded.userID
         const user = await Usermodel.findById(userId)
         let cart = await cartmodel.findOne({ user: userId }).populate('user').populate('products.item')
-        const wishlist = await wishlistmodel.find().populate('user').populate('products.item')
+        const wishlist = await wishlistmodel.findOne({user:userId}).populate('user').populate('products.item')
         const order = ordermodel.find().populate('user').populate('products.item')
         const address = addressmodel.find({ user: userId })
         if (cart != null) {
