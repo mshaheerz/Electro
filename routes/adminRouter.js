@@ -34,6 +34,7 @@ router.use(function (req, res, next) {
   router.get('/products',authmiddleware.checkAdminAuth)
   router.get('/product_lists',authmiddleware.checkAdminAuth)
   router.get('/edit_product',authmiddleware.checkAdminAuth)
+  router.get('/banner_list',authmiddleware.checkAdminAuth)
 
 
   
@@ -69,10 +70,17 @@ const upload = adminController.upload
   router.get('/delete_product',adminController.delete_product)
   router.get('/edit_product',adminController.edit_product)
   router.get('/edit_coupon',adminController.coupon_edit)
-  router.post('/edit_coupon',adminController.coupon_edit_post)
+  router.get('/banner_list',adminController.banner_list)
+  router.get('/add_banner',adminController.add_banner)
+  router.get('/edit_banner',adminController.edit_banner)
+  router.post('/edit_banner_post',uploadfile.upload.single('images'),adminController.edit_banner_post)
+
 
 
   //protected post routes
+  router.post('/checkCoupon',adminController.checkCoupon)
+  router.post('/add_banner',uploadfile.upload.single('images'),adminController.add_banner_post)
+  router.post('/edit_coupon',adminController.coupon_edit_post)
   router.post('/add_coupon',adminController.add_coupon_post)
   router.post('/edit_category',adminController.edit_category)
   router.post('/change_status',adminController.change_status)

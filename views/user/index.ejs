@@ -22,22 +22,29 @@
                             }
                         }
                     }'>
-                    <div class="intro-slide" style="background-image: url(user/assets/images/demos/demo-4/slider/slide-2.png);">
+
+                    <% if (banner !=null) { %>
+
+                     <% for( let i = 0; i < banner.length; i++ ) { %>
+                     
+                    
+    
+                    <div class="intro-slide" style="background-image: url(data:<%= banner[i].contentType %>;base64,<%= banner[i].imageBase64 %>);">
                         <div class="container intro-content">
                             <div class="row justify-content-end">
                                 <div class="col-auto col-sm-7 col-md-6 col-lg-5">
-                                    <h3 class="intro-subtitle text-third">Deals and Promotions</h3><!-- End .h3 intro-subtitle -->
-                                    <h1 class="intro-title">Beats by</h1>
-                                    <h1 class="intro-title">Dre Studio 3</h1><!-- End .intro-title -->
+                                    <h3 class="intro-subtitle text-third"><%= banner[i].name %> </h3><!-- End .h3 intro-subtitle -->
+                                    <h1 class="intro-title"><%= banner[i].productname.substring(0,9) %> </h1>
+                                    <h1 class="intro-title"><%= banner[i].productname.substring(9) %></h1><!-- End .intro-title -->
 
                                     <div class="intro-price">
-                                        <sup class="intro-old-price">$349,95</sup>
+                                        <sup class="intro-old-price">&#8377;<%= banner[i].discount %> </sup>
                                         <span class="text-third">
-                                            $279<sup>.99</sup>
+                                            &#8377;<%= banner[i].discount-banner[i].price %> <sup>.99</sup>
                                         </span>
                                     </div><!-- End .intro-price -->
 
-                                    <a href="category.html" class="btn btn-primary btn-round">
+                                    <a href="product?id=<%= banner[i].url %> " class="btn btn-primary btn-round">
                                         <span>Shop More</span>
                                         <i class="icon-long-arrow-right"></i>
                                     </a>
@@ -45,29 +52,10 @@
                             </div><!-- End .row -->
                         </div><!-- End .intro-content -->
                     </div><!-- End .intro-slide -->
+                    <% } %>
+                    <% } %> 
 
-                    <div class="intro-slide" style="background-image: url(user/assets/images/demos/demo-4/slider/slide-1.png);">
-                        <div class="container intro-content">
-                            <div class="row justify-content-end">
-                                <div class="col-auto col-sm-7 col-md-6 col-lg-5">
-                                    <h3 class="intro-subtitle text-primary">New Arrival</h3><!-- End .h3 intro-subtitle -->
-                                    <h1 class="intro-title">Apple iPad Pro <br>12.9 Inch, 64GB </h1><!-- End .intro-title -->
-
-                                    <div class="intro-price">
-                                        <sup>Today:</sup>
-                                        <span class="text-primary">
-                                            &#x20B9;54899<sup>.00</sup>
-                                        </span>
-                                    </div><!-- End .intro-price -->
-
-                                    <a href="/product?id=636148b38179157b5668638c" class="btn btn-primary btn-round">
-                                        <span>Shop More</span>
-                                        <i class="icon-long-arrow-right"></i>
-                                    </a>
-                                </div><!-- End .col-md-6 offset-md-6 -->
-                            </div><!-- End .row -->
-                        </div><!-- End .intro-content -->
-                    </div><!-- End .intro-slide -->
+                   
                 </div><!-- End .intro-slider owl-carousel owl-simple -->
 
                 <span class="slider-loader"></span><!-- End .slider-loader -->
@@ -79,7 +67,7 @@
                 <div class="cat-blocks-container">
                     <div class="row">
 
-                        <% for( let i = 0; i < 6; i++ ) { %>
+                        <% for( let i = 0; i < category.length-1; i++ ) { %>
                         <div class="col-6 col-sm-4 col-lg-2">
                             <a href="/shopfilter?category=<%= category[i].category_name %>" class="cat-block">
                                 <figure>

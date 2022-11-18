@@ -39,6 +39,8 @@ router.post('/addcartproduct',authmiddleware.checkUserAuth)
 
 
 
+
+
 router.post('/otp',(req,res)=>{
 
   client.verify.services(process.env.SERVICE_ID).verifications
@@ -71,7 +73,8 @@ router.post('/verify',(req,res)=>{
 //public routes
 
   //get routes
-
+router.get('/otp',usergetController.otp)
+router.post('/orpverify',userController.userotp)
 router.get('/login',usergetController.login_get)
 router.get('/signup',usergetController.signup_get)
 router.get('/logout',usergetController.logout_get)

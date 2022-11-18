@@ -1,0 +1,172 @@
+<%- include('./layouts/main'); -%>
+  <style>
+  
+
+  </style>
+  
+    <%- include('./layouts/header'); -%>
+
+
+
+        <div id="top" class="sa-app__body">
+            <div class="mx-sm-2 px-2 px-sm-3 px-xxl-4 pb-6">
+                <div class="container">
+                    <div class="py-5">
+                        <div class="row g-4 align-items-center">
+                            <div class="col">
+                                <nav class="mb-2" aria-label="breadcrumb">
+                                    <ol class="breadcrumb breadcrumb-sa-simple">
+                                        <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+                                        <li class="breadcrumb-item"><a href="app-products-list.html">Products</a>
+                                        </li>
+                                        <li class="breadcrumb-item active" aria-current="page">Add Product</li>
+                                    </ol>
+                                </nav>
+                                <h1 class="h3 m-0">Add Product</h1>
+                            </div>
+
+
+
+
+
+
+
+                            <form action="/admin/add_banner" method="post" enctype="multipart/form-data">
+                            <div class="col-auto d-flex"><button class="btn btn-primary" type="submit">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sa-entity-layout"
+                        data-sa-container-query="{&quot;920&quot;:&quot;sa-entity-layout--size--md&quot;,&quot;1100&quot;:&quot;sa-entity-layout--size--lg&quot;}">
+                        <div class="sa-entity-layout__body">
+                            <div class="sa-entity-layout__main">
+                                <div class="card">
+                                    <div class="card-body p-5">
+                                        <div class="mb-5">
+                                            <h2 class="mb-0 fs-exact-18">Basic information</h2>
+                                        </div>
+
+
+
+                                        <div class="mb-4"><label for="form-product/name"
+                                                class="form-label">Offer title</label><input type="text" class="form-control"
+                                                name="name" id="form-product/name" required></div>
+
+                                        <div class="mb-4"><label for="form-product/description"
+                                                class="form-label">Description</label>
+                                                <textarea
+                                                id="" name="description"
+                                                class=" form-control" rows="4" required></textarea>
+                                        </div>
+                                        <div class="mb-4"><label for="form-product/name"
+                                            class="form-label">Product name</label><input type="text" class="form-control"
+                                            name="productname" id="form-product/name" required></div>
+                                    </div>
+                                </div>
+                                
+                         
+                                <div class="card mt-5">
+                                    <div class="card-body p-5">
+                                        <div class="mb-5">
+                                            <h2 class="mb-0 fs-exact-18">Link</h2>
+                                        </div>
+
+                                        <div class="mb-4"><label for="form-product/slug"
+                                            class="form-label">URL</label>
+                                        <div class="input-group input-group--sa-slug"><span
+                                                class="input-group-text"
+
+                                                id="form-product/slug-addon">http://localhost:8000?id=</span><input
+                                                type="text" class="form-control" name="url" id="form-product/slug"
+                                                aria-describedby="form-product/slug-addon form-product/slug-help"
+                                                value="" /></div>
+                                        <div id="form-product/slug-help" class="form-text">Url your product.</div>
+                                    </div>
+                                    </div>
+                                </div>
+                                <div class="card mt-5">
+                                    <div class="card-body p-5">
+                                        <div class="mb-5">
+                                            <h2 class="mb-0 fs-exact-18">Pricing</h2>
+                                        </div>
+                                        <div class="row g-4">
+                                            <div class="col"><label for="form-product/price"
+                                                    class="form-label">Price</label><input type="number"
+                                                    class="form-control" name="price" id="form-product/price" value="1499" />
+                                            </div>
+                                            <div class="col"><label for="form-product/old-price"
+                                                    class="form-label">Old price</label><input type="number"
+                                                    class="form-control" name="discount" id="form-product/old-price" /></div>
+                                        </div>
+                                      
+                                    </div>
+                                </div>
+                                <div class="card mt-5">
+                                    <div class="card-body p-5">
+                                        <div class="mb-5">
+                                            <h2 class="mb-0 fs-exact-18">Images</h2>
+                                        </div>
+                                    </div>
+                                    <div class="mt-n5">
+                                        <div class="sa-divider"></div>
+                                        <div class="table-responsive">
+                                            <div class="choose-imagefile-wrap">
+                                                
+                                                    <input type="file" id="file-input" class="form-control" name='images'  required>
+                                                    <div id="preview"></div>
+                                              
+                                            </div>
+
+                                        </div>
+                                        <div class="sa-divider"></div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- sa-app__body / end -->
+<script>
+
+
+function previewImages() {
+
+var preview = document.querySelector('#preview');
+
+if (this.files) {
+  [].forEach.call(this.files, readAndPreview);
+}
+
+function readAndPreview(file) {
+
+  // Make sure `file.name` matches our extensions criteria
+  if (!/\.(jpe?g|png|gif)$/i.test(file.name)) {
+    return alert(file.name + " is not an image");
+  } // else...
+  
+  var reader = new FileReader();
+  
+  reader.addEventListener("load", function() {
+    var image = new Image();
+    image.height = 100;
+    image.title  = file.name;
+    image.src    = this.result;
+    preview.appendChild(image);
+  });
+  
+  reader.readAsDataURL(file);
+  
+}
+
+}
+
+document.querySelector('#file-input').addEventListener("change", previewImages);
+
+</script>
+
+
+        <%- include('./layouts/footer'); -%>

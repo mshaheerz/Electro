@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken')
 const transporter = require("../config/emailConfig")
 const validatePhoneNumber = require('validate-phone-number-node-js');
 const categorymodel = require('../model/categoryschema')
+const client =require("twilio")(process.env.ACCOUNT_SID, process.env.AUTH_TOKEN)
 
 const { reset } = require("nodemon")
 
@@ -40,29 +41,49 @@ class userController {
 
             else if (firstname && lastname && email && phone && password && passwordone) {
                 if (password === passwordone) {
-                    try {
-                        const salt = await bcrypt.genSalt(10)
-                        const hashPassword = await bcrypt.hash(password, salt)
-                        const doc = new Usermodel({
-                            firstname: firstname,
-                            lastname: lastname,
-                            email: email,
-                            phone: phone,
-                            password: hashPassword,
-                        })
-                        await doc.save()
-                        const saved_user = await Usermodel.findOne({ email: email })
-                        // genarate JWT Token
-                        const token = jwt.sign({ userID: saved_user._id }, process.env.JWT_SECRET_KEY, { expiresIn: '5d' })
-                        res.cookie('jwt', token, { httpOnly: true });
-                        res.redirect('/')
-                        // res.send({ "status": "success", "message": "registration success","token":token })
+                    // try {
+                    //     const salt = await bcrypt.genSalt(10)
+                    //     const hashPassword = await bcrypt.hash(password, salt)
+                    //     const doc = new Usermodel({
+                    //         firstname: firstname,
+                    //         lastname: lastname,
+                    //         email: email,
+                    //         phone: phone,
+                    //         password: hashPassword,
+                    //     })
+                    //     await doc.save()
+                    //     const saved_user = await Usermodel.findOne({ email: email })
+                    //     // genarate JWT Token
+                    //     const token = jwt.sign({ userID: saved_user._id }, process.env.JWT_SECRET_KEY, { expiresIn: '5d' })
+                    //     res.cookie('jwt', token, { httpOnly: true });
+                    //     res.redirect('/')
+                    //     // res.send({ "status": "success", "message": "registration success","token":token })
 
 
-                    } catch (error) {
-                        console.log(error);
-                        res.send({ "status": "failed", "message": "unable to register" })
-                    }
+                    // } catch (error) {
+                    //     console.log(error);
+                    //     res.send({ "status": "failed", "message": "unable to register" })
+                    // }
+
+
+
+                    //new
+
+                    const category = await categorymodel.find()
+
+                    console.log(process.env.SERVICE_ID)
+                    console.log(phone)
+                    client.verify.services(process.env.SERVICE_ID).verifications
+                    .create({
+                      to:`+91${phone}`,
+                      channel: 'sms',
+                    }).then((data)=>{
+                        res.render("user/otp", { token: false, emailerr: '', passerr: "", allerr: "", category,firstname,lastname,email,phone,password})
+
+                    }).catch((err)=>{
+                      res.send(err)
+                    })
+                    //new
 
                 } else {
                     res.render("user/signup", { token: false, emailerr: "", passerr: "password and confirm password doesnt match", allerr: "",category })
@@ -76,7 +97,64 @@ class userController {
             }
         }
     }
+    static userotp=async (req,res)=>{
 
+        const { otp1, otp2, otp3, otp4, otp5, otp6,firstname, lastname, email, phone, password } = req.body;
+        const otpArr = [];
+        otpArr.push(otp1, otp2, otp3, otp4, otp5, otp6);
+        const code = otpArr.join("");
+
+        client.verify.services(process.env.SERVICE_ID).verificationChecks
+        .create({
+          to:`+91${phone}`,
+          code: code,
+        }).then(async (data)=>{
+          if(data.status.approved){
+            const category = await categorymodel.find()
+            const token = req.cookies.jwt
+            try {
+                const salt = await bcrypt.genSalt(10)
+                const hashPassword = await bcrypt.hash(password, salt)
+                const doc = new Usermodel({
+                    firstname: firstname,
+                    lastname: lastname,
+                    email: email,
+                    phone: phone,
+                    password: hashPassword,
+                })
+                await doc.save()
+                const saved_user = await Usermodel.findOne({ email: email })
+                // genarate JWT Token
+                const token = jwt.sign({ userID: saved_user._id }, process.env.JWT_SECRET_KEY, { expiresIn: '5d' })
+                res.cookie('jwt', token, { httpOnly: true });
+                res.redirect('/')
+                // res.send({ "status": "success", "message": "registration success","token":token })
+    
+    
+            } catch (error) {
+                console.log(error);
+                res.send({ "status": "failed", "message": "unable to register" })
+            }
+
+
+
+
+
+            // console.log("success",data.status=="approved");
+          }
+          res.status(200).send(data)
+        }).catch((err)=>{
+          res.send(err)
+        })
+
+
+
+
+
+
+
+       
+    } 
 
     //signin
     static userLogin = async (req, res) => {

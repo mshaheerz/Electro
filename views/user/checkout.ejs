@@ -38,10 +38,10 @@
                                         <div class="container">
                                             <div class="checkout-discount">
                                                 <form action="" id="checkout-form">
-                                                    <input type="text" name="coupon" class="form-control" 
+                                                    <!-- <input type="text" name="coupon" class="form-control" 
                                                         id="checkout-discount-input">
                                                     <label for="checkout-discount-input" class="text-truncate coupon">Have a
-                                                        coupon? <span>Click here to enter your code</span></label>
+                                                        coupon? <span>Click here to enter your code</span></label> -->
                                          
                                             </div><!-- End .checkout-discount -->
 
@@ -105,7 +105,27 @@
                                                         </div>
                                                     </div>
 
+                                                    <div class="cart-bottom">
+                                                <div class="cart-discount">
+                                                
+                                                        <div class="input-group">
+                                                            <input id="couponcheckid" name="coupon" type="text" class="form-control" 
+                                                                placeholder="coupon code">
+                                                          
+                                                            <div class="">
+                                                                <a  id="couponCheck" class="btn btn-outline-primary-2"
+                                                                ><i
+                                                                        class="icon-long-arrow-right"></i></a>
+                                                                        <span id="insertcoupon" class="text-danger">invalid token</span>
+                                                            </div><!-- .End .input-group-append -->
+                                                            
+                                                        </div><!-- End .input-group -->
+                                             
+                                                </div><!-- End .cart-discount -->
 
+                                                <a href="/shop" class="btn btn-outline-dark-2"><span>Go
+                                                        Shop</span><i class="icon-refresh"></i></a>
+                                            </div><!-- End .cart-bottom -->
 
                                                     <!-- <button class="mt-2 btn btn-outline-primary" type="button"
                                                         data-toggle="collapse" data-target="#collapseExample"
@@ -432,3 +452,27 @@
                                     })
                                 }
                             </script>
+
+                            <script>
+                                                $('#couponCheck').click(function(){
+                                                    const couponcheckid = $('#couponcheckid').val()
+                                                    console.log(couponcheckid)
+                                                    $.ajax({
+                                                    url: '/admin/checkCoupon',
+                                                    method:'post',
+                                                     data: {
+                                                        couponcheckid,
+                                                         
+                                                     },
+                                                     success:((response)=>{
+                                                         if(status){
+                                                            console.log(response)
+                                                         }else{
+                                                            console.log(response)
+                                                         }
+                                                     
+                                                     })
+                                                    })
+                                                })
+                                                
+                                                </script>

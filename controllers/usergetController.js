@@ -6,14 +6,18 @@ const cartmodel = require('../model/cartSchema')
 const wishlistmodel=require('../model/wishlistSchema')
 const reviewmodel = require('../model/reviewSchema')
 const ordermodel = require('../model/orderSchema')
+const bannermodel = require('../model/bannerSchema')
+const { response } = require('express')
 
 
 
 module.exports.home_page = async (req, res) => {
+
     const token = req.cookies.jwt
+    const banner = await bannermodel.find()
     const category = await categorymodel.find()
     const cart = await cartmodel.findOne().populate('user').populate('products.item')
-
+    res.locals.banner =banner ||null
     res.locals.cart=cart ||null
 
     if (token) {
@@ -252,4 +256,13 @@ module.exports.product = async (req, res) => {
    
 }
 
+module.exports.otp = async (req, res) => {
+    const category = await categorymodel.find()
+    const token = req.cookies.jwt
+    if (token) {
+        res.redirect("/")
+    } else {
+        res.render("user/otp", { token: false, emailerr: '', passerr: "", allerr: "", category })
+    }
 
+}

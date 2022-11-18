@@ -20,6 +20,7 @@ const { format } = require('path');
 const { validateExpressRequest } = require('twilio/lib/webhooks/webhooks');
 const couponmodel = require('../model/couponSchema');
 const { cursorTo } = require('readline');
+const bannermodel = require('../model/bannerSchema');
 
 
 //helper function
@@ -445,4 +446,129 @@ module.exports.coupon_edit = async(req,res)=>{
     res.locals.coupon=coupon
     res.locals.moment=moment
     res.render('admin/couponedit',{adminemail})
+}
+
+
+module.exports.banner_list = async (req, res) => {
+    const token = req.cookies.jwts
+    const adminemail = await admincheck(token)
+    const banner = await bannermodel.find()
+    res.locals.banner = banner || null
+    const products = await productmodel.find().populate('category')
+    res.render('admin/bannerlist', { adminemail, products })
+}
+
+
+module.exports.add_banner = async (req, res) => {
+    const token = req.cookies.jwts
+    const adminemail = await admincheck(token)
+    const banner = await bannermodel.find()
+    res.locals.banner = banner || null
+
+    res.render('admin/addbanner', { adminemail })
+}
+
+module.exports.add_banner_post = async (req, res, next) => {
+    // const {category_name,category_description}= req.body 
+    const images = req.file
+    if (!images) {
+        const error = new Error('Please choose files')
+        error.httpStatusCode = 400;
+        return next(error)
+    }
+    const {name,description,productname,url,price,discount } = req.body
+    let img = fs.readFileSync(images.path)
+    const encode_image = img.toString('base64')
+    let newUpload = new bannermodel({
+        name: name,
+        description,
+        productname,
+        url,
+        price,
+        discount,
+        category_thumbnail: images.originalname,
+        contentType: images.mimetype,
+        imageBase64: encode_image
+    })
+    return newUpload.save().then(() => {
+        res.redirect('/admin/banner_list')
+    }).catch(error => {
+        if (error) {
+            if (error.name === 'mongoerror' && error.code === 11000) {
+                return Promise.reject({ error: "duplicate file already exists" })
+            }
+            return Promise.reject({ error: "error" })
+        }
+    })
+}
+
+
+module.exports.edit_banner = async (req, res) => {
+    const {id}= req.query
+    const token = req.cookies.jwts
+    const adminemail = await admincheck(token)
+    const banner = await bannermodel.findById(id)
+    res.locals.banner = banner || null
+
+    res.render('admin/editbanner', { adminemail })
+}
+
+module.exports.edit_banner_post = async (req, res, next) => {
+    // const {category_name,category_description}= req.body 
+    const {name,description,productname,url,price,discount } = req.body
+    const {id}=req.query
+
+    const images = req.file
+    if (!images) {
+
+        let newUpload = {
+            name,
+            description,
+            productname,
+            url,
+            price,
+            discount
+        }
+        console.log(req.body,req.query);
+        await bannermodel.findByIdAndUpdate(id, newUpload)
+        res.redirect('/admin/banner_list')
+
+
+   
+    }else{
+  
+    let img = fs.readFileSync(images.path)
+    const encode_image = img.toString('base64')
+      
+    let newUpload = {
+        name,
+        description,
+        productname,
+        url,
+        price,
+        discount,
+        category_thumbnail: images.originalname,
+        contentType: images.mimetype,
+        imageBase64: encode_image
+    }
+    await bannermodel.findByIdAndUpdate(id, newUpload)
+    res.redirect('/admin/banner_list')
+
+    }
+   
+}
+
+
+module.exports.checkCoupon = async (req, res) => {
+  const {couponcheckid}=req.body
+  coupon = await couponmodel.find({code:couponcheckid.trim()})
+  if(coupon){
+    res.json({status:true,coupon})
+  }else{
+    res.json({status:false,err:'Sorry no coupon available'})
+  }
+  console.log(couponcheckid)
+
+
+   
 }

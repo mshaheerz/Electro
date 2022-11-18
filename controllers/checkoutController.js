@@ -95,14 +95,16 @@ module.exports.checkout = async (req, res) => {
   }
 }
 module.exports.place_order = async (req, res) => {
-  const token = req.cookies.jwt
+  try {
+
+    const token = req.cookies.jwt
   const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY)
   const userId = decoded.userID
-  const body = req.body
   console.log(req.body)
 
-  const { address, payment, coupon } = req.body
-
+  const { address, payment } = req.body
+  const coupon = req.body.coupon
+  console.log(coupon)
   let adrs = await addressmodel.findOne({ user: userId })
   let finaladress = adrs.address[address]
 
@@ -117,7 +119,7 @@ module.exports.place_order = async (req, res) => {
   let discount = await getDiscountprice(token)
   if(coupon){
     
-    const coupons = await couponmodel.findOne({code:coupon})
+    const coupons = await couponmodel.findOne({code:coupon.trim()})
     if(coupons){
       discount=discount+coupons.discount
       const orderObj = {
@@ -214,6 +216,11 @@ module.exports.place_order = async (req, res) => {
       }
     })
   }
+    
+  } catch (error) {
+    
+  }
+  
    
 }
 
