@@ -104,6 +104,7 @@ router.get('/profile_details',profileController.profile_accountdetails)
 
 
 router.post('/review',shopController.review)
+router.post('/order_cancel',checkoutController.order_cancel)
 router.post('/place_failed_order',checkoutController.place_failed_order)
 router.post('/verify-payment',checkoutController.verify_payment)
 router.post('/add_address',profileController.add_address)
@@ -115,6 +116,7 @@ router.post('/delete_wishlist',shopController.delete_wishlist)
 router.post('/addcartproduct',shopController.addcartproduct)
 router.post('/delete_address',profileController.delete_address)
 router.post('/edit_address',profileController.edit_address)
+router.post('/user_edit',profileController.user_edit)
 
 
   //post routes

@@ -8544,7 +8544,6 @@ input:checked+.sa-color-checkbox__box {
     box-shadow: 0 1px 3px #00000026;
     padding: var(--sa-invoice--padding)
 }
-
 .sa-invoice__header {
     align-items: center;
     display: flex;

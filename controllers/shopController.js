@@ -340,7 +340,7 @@ exports.addToWishlist = async (req, res) => {
                 products: [proObj]
             }
             await wishlistmodel.create(cartObj).then((response) => {
-                res.send({ "message": response })
+                res.json({ null:true })
                 // res.redirect('/')
             }).catch((error) => {
                 res.send({ "status": "failed", "message": error })
@@ -368,22 +368,23 @@ module.exports.review= async (req, res) => {
 
 
 module.exports.coupons = async (req, res) => {
-    const token = req.cookies.jwt
+    try {
+         const token = req.cookies.jwt
     const { id } = req.body
 
     const category = await categorymodel.find()
    
 
     if (token) {
-        const coupons = await couponmodel.find({})
+        const coupons = await couponmodel.find({status:'enabled'})
         const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
         const userId = decoded.userID
         const wishlist = await wishlistmodel.findOne({user:userId}).populate('user').populate('products.item')
         res.locals.wishlist=wishlist || null
         const user = await Usermodel.findById(userId)
         const cart = await cartmodel.findOne({ user: userId }).populate('user').populate('products.item')
-        res.locals.coupons = coupons
-        res.locals.cart = cart
+        res.locals.coupons = coupons||null
+        res.locals.cart = cart ||null
         res.locals.moment=moment
         console.log(cart)
         const fullname = user.firstname + " " + user.lastname
@@ -397,5 +398,9 @@ module.exports.coupons = async (req, res) => {
     } else {
         res.send('<script>alert("Login first "); window.location.href = "/login"; </script>')
 
+    } 
+    } catch (error) {
+        res.render('errors/404')
     }
+  
 }

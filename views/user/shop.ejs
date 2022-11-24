@@ -281,6 +281,14 @@
                                                                                             $(`.heartlove${index}`).removeClass('fa fa-heart')
 
                                                                                         }
+                                                                                        }else if(response.null){
+                                                                                            Swal.fire({
+                                                                                            position: 'top-end',
+                                                                                              icon: 'success',
+                                                                                              title: 'Product added to wishlist',
+                                                                                             showConfirmButton: false,
+                                                                                             timer: 2000
+                                                                                            })
                                                                                         } else {
                                                                                             alert('login first')
                                                                                             window.location = '/login'
@@ -662,4 +670,15 @@
                             </div><!-- End .container -->
         </div><!-- End .page-content -->
 
-        <%- include('./layouts/footer'); -%>
+        <%- include('./layouts/footeronly'); -%>
+                            <script src="user/assets/js/jquery.min.js"></script>
+                            <script src="user/assets/js/bootstrap.bundle.min.js"></script>
+                            <script src="user/assets/js/jquery.hoverIntent.min.js"></script>
+                            <script src="user/assets/js/jquery.waypoints.min.js"></script>
+                            <script src="user/assets/js/superfish.min.js"></script>
+                            <script src="user/assets/js/owl.carousel.min.js"></script>
+                            <script src="user/assets/js/bootstrap-input-spinner.js"></script>
+                            <script src="user/assets/js/jquery.elevateZoom.min.js"></script>
+                            <script src="user/assets/js/bootstrap-input-spinner.js"></script>
+                            <script src="user/assets/js/jquery.magnific-popup.min.js"></script>
+                            <script src="user/assets/js/main.js"></script>

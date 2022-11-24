@@ -175,8 +175,13 @@
                                 <li><a href="/shop">All Products</a></li>
                                 <!-- <li class="item-lead"><a href="#">More discount</a></li>
                                 <li class="item-lead"><a href="#">Premium</a></li> -->
+                                <% if (category !=null) { %>
+                                 
+                               
                                 <% for( let i = 0; i < category.length; i++ ) { %>
                                  <li><a href="/shopfilter?category=<%= category[i].category_name %>"><%= category[i].category_name %> </a></li>
+                                <% } %>
+
                                 <% } %>
                                <!-- 
                                 <li><a href="#">Computer & Laptop</a></li>

@@ -77,39 +77,60 @@
                            
 
                             <div class="" id="tab-account" role="tabpanel" aria-labelledby="tab-account-link">
-                                <form action="#">
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <label>First Name *</label>
-                                            <input type="text" class="form-control" required>
-                                        </div><!-- End .col-sm-6 -->
-
-                                        <div class="col-sm-6">
-                                            <label>Last Name *</label>
-                                            <input type="text" class="form-control" required>
-                                        </div><!-- End .col-sm-6 -->
-                                    </div><!-- End .row -->
-
-                                    <label>Display Name *</label>
-                                    <input type="text" class="form-control" required>
-                                    <small class="form-text">This will be how your name will be displayed in the account section and in reviews</small>
-
-                                    <label>Email address *</label>
-                                    <input type="email" class="form-control" required>
-
-                                    <label>Current password (leave blank to leave unchanged)</label>
-                                    <input type="password" class="form-control">
-
-                                    <label>New password (leave blank to leave unchanged)</label>
-                                    <input type="password" class="form-control">
-
-                                    <label>Confirm new password</label>
-                                    <input type="password" class="form-control mb-2">
-
-                                    <button type="submit" class="btn btn-outline-primary-2">
-                                        <span>SAVE CHANGES</span>
-                                        <i class="icon-long-arrow-right"></i>
-                                    </button>
+                                <form  action="/user_edit" method="post">
+                                    <div class="form-group">
+                                        <label for="register">First name *</label>
+                                        <input type="text" class="form-control" id="fname" value="<%=user.firstname  %> " name="firstname" required>
+                                        <span class="" style="color:red"> </span>
+                                    </div><!-- End .form-group -->
+                                    <div class="form-group">
+                                        <label for="register-email-2">Last name  *</label>
+                                        <input type="text" value="<%=user.lastname  %> "class="form-control" id="lname" name="lastname" required>
+                                        <span id = "charMsg" style="color:red"> </span>
+    
+                                        <!-- <div class="form-group">
+                                            <label for="register">Phone number *</label>
+                                            <input type="tel"   class="form-control" id="phone" name="phone" required>
+                                            <span id = "phonemsg" style="color:red"></span>
+    
+                                           
+                                        </div> -->
+                                        <!-- End .form-group -->
+                                    </div><!-- End .form-group -->
+                                    <div class="form-group">
+                                        <label for="register-email-2">Your email address *</label>
+                                        <input type="email" value="<%=user.email  %>" class="form-control" id="register-email-2" name="email"required >
+                                 
+                              
+                                            <span id = "phonemsg" style="color:red"><%= emailerr %> </span>
+                                       
+                                    </div><!-- End .form-group -->
+                                    <div class="form-group">
+                                        <label for="register-password-2">current Password *</label>
+                                        <input type="password"  title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" class="form-control" id="pswd1" name="oldpass" required>
+                                        <span id = "message1" style="color:red"><%= passerr %></span>
+                                    </div><!-- End .form-group -->
+                                    <div class="form-group">
+                                        <label for="register-password-2">new Password *</label>
+                                        <input type="password"  title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" class="form-control" id="pswd1" name="newpass" required>
+                                        <span id = "message1" style="color:red"><%= passerr %></span>
+                                    </div><!-- End .form-group -->
+                                    <div class="form-group">
+                                        <label for="register-password-2">Confirm Password *</label>
+                                        <input type="password"  title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" class="form-control" id="pswd2" name="newconfirmpass" required>
+                                        <span id = "message2" style="color:red"></span>
+                                    </div><!-- End .form-group -->
+                                    <span id = "message2" style="color:red"><%= allerr %> </span>
+    
+                                    <div class="form-footer">
+                                       
+                                        <button type="submit" class="btn btn-outline-primary-2">
+                                            <span>Change</span>
+                                            <i class="icon-long-arrow-right"></i>
+                                        </button>
+    
+                                        
+                                    </div><!-- End .form-footer -->
                                 </form>
                             </div><!-- .End .tab-pane -->
                         </div>

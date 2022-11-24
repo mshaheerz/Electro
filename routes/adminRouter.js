@@ -81,6 +81,7 @@ const upload = adminController.upload
   router.post('/checkCoupon',adminController.checkCoupon)
   router.post('/add_banner',uploadfile.upload.single('images'),adminController.add_banner_post)
   router.post('/edit_coupon',adminController.coupon_edit_post)
+  router.get('/update_coupon_status',adminController.update_coupon_status)
   router.post('/add_coupon',adminController.add_coupon_post)
   router.post('/edit_category',adminController.edit_category)
   router.post('/change_status',adminController.change_status)

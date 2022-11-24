@@ -43,24 +43,72 @@ module.exports.admin_login = async (req, res) => {
 
 }
 
+//admin home page
+module.exports.admin_home = async (req, res,next) => {
 
-module.exports.admin_home = async (req, res) => {
-    const user = await usermodel.find().count()
-    const product = await productmodel.find().count()
-    const category = await categorymodel.find().count()
-    const order = await ordermodel.find().populate('user').sort({ updatedAt: -1 }).limit(8)
-    res.locals.order=order ||null
-    const token = req.cookies.jwts
-    res.locals.moment=moment
-    if (token) {
-        adminemail = await admincheck(token)
-        const orders=await ordermodel.find()
-        const totalsale = orders.reduce((acc,cur)=>(acc+cur.totalamount),0)
-        res.locals.totalsale  = totalsale || null
-        res.render('admin/index', { adminemail: adminemail, user: user, product: product, category: category })
-    } else {
-        res.render('admin/login', { emailerr: "", passerr: "", allerr: "" });
+    try {
+        const user = await usermodel.find().count()
+        const product = await productmodel.find().count()
+        const category = await categorymodel.find().count()
+        const order = await ordermodel.find().populate('user').sort({ updatedAt: -1 }).limit(8)
+        
+        //aggregate income statistics by order
+       const salesbymonth= await ordermodel.aggregate([
+            {
+                $project: {
+                    'totalamount': true,
+                    'createdAt': true,
+                }
+            },
+            {
+                $group: {
+                    _id: {$month:'$createdAt'},
+                    totalamount: { '$sum': '$totalamount' }
+                }
+            },
+            {
+                $sort:{
+                    _id:1
+                }
+            }
+        ])
+        const salesbyproduct= await ordermodel.aggregate([
+            {
+                $project: {
+                    'totalamount': true,
+                    'createdAt': true,
+                }
+            },
+            {
+                $group: {
+                    _id: {'$month':'$createdAt'},
+                    totalamount: { '$sum': '$totalamount' }
+                }
+            },
+            {
+                $sort:{
+                    _id:1
+                }
+            }
+        ])
+        
+        res.locals.bar=salesbymonth
+        res.locals.order=order ||null
+        const token = req.cookies.jwts
+        res.locals.moment=moment
+        if (token) {
+            adminemail = await admincheck(token)
+            const orders=await ordermodel.find()
+            const totalsale = orders.reduce((acc,cur)=>(acc+cur.totalamount),0)
+            res.locals.totalsale  = totalsale || null
+            res.render('admin/index', { adminemail: adminemail, user: user, product: product, category: category })
+        } else {
+            res.render('admin/login', { emailerr: "", passerr: "", allerr: "" });
+        }
+    } catch (error) {
+        next()
     }
+   
 }
 
 
@@ -437,6 +485,28 @@ module.exports.coupon_edit_post = async(req,res)=>{
     res.redirect('/admin/coupon_list')
     
 }
+module.exports.update_coupon_status = async(req,res)=>{
+    try {
+         const {id,status}=req.query
+    console.log(id,status)
+   if(status=='disable'){
+    await couponmodel.findByIdAndUpdate(id,{status:'disabled'})
+    res.redirect('/admin/coupon_list')
+   }else if(status=='enable'){
+    await couponmodel.findByIdAndUpdate(id,{status:'enabled'})
+    res.redirect('/admin/coupon_list')
+   }else{
+    res.redirect('/admin/coupon_list')
+   }
+   
+    } catch (error) {
+        res.render('errors/404')
+    }
+   
+   
+   
+    
+}
 module.exports.coupon_edit = async(req,res)=>{
     const token = req.cookies.jwts
     const adminemail = await admincheck(token)
@@ -561,13 +631,17 @@ module.exports.edit_banner_post = async (req, res, next) => {
 
 module.exports.checkCoupon = async (req, res) => {
   const {couponcheckid}=req.body
-  coupon = await couponmodel.find({code:couponcheckid.trim()})
-  if(coupon){
-    res.json({status:true,coupon})
+  console.log(couponcheckid)
+  const coupon = await couponmodel.findOne({code:couponcheckid.trim()})
+
+  if(coupon !=null){
+    
+        res.json({status:true,coupon})
+
   }else{
     res.json({status:false,err:'Sorry no coupon available'})
   }
-  console.log(couponcheckid)
+
 
 
    

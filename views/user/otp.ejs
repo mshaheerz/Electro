@@ -78,23 +78,25 @@ input[type=number]::-webkit-outer-spin-button {
 
                 <div class="container height-100 d-flex justify-content-center align-items-center">
                     <div class="position-relative">
-                        <form action="">
+                        <form action="/orpverify" method="post" >
                         <div class="card p-2 text-center">
                             <h6>Please enter the one time password <br> to verify your account</h6>
                             <div> <span>A code has been sent to</span> <small>*******<%= phone.toString().substring(8) %> </small> </div> 
                             <div id="otp" class="inputs d-flex flex-row justify-content-center mt-2"> <input class="m-2 text-center form-control rounded" type="text" id="first" maxlength="1" name="otp1" /> <input class="m-2 text-center form-control rounded" type="text" id="second" maxlength="1" name="otp2"/> <input class="m-2 text-center form-control rounded" type="text" id="third" maxlength="1" name="otp3"/> <input class="m-2 text-center form-control rounded" type="text" id="fourth" maxlength="1" name="otp4" /> <input class="m-2 text-center form-control rounded" type="text" id="fifth" maxlength="1" name="otp5" /> <input class="m-2 text-center form-control rounded" type="text" id="sixth" maxlength="1" name="otp6"/> </div> 
+                           <div><span class="text-danger"><%= allerr %> </span></div>
                             <input type="hidden" name="firstname" value="<%= firstname %> ">
                             <input type="hidden" name="lastname" value="<%= lastname %> ">
                             <input type="hidden" name="email" value="<%= email %> ">
                             <input type="hidden" name="phone" value="<%= phone %> ">
                             <input type="hidden" name="password" value="<%= password %> ">
                             
-                        </form>
+                     
                               
                             
                             
                             
                             <div class="mt-4"> <button type="submit" class="btn btn-danger px-4 validate">Validate</button> </div>
+                        </form>
                         </div>
                     </div>
                 </div>

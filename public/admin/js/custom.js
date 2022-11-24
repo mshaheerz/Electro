@@ -178,6 +178,8 @@
             const labels = data.map(function(item) { return item.label; });
             const values = data.map(function(item) { return item.value; });
             const canvas = $(this).find('canvas')[0];
+           
+        
 
             new Chart(canvas.getContext('2d'), {
                 type: 'bar',
@@ -190,6 +192,7 @@
                             borderWidth: 0,
                             fill: 'origin',
                             data: values,
+
                         },
                     ],
                 },
@@ -209,8 +212,11 @@
                                 fontSize: 13,
                                 fontColor: '#828f99',
                                 callback: function (value) {
-                                    return '₹' + value;
+                                    // console.log(value)
+                                    return '₹' + value/1e5 + 'lakh';
+                                    
                                 },
+                                
                             },
                             gridLines: {
                                 lineWidth: 1,

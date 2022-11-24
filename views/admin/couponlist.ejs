@@ -1,4 +1,3 @@
-
 <%- include('./layouts/main'); -%>
 <%- include('./layouts/header'); -%>
 
@@ -54,7 +53,7 @@
                             <td><%= coupon[i].discount %> </td>
                             <td>
                                 <div class="d-flex fs-16">
-                                    <div class="badge badge-sa-pill badge-sa-primary"><%=coupon[i].status  %> </div>
+                                    <div class="badge badge-sa-pill <%=coupon[i].status=='enabled'?'badge-sa-primary':'badge-sa-danger'  %> "><%=coupon[i].status  %> </div>
                                 </div>
                             </td>
                             <td><%= moment(coupon[i].startDate).format('lll') %> </td>
@@ -71,10 +70,13 @@
                                         </svg></button>
                                     <ul class="dropdown-menu dropdown-menu-end"
                                         aria-labelledby="coupon-context-menu-0">
-                                        <li><a class="dropdown-item" href="#">Edit</a></li>
-                                        <li><a class="dropdown-item" href="#">Duplicate</a></li>
-                                        <li><a class="dropdown-item" href="#">Add tag</a></li>
-                                        <li><a class="dropdown-item" href="#">Remove tag</a></li>
+                                        <li><a class="dropdown-item" href="/admin/edit_coupon?id=<%= coupon[i]._id %> ">Edit</a></li>
+                                         <% if (coupon[i].status=='enabled') { %>
+                                           <li><a class="dropdown-item" href="/admin/update_coupon_status?id=<%= coupon[i]._id %>&status=disable">disable</a></li>
+                                         <% } else{%> 
+                                            <li><a class="dropdown-item" href="/admin/update_coupon_status?id=<%= coupon[i]._id %>&status=enable">enable</a></li>
+                                            <% } %>
+                                       
                                         <li>
                                             <hr class="dropdown-divider" />
                                         </li>

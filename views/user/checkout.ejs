@@ -111,12 +111,16 @@
                                                         <div class="input-group">
                                                             <input id="couponcheckid" name="coupon" type="text" class="form-control" 
                                                                 placeholder="coupon code">
+                                                                
                                                           
                                                             <div class="">
                                                                 <a  id="couponCheck" class="btn btn-outline-primary-2"
                                                                 ><i
                                                                         class="icon-long-arrow-right"></i></a>
-                                                                        <span id="insertcoupon" class="text-danger">invalid token</span>
+
+                                                                        <a  id="coupencancel" class="d-none btn btn-outline-primary-2"
+                                                                >cancel</a>
+                                                                        <span id="insertcoupon" class=""></span>
                                                             </div><!-- .End .input-group-append -->
                                                             
                                                         </div><!-- End .input-group -->
@@ -184,12 +188,12 @@
                                                                             <tr>
                                                                                 <td>Discount:</td>
                                                                                 <td><span class="text-danger"> -&#8377;
-                                                                                        <%= discount %>
+                                                                                       <span id="discountspan"> <%= discount %></span>
                                                                                     </span></td>
                                                                             </tr>
                                                                             <tr class="summary-total">
                                                                                 <td>Total:</td>
-                                                                                <td>RS. <%= total-discount %>
+                                                                                <td>RS.<span id="totalspan"> <%= total-discount %></span>
                                                                                 </td>
                                                                             </tr><!-- End .summary-total -->
                                                                             <% } %>
@@ -270,12 +274,6 @@
                                                                     </div>
 
                                                                 </div><!-- End .card -->
-
-
-
-
-
-
 
                                                                 <button type="submit"
                                                                     class="btn btn-outline-primary-2 btn-order btn-block">
@@ -456,7 +454,11 @@
                             <script>
                                                 $('#couponCheck').click(function(){
                                                     const couponcheckid = $('#couponcheckid').val()
-                                                    console.log(couponcheckid)
+                                                    const discountspan=parseInt($('#discountspan').html())
+                                                    const totalspan=parseInt($('#totalspan').html())
+                                                    console.log(couponcheckid,discountspan,totalspan)
+                                                   
+                                                    
                                                     $.ajax({
                                                     url: '/admin/checkCoupon',
                                                     method:'post',
@@ -465,14 +467,43 @@
                                                          
                                                      },
                                                      success:((response)=>{
-                                                         if(status){
+                                                         if(response.status){
                                                             console.log(response)
+                                                            if(response.coupon.type=='percentage'){
+                                                                const dis = response.coupon.discount*totalspan/100
+                                                            $('#insertcoupon').removeClass('text-danger').addClass('text-success').html('coupon Applied')
+                                                            $('#discountspan').html(dis+discountspan)
+                                                            console.log(dis,response.coupon.discount,totalspan)
+                                                            $('#totalspan').html(totalspan-dis)
+                                                            $('#couponcheckid').attr('readonly','true');
+                                                            $('#couponCheck').addClass('d-none');
+                                                            $('#coupencancel').removeClass('d-none');
+                                                            }else{
+                                                            $('#insertcoupon').removeClass('text-danger').addClass('text-success').html('coupon Applied')
+                                                            $('#discountspan').html(response.coupon.discount+discountspan)
+                                                            $('#totalspan').html(totalspan-response.coupon.discount)
+                                                            $('#couponcheckid').attr('readonly','true');
+                                                            $('#couponCheck').addClass('d-none');
+                                                            $('#coupencancel').removeClass('d-none');
+                                                            }
+                                                        
+
+            
                                                          }else{
-                                                            console.log(response)
+                                                            $('#insertcoupon').addClass('text-danger').html(response.err)
                                                          }
                                                      
                                                      })
                                                     })
+                                                })
+
+
+
+                                                $('#coupencancel').click(function(){
+                                                   location.reload()
+                                                   
+                                                    
+                                                    
                                                 })
                                                 
                                                 </script>

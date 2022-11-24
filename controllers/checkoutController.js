@@ -44,6 +44,7 @@ async function getTotalprice(token) {
 
 }
 
+
 module.exports.checkout = async (req, res) => {
   const token = req.cookies.jwt
   const { id } = req.body
@@ -96,19 +97,13 @@ module.exports.checkout = async (req, res) => {
 }
 module.exports.place_order = async (req, res) => {
   try {
-
-    const token = req.cookies.jwt
+  const token = req.cookies.jwt
   const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY)
   const userId = decoded.userID
-  console.log(req.body)
-
   const { address, payment } = req.body
   const coupon = req.body.coupon
-  console.log(coupon)
   let adrs = await addressmodel.findOne({ user: userId })
   let finaladress = adrs.address[address]
-
-  console.log(finaladress)
   //   res.json({response:true,data:body,final:finaladress})
   let cart = await cartmodel
     .findOne({ user: userId })
@@ -118,10 +113,16 @@ module.exports.place_order = async (req, res) => {
   const total = await getTotalprice(token)
   let discount = await getDiscountprice(token)
   if(coupon){
-    
     const coupons = await couponmodel.findOne({code:coupon.trim()})
     if(coupons){
-      discount=discount+coupons.discount
+      if(coupons.type=='percentage'){
+        const percentagedis = coupons.discount*(total-discount)/100
+        console.log(percentagedis)
+        discount=discount+percentagedis
+      }else{
+        discount=discount+coupons.discount
+      }
+      console.log(discount)
       const orderObj = {
         address: {
           name: finaladress.name,
@@ -137,14 +138,12 @@ module.exports.place_order = async (req, res) => {
         products: cart.products,
         totalamount: total - discount,
         status: status,
-      }
-      
+      } 
       await ordermodel
         .create(orderObj)
         .then(async (data) => {
-          console.log(data)
+          await couponmodel.updateOne({code:coupon.trim()},{$inc:{limit:-1}})
           const orderId = data._id.toString()
-         
           if (payment == 'cod') {
             await cartmodel.updateOne({ user: userId }, { $set: { products: [] } })
             res.json({ status: true })
@@ -158,20 +157,16 @@ module.exports.place_order = async (req, res) => {
               amount: amount*100,
               currency: 'INR',
               receipt: orderId,
-           
             },(err,order)=>{
               console.log("new order:",order)
               res.json({status:false,order});
             })
           }
         })
-      
     }else{
       res.json({couponerr:true,coupons})
     }
-  
   }else{
-
   const orderObj = {
     address: {
       name: finaladress.name,
@@ -249,7 +244,26 @@ module.exports.place_failed_order = async (req, res) => {
         })
       }
 
-
+      module.exports.order_cancel = async (req, res) => {
+        try {
+        const token = req.cookies.jwt
+        if(token){
+        const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY)
+        const userId = decoded.userID
+        const {orderId}  =req.body
+        await ordermodel.findByIdAndUpdate(orderId,{status:'canceled'})
+        res.json(true)
+        }
+       
+      
+       
+        } catch (error) {
+          res.json(true)
+        }
+        
+   
+            }
+      
 
 module.exports.ordersuccess = async (req, res) => {
   const token = req.cookies.jwt
