@@ -68,47 +68,60 @@
             <div class="header-center">
                 <div class="header-search header-search-extended header-search-visible d-none d-lg-block">
                     <a href="#" class="search-toggle" role="button"><i class="icon-search"></i></a>
-                    <form action="#" method="get">
+                    <form autocomplete="off" action="/search" method="get">
+                      
                         <div class="header-search-wrapper search-wrapper-wide">
                             <label for="q" class="sr-only">Search</label>
                             <button class="btn btn-primary" type="submit"><i class="icon-search"></i></button>
-                            <input type="search" class="form-control" name="q" id="q" placeholder="Search product ..."
+                            
+                            <input type="search" list="suggestions" onkeyup="search()" class="form-control" name="q" id="q" placeholder="Search product ..."
                                 required>
-                        </div><!-- End .header-search-wrapper -->
+                                <datalist id="suggestions">
+                                   
+                               
+
+                                  
+                                </datalist>
+                    
+                        </div>
+                 
                     </form>
+                    <script>
+                        function search(){
+                            let x=document.getElementById('q').value
+                            console.log(x);
+                            $.ajax({
+                                url:'/livesearch',
+                                method:'post',
+                                data:{
+                                    q:x,
+                                },
+                                success:(response)=>{
+                                    if(response.status){
+                                        console.log(response)
+                                        let arr=[]
+                                    response.products.forEach(element => {
+                                        arr.push(new Option(element.name))
+                                    });
+                                        console.log(arr);
+                                       let ss= $('suggestions').appendTo("<option>kooy</option>")
+                                        
+                                        
+
+
+
+                                    }
+                                }
+
+                            })
+                        }                
+                    </script>
+
                 </div><!-- End .header-search -->
             </div>
 
             <div class="header-right">
-                <div class="dropdown compare-dropdown">
-                    <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true"
-                        aria-expanded="false" data-display="static" title="Compare Products"
-                        aria-label="Compare Products">
-                        <div class="icon">
-                            <i class="icon-random"></i>
-                        </div>
-                        <p>Compare</p>
-                    </a>
-
-                    <div class="dropdown-menu dropdown-menu-right">
-                        <ul class="compare-products">
-                            <li class="compare-product">
-                                <a href="#" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
-                                <h4 class="compare-product-title"><a href="product.html">samsung s22 ultra</a></h4>
-                            </li>
-                            <li class="compare-product">
-                                <a href="#" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
-                                <h4 class="compare-product-title"><a href="product.html">Apple 14 pro max</a></h4>
-                            </li>
-                        </ul>
-
-                        <div class="compare-actions">
-                            <a href="#" class="action-link">Clear All</a>
-                            <a href="#" class="btn btn-outline-primary-2"><span>Compare</span><i
-                                    class="icon-long-arrow-right"></i></a>
-                        </div>
-                    </div><!-- End .dropdown-menu -->
-                </div><!-- End .compare-dropdown -->
+               
 
                 <div class="wishlist">
                     <a href="/wishlist" title="Wishlist">
@@ -118,9 +131,6 @@
                                 <span id="wishlistheart" class="wishlist-count badge"> 
                                 <% if (wishlist !=null) { %>
                                  
-                               
-                                
-                               
                                   <%= wishlist.products.length %>
                               <% } %>  <% } %></span>
                            

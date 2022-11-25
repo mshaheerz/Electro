@@ -40,55 +40,61 @@ async function getTotalprice(token) {
   ))
 }
 
-module.exports.profile = async (req, res) => {
-  const token = req.cookies.jwt
-  const { id } = req.body
-  const category = await categorymodel.find()
-  if (token) {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY)
-    const userId = decoded.userID
-    const user = await Usermodel.findById(userId)
-    let cart = await cartmodel
-      .findOne({ user: userId })
-      .populate('user')
-      .populate('products.item')
-    const wishlist = await wishlistmodel
-      .findOne({ user: userId })
-      .populate('user')
-      .populate('products.item')
-    const order = ordermodel.find().populate('user').populate('products.item')
-
-    const total = await getTotalprice(token)
-    const discount = await getDiscountprice(token)
-    res.locals.wishlist = wishlist
-    res.locals.order = order || null
-    res.locals.user = user || null
-    res.locals.total = total
-    res.locals.cart = cart
-    res.locals.discount = discount
-    const fullname = user.firstname + ' ' + user.lastname
-    let useremail = user.email
-    if (user.isBanned) {
-      res.render('user/profile', { token: '', alert: true, category, cart })
+module.exports.profile = async (req, res,next) => {
+  try {
+    const token = req.cookies.jwt
+    const { id } = req.body
+    const category = await categorymodel.find()
+    if (token) {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY)
+      const userId = decoded.userID
+      const user = await Usermodel.findById(userId)
+      let cart = await cartmodel
+        .findOne({ user: userId })
+        .populate('user')
+        .populate('products.item')
+      const wishlist = await wishlistmodel
+        .findOne({ user: userId })
+        .populate('user')
+        .populate('products.item')
+      const order = ordermodel.find().populate('user').populate('products.item')
+  
+      const total = await getTotalprice(token)
+      const discount = await getDiscountprice(token)
+      res.locals.wishlist = wishlist
+      res.locals.order = order || null
+      res.locals.user = user || null
+      res.locals.total = total
+      res.locals.cart = cart
+      res.locals.discount = discount
+      const fullname = user.firstname + ' ' + user.lastname
+      let useremail = user.email
+      if (user.isBanned) {
+        res.render('user/profile', { token: '', alert: true, category, cart })
+      } else {
+        res.render('user/profile', {
+          token,
+          fullname,
+          useremail,
+          alert: false,
+          category,
+          cart,
+        })
+      }
     } else {
-      res.render('user/profile', {
-        token,
-        fullname,
-        useremail,
-        alert: false,
-        category,
-        cart,
-      })
+      res.send(
+        '<script>alert("Login first "); window.location.href = "/login"; </script>',
+      )
     }
-  } else {
-    res.send(
-      '<script>alert("Login first "); window.location.href = "/login"; </script>',
-    )
+  } catch (error) {
+    next(error)
   }
+ 
 }
 
-module.exports.profile_dashboard = async (req, res) => {
-  const token = req.cookies.jwt
+module.exports.profile_dashboard = async (req, res, next) => {
+  try {
+   const token = req.cookies.jwt
   const { id } = req.body
   const category = await categorymodel.find()
   if (token) {
@@ -139,9 +145,14 @@ module.exports.profile_dashboard = async (req, res) => {
       '<script>alert("Login first "); window.location.href = "/login"; </script>',
     )
   }
+  } catch (error) {
+    next(error)
+  }
+ 
 }
 
-module.exports.profile_orders = async (req, res) => {
+module.exports.profile_orders = async (req, res,next) => {
+  try {
   const token = req.cookies.jwt
   const { id } = req.body
   const category = await categorymodel.find()
@@ -208,10 +219,15 @@ module.exports.profile_orders = async (req, res) => {
       '<script>alert("Login first "); window.location.href = "/login"; </script>',
     )
   }
+  } catch (error) {
+    next(error)
+  }
+ 
 }
 
-module.exports.profile_address = async (req, res) => {
-  const token = req.cookies.jwt
+module.exports.profile_address = async (req, res,next) => {
+  try {
+    const token = req.cookies.jwt
   const { id } = req.body
   const category = await categorymodel.find()
   if (token) {
@@ -270,10 +286,15 @@ module.exports.profile_address = async (req, res) => {
       '<script>alert("Login first "); window.location.href = "/login"; </script>',
     )
   }
+  } catch (error) {
+    next(error)
+  }
+ 
 }
 
-module.exports.profile_accountdetails = async (req, res) => {
-  const token = req.cookies.jwt
+module.exports.profile_accountdetails = async (req, res,next) => {
+try {
+   const token = req.cookies.jwt
   const { id } = req.body
   const category = await categorymodel.find()
   if (token) {
@@ -330,12 +351,16 @@ module.exports.profile_accountdetails = async (req, res) => {
       '<script>alert("Login first "); window.location.href = "/login"; </script>',
     )
   }
+} catch (error) {
+  next(error)
+}
+ 
 }
 
-module.exports.add_address = async (req, res) => {
-  const token = req.cookies.jwt
+module.exports.add_address = async (req, res, next) => {
+  try {
+     const token = req.cookies.jwt
   const { name, address, city, state, zip, phone, email } = req.body
-    
   const category = await categorymodel.find()
   if (token) {
     const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY)
@@ -368,10 +393,15 @@ module.exports.add_address = async (req, res) => {
         })
     }
   }
+  } catch (error) {
+    next(error)
+  }
+ 
 }
 
-module.exports.edit_address = async (req, res) => {
-  const token = req.cookies.jwt
+module.exports.edit_address = async (req, res, next) => {
+  try {
+     const token = req.cookies.jwt
   const { id } = req.query
   console.log(id)
   const { name, address, city, state, zip, phone, email } = req.body
@@ -391,9 +421,14 @@ module.exports.edit_address = async (req, res) => {
 
     res.redirect('/profile_address')
   }
+  } catch (error) {
+    next(error)
+  }
+ 
 }
 
-module.exports.delete_address = async (req, res) => {
+module.exports.delete_address = async (req, res,next) => {
+  try {
   const token = req.cookies.jwt
   const { address } = req.body
 
@@ -410,10 +445,15 @@ module.exports.delete_address = async (req, res) => {
         res.json({ response: true, address: address, error: error })
       })
   }
+  } catch (error) {
+    next(error)
+  }
+  
 }
 
-module.exports.user_edit = async (req, res) => {
-  const token = req.cookies.jwt
+module.exports.user_edit = async (req, res,next) => {
+  try {
+    const token = req.cookies.jwt
   res.locals.alert=false
   const {
     firstname,
@@ -493,4 +533,8 @@ module.exports.user_edit = async (req, res) => {
         // res.send({ "status": "failed", "message": "All fields are required" })
       }
   } 
+  } catch (error) {
+    next(error)
+  }
+  
 }

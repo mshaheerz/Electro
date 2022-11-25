@@ -14,195 +14,220 @@ const { reset } = require('nodemon')
 class userController {
   //signup
 
-  static userRegistration = async (req, res) => {
-    const {
-      firstname,
-      lastname,
-      email,
-      phone,
-      password,
-      passwordone,
-    } = req.body
-    const user = await Usermodel.findOne({ email: email })
+  static userRegistration = async (req, res, next) => {
+    try {
+      const {
+        firstname,
+        lastname,
+        email,
+        phone,
+        password,
+        passwordone,
+      } = req.body
+      const user = await Usermodel.findOne({ email: email })
 
-    const category = await categorymodel.find()
-    const checkPhone = validatePhoneNumber.validate(phone)
-    console.log(checkPhone)
-    if (user) {
-      res.render('user/signup', {
-        token: false,
-        emailerr: 'email already exists login?',
-        passerr: '',
-        allerr: '',
-        category,
-      })
-      // res.send({ "status": "failed", "message": "email alreddy exists" })
-    } else {
-      const format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/
-      const checkCharacter = format.test(firstname + lastname)
-      if (checkCharacter) {
+      const category = await categorymodel.find()
+      const checkPhone = validatePhoneNumber.validate(phone)
+      console.log(checkPhone)
+      if (user) {
         res.render('user/signup', {
           token: false,
-          emailerr: '',
+          emailerr: 'email already exists login?',
           passerr: '',
-          allerr: 'firstname or lastname contain invalid character',
+          allerr: '',
           category,
         })
-      } else if (!checkPhone) {
-        res.render('user/signup', {
-          token: false,
-          emailerr: '',
-          passerr: '',
-          allerr: 'Enter valid phone number',
-          category,
-        })
-      } else if (
-        firstname &&
-        lastname &&
-        email &&
-        phone &&
-        password &&
-        passwordone
-      ) {
-        if (password === passwordone) {
-          // try {
-          //     const salt = await bcrypt.genSalt(10)
-          //     const hashPassword = await bcrypt.hash(password, salt)
-          //     const doc = new Usermodel({
-          //         firstname: firstname,
-          //         lastname: lastname,
-          //         email: email,
-          //         phone: phone,
-          //         password: hashPassword,
-          //     })
-          //     await doc.save()
-          //     const saved_user = await Usermodel.findOne({ email: email })
-          //     // genarate JWT Token
-          //     const token = jwt.sign({ userID: saved_user._id }, process.env.JWT_SECRET_KEY, { expiresIn: '5d' })
-          //     res.cookie('jwt', token, { httpOnly: true });
-          //     res.redirect('/')
-          //     // res.send({ "status": "success", "message": "registration success","token":token })
+        // res.send({ "status": "failed", "message": "email alreddy exists" })
+      } else {
+        const format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/
+        const checkCharacter = format.test(firstname + lastname)
+        if (checkCharacter) {
+          res.render('user/signup', {
+            token: false,
+            emailerr: '',
+            passerr: '',
+            allerr: 'firstname or lastname contain invalid character',
+            category,
+          })
+        } else if (!checkPhone) {
+          res.render('user/signup', {
+            token: false,
+            emailerr: '',
+            passerr: '',
+            allerr: 'Enter valid phone number',
+            category,
+          })
+        } else if (
+          firstname &&
+          lastname &&
+          email &&
+          phone &&
+          password &&
+          passwordone
+        ) {
+          if (password === passwordone) {
+            // try {
+            //     const salt = await bcrypt.genSalt(10)
+            //     const hashPassword = await bcrypt.hash(password, salt)
+            //     const doc = new Usermodel({
+            //         firstname: firstname,
+            //         lastname: lastname,
+            //         email: email,
+            //         phone: phone,
+            //         password: hashPassword,
+            //     })
+            //     await doc.save()
+            //     const saved_user = await Usermodel.findOne({ email: email })
+            //     // genarate JWT Token
+            //     const token = jwt.sign({ userID: saved_user._id }, process.env.JWT_SECRET_KEY, { expiresIn: '5d' })
+            //     res.cookie('jwt', token, { httpOnly: true });
+            //     res.redirect('/')
+            //     // res.send({ "status": "success", "message": "registration success","token":token })
 
-          // } catch (error) {
-          //     console.log(error);
-          //     res.send({ "status": "failed", "message": "unable to register" })
-          // }
+            // } catch (error) {
+            //     console.log(error);
+            //     res.send({ "status": "failed", "message": "unable to register" })
+            // }
 
-          //new
+            //new
 
-          console.log(process.env.SERVICE_ID)
-          console.log(phone)
-          client.verify
-            .services(process.env.SERVICE_ID)
-            .verifications.create({
-              to: `+91${phone}`,
-              channel: 'sms',
-            })
-            .then((data) => {
-              res.render('user/otp', {
-                token: false,
-                emailerr: '',
-                passerr: '',
-                allerr: '',
-                category,
-                firstname,
-                lastname,
-                email,
-                phone,
-                password,
+            console.log(process.env.SERVICE_ID)
+            console.log(phone)
+            client.verify
+              .services(process.env.SERVICE_ID)
+              .verifications.create({
+                to: `+91${phone}`,
+                channel: 'sms',
               })
+              .then((data) => {
+                res.render('user/otp', {
+                  token: false,
+                  emailerr: '',
+                  passerr: '',
+                  allerr: '',
+                  category,
+                  firstname,
+                  lastname,
+                  email,
+                  phone,
+                  password,
+                })
+              })
+              .catch((err) => {
+                res.send(err)
+              })
+            //new
+          } else {
+            res.render('user/signup', {
+              token: false,
+              emailerr: '',
+              passerr: 'password and confirm password doesnt match',
+              allerr: '',
+              category,
             })
-            .catch((err) => {
-              res.send(err)
-            })
-          //new
+            // res.send({ "status": "failed", "message": "password and confirm password doesnt match" })
+          }
         } else {
           res.render('user/signup', {
             token: false,
             emailerr: '',
-            passerr: 'password and confirm password doesnt match',
-            allerr: '',
+            passerr: '',
+            allerr: 'allfields required',
             category,
           })
-          // res.send({ "status": "failed", "message": "password and confirm password doesnt match" })
-        }
-      } else {
-        res.render('user/signup', {
-          token: false,
-          emailerr: '',
-          passerr: '',
-          allerr: 'allfields required',
-          category,
-        })
 
-        // res.send({ "status": "failed", "message": "All fields are required" })
+          // res.send({ "status": "failed", "message": "All fields are required" })
+        }
       }
+    } catch (error) {
+      next(error)
     }
   }
 
-  static userotp = async (req, res) => {
-    const {
-      otp1,
-      otp2,
-      otp3,
-      otp4,
-      otp5,
-      otp6,
-      firstname,
-      lastname,
-      email,
-      phone,
-      password,
-    } = req.body
-    const otpArr = []
-    otpArr.push(otp1, otp2, otp3, otp4, otp5, otp6)
-    const code = otpArr.join('')
-    const category = await categorymodel.find()
+  static userotp = async (req, res, next) => {
+    try {
+      const {
+        otp1,
+        otp2,
+        otp3,
+        otp4,
+        otp5,
+        otp6,
+        firstname,
+        lastname,
+        email,
+        phone,
+        password,
+      } = req.body
+      const otpArr = []
+      otpArr.push(otp1, otp2, otp3, otp4, otp5, otp6)
+      const code = otpArr.join('')
+      const category = await categorymodel.find()
 
-    client.verify.services(process.env.SERVICE_ID).verificationChecks.create({
-        to: `+91${phone}`,
-        code: code,
-      })
-      .then(async (data) => {
-        if (data.status == 'approved') {
-          try {
-            console.log("one")
-            const salt = await bcrypt.genSalt(10)
-            const hashPassword = await bcrypt.hash(password, salt)
-            const doc = new Usermodel({
-              firstname: firstname,
-              lastname: lastname,
-              email: email,
-              phone: phone,
-              password: hashPassword,
+      client.verify
+        .services(process.env.SERVICE_ID)
+        .verificationChecks.create({
+          to: `+91${phone}`,
+          code: code,
+        })
+        .then(async (data) => {
+          if (data.status == 'approved') {
+            try {
+              console.log('one')
+              const salt = await bcrypt.genSalt(10)
+              const hashPassword = await bcrypt.hash(password, salt)
+              const doc = new Usermodel({
+                firstname: firstname,
+                lastname: lastname,
+                email: email,
+                phone: phone,
+                password: hashPassword,
+              })
+              await doc.save()
+              console.log('two')
+              const saved_user = await Usermodel.findOne({ email: email })
+              // genarate JWT Token
+              const token = jwt.sign(
+                { userID: saved_user._id },
+                process.env.JWT_SECRET_KEY,
+                { expiresIn: '5d' },
+              )
+              res.cookie('jwt', token, { httpOnly: true })
+              res.redirect('/')
+              // res.send({ "status": "success", "message": "registration success","token":token })
+            } catch (error) {
+              console.log('threee')
+              console.log(error)
+              res.redierect('/signup')
+              // res.send({ status: 'failed', message: 'unable to register otp' })
+            }
+            console.log('four')
+            // console.log("success",data.status=="approved");
+          } else {
+            console.log('five')
+            res.render('user/otp', {
+              token: false,
+              emailerr: '',
+              passerr: '',
+              allerr: 'Invalid otp',
+              category,
+              firstname,
+              lastname,
+              email,
+              phone,
+              password,
             })
-            await doc.save()
-            console.log("two")
-            const saved_user = await Usermodel.findOne({ email: email })
-            // genarate JWT Token
-            const token = jwt.sign({ userID: saved_user._id },process.env.JWT_SECRET_KEY,{ expiresIn: '5d' },)
-            res.cookie('jwt', token, { httpOnly: true })
-            res.redirect('/')
-            // res.send({ "status": "success", "message": "registration success","token":token })
-          } catch (error) {
-            console.log("threee")
-            console.log(error)
-            res.redierect('/signup')
-            // res.send({ status: 'failed', message: 'unable to register otp' })
           }
-          console.log("four")
-          // console.log("success",data.status=="approved");
-        } else {
-            console.log("five")
-          res.render('user/otp', {token: false,emailerr: '',passerr: '',allerr: 'Invalid otp',category,firstname,lastname, email,phone, password})
-        }
-      })
+        })
+    } catch (error) {
+      next(error)
+    }
   }
 
   //signin
-  static userLogin = async (req, res) => {
-    const category = await categorymodel.find()
+  static userLogin = async (req, res, next) => {
     try {
+      const category = await categorymodel.find()
       const { email, password } = req.body
       if (email && password) {
         const user = await Usermodel.findOne({ email: email })
@@ -249,34 +274,37 @@ class userController {
         })
       }
     } catch (error) {
-      res.send({ status: 'failed', message: error })
-      console.log(error)
+      next(error)
     }
   }
 
   // password change
-  static changeUserPassword = async (req, res) => {
-    const { password, password_confirmation } = req.body
-    if (password && password_confirmation) {
-      if (password !== password_confirmation) {
-        res.send({
-          status: 'failed',
-          message: 'new password and confirm new password doesnt match',
-        })
-      } else {
-        const salt = await bcrypt.genSalt(10)
-        const newhashPassword = await bcrypt.hash(password, salt)
-        await usermodel.findByIdAndUpdate(req.user._id, {
-          $set: { password: newhashPassword },
-        })
+  static changeUserPassword = async (req, res, next) => {
+    try {
+      const { password, password_confirmation } = req.body
+      if (password && password_confirmation) {
+        if (password !== password_confirmation) {
+          res.send({
+            status: 'failed',
+            message: 'new password and confirm new password doesnt match',
+          })
+        } else {
+          const salt = await bcrypt.genSalt(10)
+          const newhashPassword = await bcrypt.hash(password, salt)
+          await usermodel.findByIdAndUpdate(req.user._id, {
+            $set: { password: newhashPassword },
+          })
 
-        res.send({
-          status: 'success',
-          message: 'password changed successfully',
-        })
+          res.send({
+            status: 'success',
+            message: 'password changed successfully',
+          })
+        }
+      } else {
+        res.send({ status: 'failed', message: 'all fields are required' })
       }
-    } else {
-      res.send({ status: 'failed', message: 'all fields are required' })
+    } catch (error) {
+      next(error)
     }
   }
 
@@ -284,49 +312,54 @@ class userController {
     res.send({ user: req.user })
   }
 
-  static sendUserPasswordResetEmail = async (req, res) => {
-    const { email } = req.body
-    if (email) {
-      const user = await Usermodel.findOne({ email: email })
+  static sendUserPasswordResetEmail = async (req, res, next) => {
+    try {
+      const { email } = req.body
+      if (email) {
+        const user = await Usermodel.findOne({ email: email })
 
-      if (user) {
-        const secret = user._id + process.env.JWT_SECRET_KEY
-        const token = jwt.sign({ userID: user._id }, secret, {
-          expiresIn: '15m',
-        })
-        const link = `http://127.0.0.1:8000/user/reset/${user._id}/${token}`
-        console.log(link)
-        //send email
-        try {
-          let info = await transporter.sendMail({
-            from: process.env.EMAIL_FROM,
-            to: user.email,
-            subject: 'ELECTRO - password reset Link',
-            html: `<a href=${link}>CLICK HERE</a> to Reset your password`,
+        if (user) {
+          const secret = user._id + process.env.JWT_SECRET_KEY
+          const token = jwt.sign({ userID: user._id }, secret, {
+            expiresIn: '15m',
           })
-          res.send({
-            status: 'success',
-            message: 'password reset email sended sucessfully check email',
-            info: info,
-          })
-        } catch (error) {
-          res.send({ status: 'failed', message: 'other error' })
-          console.log(error)
+          const link = `http://127.0.0.1:8000/user/reset/${user._id}/${token}`
+          console.log(link)
+          //send email
+          try {
+            let info = await transporter.sendMail({
+              from: process.env.EMAIL_FROM,
+              to: user.email,
+              subject: 'ELECTRO - password reset Link',
+              html: `<a href=${link}>CLICK HERE</a> to Reset your password`,
+            })
+            res.send({
+              status: 'success',
+              message: 'password reset email sended sucessfully check email',
+              info: info,
+            })
+          } catch (error) {
+            res.send({ status: 'failed', message: 'other error' })
+            console.log(error)
+          }
+        } else {
+          res.send({ status: 'failed', message: 'Email does not exists' })
         }
       } else {
-        res.send({ status: 'failed', message: 'Email does not exists' })
+        res.send({ status: 'failed', message: 'Email Fields are required' })
       }
-    } else {
-      res.send({ status: 'failed', message: 'Email Fields are required' })
+    } catch (error) {
+      next(error)
     }
   }
 
-  static userPasswordReset = async (req, res) => {
-    const { password, password_confirmation } = req.body
-    const { id, token } = req.params
-    const user = await Usermodel.findById(id)
-    const new_secret = user._id + process.env.JWT_SECRET_KEY
+  static userPasswordReset = async (req, res, next) => {
     try {
+      const { password, password_confirmation } = req.body
+      const { id, token } = req.params
+      const user = await Usermodel.findById(id)
+      const new_secret = user._id + process.env.JWT_SECRET_KEY
+
       jwt.verify(token, new_secret)
       if (password && password_confirmation) {
         if (password !== password_confirmation) {
@@ -349,8 +382,7 @@ class userController {
         res.send({ status: 'failed', message: 'All fields are Required' })
       }
     } catch (error) {
-      console.log(error)
-      res.send({ status: 'failed', message: 'Invalid Token' })
+      next(error)
     }
   }
 }

@@ -33,8 +33,9 @@ async function  getTotalprice(token){
 
 
 
-module.exports.cart = async (req, res) => {
-    const token = req.cookies.jwt
+module.exports.cart = async (req, res,next) => {
+    try {
+      const token = req.cookies.jwt
     const { id } = req.body
     const category = await categorymodel.find()
     if (token) {
@@ -75,11 +76,16 @@ module.exports.cart = async (req, res) => {
     } else {
         res.send('<script>alert("Login first "); window.location.href = "/login"; </script>')
 
+    }  
+    } catch (error) {
+        next(error)
     }
+    
 }
 
-exports.addToCart = async (req, res) => {
-    const token = req.cookies.jwt
+exports.addToCart = async (req, res,next) => {
+    try {
+        const token = req.cookies.jwt
     const { productid } = req.body
     if (token) {
         const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
@@ -134,18 +140,19 @@ exports.addToCart = async (req, res) => {
     } else {
         console.log("workedddddddddd")
         res.send(false)
+    } 
+    } catch (error) {
+        next(error)
     }
+   
     //  res.redirect('/shop')
 }
 
 
-module.exports.change_quantity = async (req, res) => {
+module.exports.change_quantity = async (req, res,next) => {
+    try {
     const token = req.cookies.jwt
-    console.log(req.body);
     const { product, cart, count, quantity } = req.body
-    
-    
-
 
     if (count == -1 && quantity == 1) {
         const ss = await cartmodel.findById(cart)
@@ -170,11 +177,16 @@ module.exports.change_quantity = async (req, res) => {
                 res.json({response:true,total:total,discount:discount})
             })
         // res.send({"message":"f"})
+    } 
+    } catch (error) {
+        next(error)
     }
+   
 }
 
 
-module.exports.delete_cart = async (req, res) => {
+module.exports.delete_cart = async (req, res,next) => {
+    try {
     const { cart,product } = req.body
     const ss = await cartmodel.findById(cart)
     console.log(ss);
@@ -186,11 +198,16 @@ module.exports.delete_cart = async (req, res) => {
 
         }).catch((err) => {
             console.log(err)
-        })
+        })  
+    } catch (error) {
+        next(error)
+    }
+   
 }
 
-module.exports.delete_wishlist = async (req, res) => {
-    const { wishlist,product } = req.body
+module.exports.delete_wishlist = async (req, res,next) => {
+    try {
+       const { wishlist,product } = req.body
     // const ss = await cartmodel.findById(cart)
     // console.log(ss);
     await wishlistmodel.findByIdAndUpdate(wishlist,
@@ -201,12 +218,15 @@ module.exports.delete_wishlist = async (req, res) => {
 
         }).catch((err) => {
             console.log(err)
-        })
+        }) 
+    } catch (error) {
+        next(error)
+    }
+    
 }
 
-module.exports.addcartproduct= async (req,res)=>{
-    
-    console.log(req.body);
+module.exports.addcartproduct= async (req,res,next)=>{
+    try {
     const { productid, count} = req.body
     const token = req.cookies.jwt
 
@@ -260,17 +280,19 @@ module.exports.addcartproduct= async (req,res)=>{
 
     } else {
         res.send("<script>alert(login required) location.reload='/login'</script>")
+    }  
+    } catch (error) {
+        next(error)
     }
+   
 
 }
 
-module.exports.wishlist = async(req,res)=>{
+module.exports.wishlist = async(req,res,next)=>{
+    try {
     const token = req.cookies.jwt
     const { id } = req.body
-
     const category = await categorymodel.find()
-   
-
     if (token) {
         const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
         const userId = decoded.userID
@@ -292,12 +314,17 @@ module.exports.wishlist = async(req,res)=>{
         res.send('<script>alert("Login first "); window.location.href = "/login"; </script>')
 
     }
+    } catch (error) {
+        next(error)
+    }
+   
 }
 
 
 
-exports.addToWishlist = async (req, res) => {
-    const token = req.cookies.jwt
+exports.addToWishlist = async (req, res,next) => {
+    try {
+        const token = req.cookies.jwt
     const { productid } = req.body
     if (token) {
         let proObj = {
@@ -351,10 +378,15 @@ exports.addToWishlist = async (req, res) => {
         console.log("workedddddddddd")
         res.send(false)
     }
+    } catch (error) {
+        next(error)
+    }
+    
     //  res.redirect('/shop')
 }
 
-module.exports.review= async (req, res) => {
+module.exports.review= async (req, res,next) => {
+    try {
     const token = req.cookies.jwt
     const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
     const userId = decoded.userID
@@ -363,18 +395,19 @@ module.exports.review= async (req, res) => {
     data.product=productId
     data.user=userId
     await reviewmodel.create(data)
-    res.redirect(req.get('referer'));
+    res.redirect(req.get('referer')); 
+    } catch (error) {
+        next(error)
+    }
+    
 }
 
 
-module.exports.coupons = async (req, res) => {
+module.exports.coupons = async (req, res,next) => {
     try {
          const token = req.cookies.jwt
     const { id } = req.body
-
     const category = await categorymodel.find()
-   
-
     if (token) {
         const coupons = await couponmodel.find({status:'enabled'})
         const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
@@ -400,7 +433,7 @@ module.exports.coupons = async (req, res) => {
 
     } 
     } catch (error) {
-        res.render('errors/404')
+        next(error)
     }
   
 }

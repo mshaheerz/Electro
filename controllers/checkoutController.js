@@ -14,6 +14,7 @@ const moment = require('moment')
 const Razorpay = require('razorpay')
 const crypto = require('crypto')  
 const couponmodel = require('../model/couponSchema')
+const { nextTick } = require('process')
 
 async function getDiscountprice(token) {
   const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY)
@@ -35,8 +36,6 @@ async function getTotalprice(token) {
     .findOne({ user: userId })
     .populate('user')
     .populate('products.item')
- 
-
   return (total = cart.products.reduce(
     (acc, cur) => acc + cur.item.price * cur.quantity,
     0,
@@ -45,8 +44,9 @@ async function getTotalprice(token) {
 }
 
 
-module.exports.checkout = async (req, res) => {
-  const token = req.cookies.jwt
+module.exports.checkout = async (req, res,next) => {
+  try {
+    const token = req.cookies.jwt
   const { id } = req.body
   const category = await categorymodel.find()
   if (token) {
@@ -62,9 +62,7 @@ module.exports.checkout = async (req, res) => {
       .populate('user')
       .populate('products.item')
     const address = await addressmodel.find({ user: userId })
-
     res.locals.address = address || null
-
     if (cart != null) {
       const total = await getTotalprice(token)
       const discount = await getDiscountprice(token)
@@ -72,9 +70,7 @@ module.exports.checkout = async (req, res) => {
       res.locals.cart = cart
       res.locals.discount = discount
     }
-
     res.locals.wishlist = wishlist
-
     const fullname = user.firstname + ' ' + user.lastname
     let useremail = user.email
     if (user.isBanned) {
@@ -94,8 +90,12 @@ module.exports.checkout = async (req, res) => {
       '<script>alert("Login first "); window.location.href = "/login"; </script>',
     )
   }
+  } catch (error) {
+    next(error)
+  }
+  
 }
-module.exports.place_order = async (req, res) => {
+module.exports.place_order = async (req, res, next) => {
   try {
   const token = req.cookies.jwt
   const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY)
@@ -213,13 +213,14 @@ module.exports.place_order = async (req, res) => {
   }
     
   } catch (error) {
-    
+    next(error)
   }
   
    
 }
 
-module.exports.place_failed_order = async (req, res) => {
+module.exports.place_failed_order = async (req, res,next) => {
+  try {
   const token = req.cookies.jwt
   const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY)
   const userId = decoded.userID
@@ -242,9 +243,13 @@ module.exports.place_failed_order = async (req, res) => {
           console.log("new order:",order)
           res.json({status:true,order});
         })
-      }
+  } catch (error) {
+    next(error)
+  }
+  
+ }
 
-      module.exports.order_cancel = async (req, res) => {
+      module.exports.order_cancel = async (req, res,next) => {
         try {
         const token = req.cookies.jwt
         if(token){
@@ -255,17 +260,16 @@ module.exports.place_failed_order = async (req, res) => {
         res.json(true)
         }
        
-      
-       
         } catch (error) {
           res.json(true)
         }
         
    
-            }
+}
       
 
-module.exports.ordersuccess = async (req, res) => {
+module.exports.ordersuccess = async (req, res,next) => {
+  try {
   const token = req.cookies.jwt
   const { id } = req.body
   const category = await categorymodel.find()
@@ -293,7 +297,7 @@ module.exports.ordersuccess = async (req, res) => {
       })
       .sort({ updatedAt: -1 })
       .limit(1)
-      console.log(order)
+
     if (cart != null) {
     const total = await getTotalprice(token)
     const discount = await getDiscountprice(token)
@@ -303,10 +307,8 @@ module.exports.ordersuccess = async (req, res) => {
     res.locals.user = user || null
     res.locals.order = order ||null
     res.locals.wishlist = wishlist
-
     res.locals.cart = cart ||null
-
-    
+ 
     const fullname = user.firstname + ' ' + user.lastname
     let useremail = user.email
     if (user.isBanned) {
@@ -330,10 +332,15 @@ module.exports.ordersuccess = async (req, res) => {
     res.send(
       '<script>alert("Login first "); window.location.href = "/login"; </script>',
     )
+  } 
+  } catch (error) {
+    next(error)
   }
+  
 }
 
-module.exports.verify_payment= async (req, res) => {
+module.exports.verify_payment= async (req, res,next) => {
+  try {
   const token = req.cookies.jwt
   const { id } = req.body
 if (token) {
@@ -366,6 +373,10 @@ console.log(orderId)
   }
   
 }
+  } catch (error) {
+    next(error)
+  }
+ 
  
 }
 

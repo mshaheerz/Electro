@@ -4,7 +4,7 @@ const usermodel = require('../model/userschema')
 
 module.exports.checkUserAuth = async(req,res,next) => {
    
-    
+    try {
     let token = req.cookies.jwt
    
     if(token){
@@ -24,18 +24,27 @@ module.exports.checkUserAuth = async(req,res,next) => {
     else if(!token){
         next()
     }
+    } catch (error) {
+        next(error)
+    }
+    
 }
 
 
 module.exports.checkAdminAuth = async(req,res,next) => {
-    let token = req.cookies.jwts
+    try {
+      let token = req.cookies.jwts
    
     if(token){
         next()
     }
     else if(!token){
         res.redirect('/admin/login')
+    }   
+    } catch (error) {
+        next(error)
     }
+   
 
 }
 

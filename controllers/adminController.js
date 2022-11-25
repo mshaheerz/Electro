@@ -51,7 +51,7 @@ module.exports.admin_home = async (req, res,next) => {
         const product = await productmodel.find().count()
         const category = await categorymodel.find().count()
         const order = await ordermodel.find().populate('user').sort({ updatedAt: -1 }).limit(8)
-        
+        const token = req.cookies.jwts
         //aggregate income statistics by order
        const salesbymonth= await ordermodel.aggregate([
             {
@@ -72,6 +72,8 @@ module.exports.admin_home = async (req, res,next) => {
                 }
             }
         ])
+
+        //aggregate sales statistics by product
         const salesbyproduct= await ordermodel.aggregate([
             {
                 $project: {
@@ -94,8 +96,8 @@ module.exports.admin_home = async (req, res,next) => {
         
         res.locals.bar=salesbymonth
         res.locals.order=order ||null
-        const token = req.cookies.jwts
         res.locals.moment=moment
+
         if (token) {
             adminemail = await admincheck(token)
             const orders=await ordermodel.find()
@@ -106,13 +108,15 @@ module.exports.admin_home = async (req, res,next) => {
             res.render('admin/login', { emailerr: "", passerr: "", allerr: "" });
         }
     } catch (error) {
-        next()
+        next(error);
     }
    
 }
 
 
-module.exports.admin_login_post = async (req, res) => {
+module.exports.admin_login_post = async (req, res,next) => {
+    
+    try {
     const { email, password } = req.body
     const admin = await adminmodel.findOne({ email: email })
     if (admin != null) {
@@ -131,85 +135,109 @@ module.exports.admin_login_post = async (req, res) => {
     } else {
         res.render('admin/login', { emailerr: "your not registered admin", passerr: "", allerr: "" });
     }
+    } catch (error) {
+        next(error)
+    }
+   
 }
 
 
-module.exports.logout_get = (req, res) => {
+module.exports.logout_get = (req, res,next) => {
+    try {
     res.cookie('jwts', '', { maxAge: 1 });
     res.redirect('/admin/login');
+    } catch (error) {
+        next(error)
+    }
+  
 }
 
 
 //user 
-module.exports.user_list = async (req, res) => {
+module.exports.user_list = async (req, res,next) => {
+    try {
     user = await usermodel.find({})
     const token = req.cookies.jwts
     adminemail = await admincheck(token)
     res.render('admin/users', { user, adminemail: adminemail, moment: moment })
+    } catch (error) {
+        next(error)
+    }
+  
 }
 
-module.exports.flag_user = async (req, res) => {
-    const { email } = req.query
+module.exports.flag_user = async (req, res, next) => {
     try {
+        const { email } = req.query   
         await usermodel.updateOne({ email: email }, { isBanned: true })
         res.redirect('/admin/users_list')
     } catch (error) {
-        res.send({ "status": "failed", "message": error.message });
+        next(error)
     }
 }
 
 
-module.exports.remove_user_flag = async (req, res) => {
-    const { email } = req.query
+module.exports.remove_user_flag = async (req,res,next) => {
     try {
+    const { email } = req.query
         await usermodel.updateOne({ email: email }, { isBanned: false })
         res.redirect('/admin/users_list')
     } catch (error) {
-        res.send({ "status": "failed", "message": error.message });
+       next(error)
     }
 }
 
 
-module.exports.user_details = async (req, res) => {
-    const token = req.cookies.jwts
+module.exports.user_details = async (req, res, next) => {
     try {
+        const token = req.cookies.jwts
         adminemail = await admincheck(token)
         const { email } = req.query
         user = await usermodel.findOne({ email })
         res.render('admin/userdetails', { adminemail: adminemail, user, moment })
     } catch (error) {
-        res.send({ "status": "failed", "message": error.message })
+        next(error)
     }
 }
 
 
-module.exports.delete_user = async (req, res) => {
-    const { email } = req.query
+module.exports.delete_user = async (req, res,next) => {
     try {
+        const { email } = req.query
         await usermodel.deleteOne({ email: email })
         res.redirect('/admin/users_list')
     } catch (error) {
-        res.send({ "status": "failed", "message": error.message });
+       next(error)
     }
 }
 
 
-module.exports.category_list = async (req, res) => {
-    const token = req.cookies.jwts
-    const category = await categorymodel.find({})
-    adminemail = await admincheck(token)
-    res.render('admin/categorylist', { category, adminemail: adminemail })
+module.exports.category_list = async (req, res,next) => {
+    try {
+        const token = req.cookies.jwts
+        const category = await categorymodel.find({})
+        adminemail = await admincheck(token)
+        res.render('admin/categorylist', { category, adminemail: adminemail })
+    } catch (error) {
+        next(error)
+    }
+   
 }
 
 
-module.exports.category_details = async (req, res) => {
+module.exports.category_details = async (req, res,next) => {
+    try {
     const { id } = req.query
     const category = categorymodel.findOne({ _id: id })
     res.render('admin/categorylist', category)
+    } catch (error) {
+        next(error)
+    }
+   
 }
 
 
-module.exports.delete_category = async (req, res) => {
+module.exports.delete_category = async (req, res,next) => {
     try {
         const { id } = req.query
         await categorymodel.findByIdAndDelete({ _id: id })
@@ -219,12 +247,13 @@ module.exports.delete_category = async (req, res) => {
         })
         res.redirect('/admin/category_list')
     } catch (error) {
-        res.send({ "status": "failed", "message": error.message })
+        next(error)
     }
 }
 
 
-module.exports.edit_category = async (req, res) => {
+module.exports.edit_category = async (req, res,next) => {
+    try {
     const { id } = req.query
     const { category_name, category_description } = req.body
     await categorymodel.findByIdAndUpdate(id, {
@@ -232,10 +261,15 @@ module.exports.edit_category = async (req, res) => {
         category_description: category_description
     })
     res.redirect('/admin/category_list')
+    } catch (error) {
+        next(error)
+    }
+    
 }
 
 
 module.exports.add_category = async (req, res, next) => {
+    try {
     // const {category_name,category_description}= req.body 
     const category_thumbnail = req.file
     if (!category_thumbnail) {
@@ -263,14 +297,23 @@ module.exports.add_category = async (req, res, next) => {
             return Promise.reject({ error: "error" })
         }
     })
+    } catch (error) {
+        next(error)
+    }
+    
 }
 
 
-module.exports.add_products = async (req, res) => {
+module.exports.add_products = async (req, res,next) => {
+    try {
     const token = req.cookies.jwts
     const adminemail = await admincheck(token)
     const category = await categorymodel.find()
     res.render('admin/products', { adminemail, category })
+    } catch (error) {
+        next(error)
+    }
+  
 }
 
 
@@ -278,8 +321,6 @@ module.exports.add_products_post = async (req, res, next) => {
     try {
         const files = req.body.images
         const file = req.files
-      
-        
         const { name, description, brand, price, category, colors, stock, discount, tags } = req.body
         if (!files) {
             const error = new Error('Please choose files')
@@ -288,16 +329,10 @@ module.exports.add_products_post = async (req, res, next) => {
         }
 
 //sharp image
-
-        
-        
         let imgArray = files.map((file) => {
-    
             let img = fs.readFileSync('./public/productuploads/'+file)
-    
             return encode_image = img.toString('base64')
         })
-      
         let result = imgArray.map((src, index) => {
             let finalimg = {
                 imageName: file[index].originalname,
@@ -306,51 +341,52 @@ module.exports.add_products_post = async (req, res, next) => {
             }
             return finalimg;
         })
-        try {
+       //delete image
             files.forEach((el, i) => {
             fs.rmSync('./public/productuploads/'+el, {
                
             })
         })
-        } catch (error) {
-            console.log(error);
-        }
         
-        await productmodel.create({ name, description, brand, price, category, colors, stock, discount, tags, product_image: result }).then((data) => {
+        await productmodel.create({ name, description, brand, price, category, colors, stock, discount, tags, product_image: result })
             // res.send({"success":data})
             res.redirect('/admin/product_lists')
-        }).catch((err) => {
-            res.send({ "failed": err })
-        })
+      
     } catch (error) {
-        console.log(error);
-        res.send(error)
-        // res.redirect('/admin/product_lists')
+        next(error)
         
     }
    
 }
 
 
-module.exports.product_list = async (req, res) => {
+module.exports.product_list = async (req, res,next) => {
+    try {
     const token = req.cookies.jwts
     const adminemail = await admincheck(token)
     const products = await productmodel.find().populate('category')
     res.render('admin/productlist', { adminemail, products })
+    } catch (error) {
+        next(error)
+    }
+   
 }
 
 module.exports.delete_product = async (req, res) => {
+    try {
     const { id } = req.query
-    await productmodel.findByIdAndDelete(id).then((data) => {
+    await productmodel.findByIdAndDelete(id)
         // res.send({"status":"success","message":data})
         res.send("<script>alert('Product delete successfull'); window.location.href = '/admin/product_lists'; </script>");
-    }).catch((err) => {
-        res.send({ "status": "failed", "message": err })
-    })
+    } catch (error) {
+        next(error)
+    }
+
 }
 
-module.exports.edit_product = async (req, res) => {
-    const { id } = req.query
+module.exports.edit_product = async (req, res,next) => {
+    try {
+        const { id } = req.query
     const token = req.cookies.jwts
     const adminemail = await admincheck(token)
     const category = await categorymodel.find()
@@ -358,66 +394,80 @@ module.exports.edit_product = async (req, res) => {
         // res.send({"status":"success","message":data})
         res.render('admin/editproducts', { category, product, adminemail })
     }).catch((err) => {
-        res.send({ "status": "failed", "message": err })
-    })
-}
-
-
-module.exports.edit_products_post = async (req, res) => {
-    const { id } = req.query
-    const file = req.files
-    const files = req.body.images
-    const { name, description, brand, price, category, colors, stock, discount, tags } = req.body
-    if (file == '') {
-        await productmodel.findOneAndUpdate({ _id: id }, { name, description, brand, price, category, colors, stock, discount, tags }).then((data) => {
-            // res.send({"success":data})
-            res.redirect('/admin/product_lists')
-        }).catch((err) => {
-            res.send({ "first worked": err.message })
-        })
-    } else {
-        let imgArray = files.map((file) => {
-            let img = fs.readFileSync('./public/productuploads/'+file)
-            return encode_image = img.toString('base64')
-        })
-        let result = imgArray.map((src, index) => {
-            let finalimg = {
-                imageName: file[index].originalname,
-                contentType: file[index].mimetype,
-                imageBase64: src
-            }
-            return finalimg;
-        })
-        try {
-             files.forEach((el, i) => {
-            fs.rmSync('./public/productuploads/'+el, {
-                force: true
-            })
-        })
-        } catch (error) {
-            res.send(error)
-        }
-       
-        await productmodel.findByIdAndUpdate(id, { name, description, brand, price, category, colors, stock, discount, tags, product_image: result }).then((data) => {
-            // res.send({ "success": data, "files": files })
-            res.redirect('/admin/product_lists')
-        }).catch((err) => {
-            res.send({ "second workde": err })
-        })
+        next(next)
+    }) 
+    } catch (error) {
+        next(error)
     }
+   
 }
 
-module.exports.order_list = async (req, res) => {
+
+module.exports.edit_products_post = async (req, res,next) => {
+    try {
+        const { id } = req.query
+        const file = req.files
+        const files = req.body.images
+        const { name, description, brand, price, category, colors, stock, discount, tags } = req.body
+        if (file == '') {
+            await productmodel.findOneAndUpdate({ _id: id }, { name, description, brand, price, category, colors, stock, discount, tags }).then((data) => {
+                // res.send({"success":data})
+                res.redirect('/admin/product_lists')
+            }).catch((err) => {
+                next(error)
+            })
+        } else {
+            let imgArray = files.map((file) => {
+                let img = fs.readFileSync('./public/productuploads/'+file)
+                return encode_image = img.toString('base64')
+            })
+            let result = imgArray.map((src, index) => {
+                let finalimg = {
+                    imageName: file[index].originalname,
+                    contentType: file[index].mimetype,
+                    imageBase64: src
+                }
+                return finalimg;
+            })
+            try {
+                 files.forEach((el, i) => {
+                fs.rmSync('./public/productuploads/'+el, {
+                    force: true
+                })
+            })
+            } catch (error) {
+                next(error)
+            }
+           
+            await productmodel.findByIdAndUpdate(id, { name, description, brand, price, category, colors, stock, discount, tags, product_image: result }).then((data) => {
+                // res.send({ "success": data, "files": files })
+                res.redirect('/admin/product_lists')
+            }).catch((err) => {
+                next(error)
+            })
+        }
+    } catch (error) {
+        next(error)
+    }
+   
+}
+
+module.exports.order_list = async (req, res,next) => {
+    try {
     const token = req.cookies.jwts
     const adminemail = await admincheck(token)
     const order =await ordermodel.find().populate('user').populate('products').sort({createdAt:-1})
     // const products = await productmodel.find().populate('category')
     res.locals.order = order|| null 
     res.locals.moment = moment
-    res.render('admin/orderlist', { adminemail })
+    res.render('admin/orderlist', { adminemail }) 
+    } catch (error) {
+        next(error)
+    }
+   
 }
 
-module.exports.order_details = async (req,res)=>{
+module.exports.order_details = async (req,res,next)=>{
     try {
     const token = req.cookies.jwts
     const {id}=req.query
@@ -429,20 +479,25 @@ module.exports.order_details = async (req,res)=>{
     res.locals.moment = moment
     res.render('admin/orderdetails', { adminemail })
     } catch (error) {
-       res.redirect('/admin/order_list')
+       next(error)
         
     }
   
 }
-module.exports.change_status= async (req, res) => {
+module.exports.change_status= async (req, res,next) => {
+    try {
     const {orderId,status}=req.body
     await ordermodel.findByIdAndUpdate(orderId,{
         status:status
     })
-    res.json(true)
+    res.json(true) 
+    } catch (error) {
+        next(error)
+    }
+    
 }
 
-module.exports.coupon_list = async (req,res)=>{
+module.exports.coupon_list = async (req,res,next)=>{
     try {
     const token = req.cookies.jwts
     const {id}=req.query
@@ -453,42 +508,47 @@ module.exports.coupon_list = async (req,res)=>{
     res.locals.moment = moment
     res.render('admin/couponlist', { adminemail })
     } catch (error) {
-       res.redirect('/admin/coupon_list')
-        
+       next(error)
     }
   
 }
 
-module.exports.add_coupon = async (req, res) => {
+module.exports.add_coupon = async (req, res,next) => {
+    try {
     const token = req.cookies.jwts
     const adminemail = await admincheck(token)
-
-    res.render('admin/coupondetails', {adminemail})
+    res.render('admin/coupondetails', {adminemail}) 
+    } catch (error) {
+        next(error)
+    }
+   
 }
-module.exports.add_coupon_post = async(req,res)=>{
+module.exports.add_coupon_post = async(req,res,next)=>{
+    try {
     const{...data}=req.body
-    console.log(data)
-   
     await couponmodel.create(data)
-   
     res.redirect('/admin/coupon_list')
+    } catch (error) {
+        next(error)
+    }
+   
     
 }
 
-module.exports.coupon_edit_post = async(req,res)=>{
+module.exports.coupon_edit_post = async(req,res,next)=>{
+    try {
     const{...data}=req.body
     const {id}=req.query
-    console.log(data)
-   
     await couponmodel.findByIdAndUpdate(id,data)
+    res.redirect('/admin/coupon_list')  
+    } catch (error) {
+        next(error)
+    }
    
-    res.redirect('/admin/coupon_list')
-    
 }
-module.exports.update_coupon_status = async(req,res)=>{
+module.exports.update_coupon_status = async(req,res,next)=>{
     try {
          const {id,status}=req.query
-    console.log(id,status)
    if(status=='disable'){
     await couponmodel.findByIdAndUpdate(id,{status:'disabled'})
     res.redirect('/admin/coupon_list')
@@ -498,16 +558,16 @@ module.exports.update_coupon_status = async(req,res)=>{
    }else{
     res.redirect('/admin/coupon_list')
    }
-   
     } catch (error) {
-        res.render('errors/404')
+        next(error)
     }
    
    
    
     
 }
-module.exports.coupon_edit = async(req,res)=>{
+module.exports.coupon_edit = async(req,res,next)=>{
+    try {
     const token = req.cookies.jwts
     const adminemail = await admincheck(token)
     const{id}=req.query
@@ -515,32 +575,45 @@ module.exports.coupon_edit = async(req,res)=>{
     const coupon = await couponmodel.findById(id)
     res.locals.coupon=coupon
     res.locals.moment=moment
-    res.render('admin/couponedit',{adminemail})
+    res.render('admin/couponedit',{adminemail})  
+    } catch (error) {
+        next(error)
+    }
+    
 }
 
 
-module.exports.banner_list = async (req, res) => {
+module.exports.banner_list = async (req, res,next) => {
+    try {
     const token = req.cookies.jwts
     const adminemail = await admincheck(token)
     const banner = await bannermodel.find()
     res.locals.banner = banner || null
     const products = await productmodel.find().populate('category')
     res.render('admin/bannerlist', { adminemail, products })
+    } catch (error) {
+        next(error)
+    }
+    
 }
 
 
-module.exports.add_banner = async (req, res) => {
+module.exports.add_banner = async (req, res, next) => {
+    try {
     const token = req.cookies.jwts
     const adminemail = await admincheck(token)
     const banner = await bannermodel.find()
     res.locals.banner = banner || null
-
     res.render('admin/addbanner', { adminemail })
+    } catch (error) {
+        next(error)
+    }
+    
 }
 
 module.exports.add_banner_post = async (req, res, next) => {
-    // const {category_name,category_description}= req.body 
-    const images = req.file
+    try {
+        const images = req.file
     if (!images) {
         const error = new Error('Please choose files')
         error.httpStatusCode = 400;
@@ -569,28 +642,37 @@ module.exports.add_banner_post = async (req, res, next) => {
             }
             return Promise.reject({ error: "error" })
         }
-    })
+    }) 
+    } catch (error) {
+        next(error)
+    }
+    // const {category_name,category_description}= req.body 
+   
 }
 
 
-module.exports.edit_banner = async (req, res) => {
+module.exports.edit_banner = async (req, res,next) => {
+    try {
     const {id}= req.query
     const token = req.cookies.jwts
     const adminemail = await admincheck(token)
     const banner = await bannermodel.findById(id)
     res.locals.banner = banner || null
+    res.render('admin/editbanner', { adminemail }) 
+    } catch (error) {
+        next(error)
+    }
 
-    res.render('admin/editbanner', { adminemail })
 }
 
 module.exports.edit_banner_post = async (req, res, next) => {
-    // const {category_name,category_description}= req.body 
+    try {
+        // const {category_name,category_description}= req.body 
     const {name,description,productname,url,price,discount } = req.body
     const {id}=req.query
 
     const images = req.file
     if (!images) {
-
         let newUpload = {
             name,
             description,
@@ -602,14 +684,9 @@ module.exports.edit_banner_post = async (req, res, next) => {
         console.log(req.body,req.query);
         await bannermodel.findByIdAndUpdate(id, newUpload)
         res.redirect('/admin/banner_list')
-
-
-   
     }else{
-  
     let img = fs.readFileSync(images.path)
-    const encode_image = img.toString('base64')
-      
+    const encode_image = img.toString('base64') 
     let newUpload = {
         name,
         description,
@@ -624,25 +701,27 @@ module.exports.edit_banner_post = async (req, res, next) => {
     await bannermodel.findByIdAndUpdate(id, newUpload)
     res.redirect('/admin/banner_list')
 
+    } 
+    } catch (error) {
+        next(error)
     }
+   
    
 }
 
 
 module.exports.checkCoupon = async (req, res) => {
-  const {couponcheckid}=req.body
+    try {
+const {couponcheckid}=req.body
   console.log(couponcheckid)
   const coupon = await couponmodel.findOne({code:couponcheckid.trim()})
-
   if(coupon !=null){
-    
-        res.json({status:true,coupon})
-
+    res.json({status:true,coupon})
   }else{
     res.json({status:false,err:'Sorry no coupon available'})
-  }
-
-
-
+  }  
+    } catch (error) {
+        res.json({status:false,err:'Sorry no coupon available'})
+    }
    
 }
