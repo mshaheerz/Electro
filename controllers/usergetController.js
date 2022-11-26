@@ -27,10 +27,8 @@ module.exports.home_page = async (req, res,next) => {
         const wishlist = await wishlistmodel.findOne({user:userId}).populate('user').populate('products.item')
         res.locals.wishlist=wishlist
         const user = await Usermodel.findById(userId)
-        const cart = await cartmodel.findOne().populate('user').populate('products.item')
+
         res.locals.cart=cart
-
-
         const fullname = user.firstname + " " + user.lastname
         let useremail = user.email
         if (user.isBanned) {
@@ -309,13 +307,13 @@ module.exports.search = async (req, res, next) => {
             
             if (user.isBanned) {
               
-                res.render('user/filtershop', { token: "", alert: true, category, products, brand })
+                res.render('user/search', { token: "", alert: true, category, products, brand })
             } else {
     
-                res.render('user/filtershop', { token, fullname, useremail, alert: false, category, products, brand })
+                res.render('user/search', { token, fullname, useremail, alert: false, category, products, brand })
             }
         } else {
-            res.render('user/filtershop', { token, alert: false, category, products, brand })
+            res.render('user/search', { token, alert: false, category, products, brand })
         }
     } catch (error) {
         next(error)

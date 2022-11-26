@@ -77,8 +77,10 @@
                             <input type="search" list="suggestions" onkeyup="search()" class="form-control" name="q" id="q" placeholder="Search product ..."
                                 required>
                                 <datalist id="suggestions">
-                                   
-                               
+                                  
+                                    <option value="Samsung">
+                                    <option value="Apple">
+                                        
 
                                   
                                 </datalist>
@@ -101,15 +103,12 @@
                                         console.log(response)
                                         let arr=[]
                                     response.products.forEach(element => {
-                                        arr.push(new Option(element.name))
+                                        arr.push(`<option value='${element.name.substring(0,20)}'>`)
                                     });
                                         console.log(arr);
-                                       let ss= $('suggestions').appendTo("<option>kooy</option>")
+                                       
+                                       $('#suggestions').empty().append(arr)
                                         
-                                        
-
-
-
                                     }
                                 }
 

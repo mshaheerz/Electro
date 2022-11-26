@@ -256,11 +256,16 @@ module.exports.edit_category = async (req, res,next) => {
     try {
     const { id } = req.query
     const { category_name, category_description } = req.body
+    if(category!='' ||category!=null ){
+        res.send("<script>alert('Category exists'); window.location.href = '/admin/category_list'; </script>");
+    
+        }else{
     await categorymodel.findByIdAndUpdate(id, {
         category_name: category_name,
         category_description: category_description
     })
     res.redirect('/admin/category_list')
+}
     } catch (error) {
         next(error)
     }
@@ -278,6 +283,12 @@ module.exports.add_category = async (req, res, next) => {
         return next(error)
     }
     const { category_name, category_description } = req.body
+    const category =  await categorymodel.find({category_name:category_name})
+    console.log(category);
+    if(category!='' ||category!=null ){
+    res.send("<script>alert('Category exists'); window.location.href = '/admin/category_list'; </script>");
+
+    }else{
     let img = fs.readFileSync(category_thumbnail.path)
     const encode_image = img.toString('base64')
     let newUpload = new categorymodel({
@@ -297,6 +308,7 @@ module.exports.add_category = async (req, res, next) => {
             return Promise.reject({ error: "error" })
         }
     })
+}
     } catch (error) {
         next(error)
     }

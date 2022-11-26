@@ -325,9 +325,9 @@ try {
 
     const fullname = user.firstname + ' ' + user.lastname
     let useremail = user.email
-    res.locals.emailerr = 'emailerr'
-    res.locals.passerr = 'passerr'
-    res.locals.allerr = 'allerr'
+    res.locals.emailerr = ''
+    res.locals.passerr = ''
+    res.locals.allerr = ''
     res.locals.user = user || null
     if (user.isBanned) {
       res.render('user/profiledetails', {
@@ -498,10 +498,10 @@ module.exports.user_edit = async (req, res,next) => {
                 firstname,
                 lastname,
                 email,
-                phone,
                 hashPassword,
             })
-               res.redirect('/user_edit')
+              //  res.redirect('/user_edit')
+              res.send()
             }else{
                 res.render('user/profiledetails', {
                     token: false,

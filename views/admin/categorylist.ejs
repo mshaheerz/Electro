@@ -35,7 +35,7 @@
                                         class="form-check-input m-0 fs-exact-16 d-block" aria-label="..." />
                                 </th>
                                 <th class="min-w-20x">Name</th>
-                                <th>Products count</th>
+                             
                                 <th>Products description</th>
                          
                                 
@@ -56,12 +56,12 @@
                                                     <img src="data:<%= category[i].contentType %>;base64,<%= category[i].imageBase64 %>  " width="40"
                                                         height="40" alt="" /></div>
                                             </a>
-                                            <div><a href="/admin/user_details?email= " class="text-reset"><%= category[i].category_name %> </a>
+                                            <div><a href="#id-<%= i %>" data-bs-toggle="modal" class="text-reset"><%= category[i].category_name %> </a>
                                                 <div class="text-muted mt-n1"></div>
                                             </div>
                                         </div>
                                     </td>
-                                    <td class="text-nowrap"></td>
+                                  
                                     <td><%= category[i].category_description %></td>
                                 
         

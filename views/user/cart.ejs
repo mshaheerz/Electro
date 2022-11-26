@@ -192,15 +192,15 @@
                                             document.getElementById(productId).innerHTML = quantity + count
                                             if (count == 1) {
                                                 document.querySelector('.cart-count').textContent = val + 1
-                                                document.getElementById('total').innerHTML = response.total - response.discount
-                                                document.getElementById('discount').innerHTML = '-' + response.discount
+                                                document.getElementById('total').innerHTML = `₹${response.total - response.discount}`
+                                                document.getElementById('discount').innerHTML = '- ₹' + response.discount
 
 
                                             } else {
                                                 document.querySelector('.cart-count').textContent = val - 1
-                                                document.getElementById('total').innerHTML = response.total - response.discount
+                                                document.getElementById('total').innerHTML = `₹${response.total - response.discount}`
 
-                                                document.getElementById('discount').innerHTML = '-' + response.discount
+                                                document.getElementById('discount').innerHTML = '- ₹' + response.discount
 
 
 

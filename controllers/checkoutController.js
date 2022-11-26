@@ -343,7 +343,7 @@ module.exports.verify_payment= async (req, res,next) => {
   try {
   const token = req.cookies.jwt
   const { id } = req.body
-if (token) {
+  if (token) {
     const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY)
     const userId = decoded.userID
     
