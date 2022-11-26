@@ -43,7 +43,7 @@ app.use('/admin',adminRoutes)
 
 
 app.listen(port,()=>{
-    console.log(`server listening at http://localhost:${port}`);
+    console.log(`server listening at http://127.0.0.1:${port}`);
 });
 
 
