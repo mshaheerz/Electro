@@ -12,12 +12,7 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 const sharp = require('sharp');
-const { log } = require('console');
-const { encode } = require('punycode');
-const { loadFont } = require('figlet');
-const { send } = require('process');
-const { format } = require('path');
-const { validateExpressRequest } = require('twilio/lib/webhooks/webhooks');
+
 const couponmodel = require('../model/couponSchema');
 const { cursorTo } = require('readline');
 const bannermodel = require('../model/bannerSchema');
