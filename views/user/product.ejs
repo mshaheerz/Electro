@@ -383,7 +383,7 @@
                                                                         </div><!-- End .ratings-val -->
                                                                     </div><!-- End .ratings -->
                                                                 </div><!-- End .rating-container -->
-                                                                <span class="review-date">6 days ago</span>
+                                                                <span class="review-date"><%= moment(review[i].createdAt).fromNow(); %></span>
                                                             </div><!-- End .col -->
                                                             <div class="col">
                                                                 <h4><%= review[i].title %></h4>

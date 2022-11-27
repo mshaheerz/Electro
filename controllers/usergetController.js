@@ -8,6 +8,7 @@ const reviewmodel = require('../model/reviewSchema')
 const ordermodel = require('../model/orderSchema')
 const bannermodel = require('../model/bannerSchema')
 const { response } = require('express')
+const moment = require('moment')
 
 
 
@@ -243,6 +244,7 @@ module.exports.product = async (req, res, next) => {
             const wishlist = await wishlistmodel.findOne({user:userId}).populate('user').populate('products.item')
             res.locals.wishlist=wishlist
             res.locals.cart=cart
+            res.locals.moment= moment
     
     
             const fullname = user.firstname + " " + user.lastname

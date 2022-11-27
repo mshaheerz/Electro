@@ -5,6 +5,7 @@ const usermodel = require('../model/userschema');
 const categorymodel = require('../model/categoryschema')
 const productmodel = require('../model/productSchema')
 const ordermodel = require('../model/orderSchema')
+const reviewmodel = require('../model/reviewSchema');
 const moment = require('moment');
 const { reset } = require('nodemon');
 const { request, response } = require('express');
@@ -71,6 +72,9 @@ module.exports.admin_home = async (req, res,next) => {
         //aggregate sales statistics by product
         const salesbyproduct= await ordermodel.aggregate([
             {
+                
+            
+             
                 $project: {
                     'totalamount': true,
                     'createdAt': true,
@@ -88,7 +92,9 @@ module.exports.admin_home = async (req, res,next) => {
                 }
             }
         ])
+        const reviews = await reviewmodel.find().populate('product').populate('user').sort({ updatedAt: -1 }).limit(8)
         
+        res.locals.reviews=reviews||null
         res.locals.bar=salesbymonth
         res.locals.order=order ||null
         res.locals.moment=moment
