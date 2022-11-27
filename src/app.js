@@ -42,7 +42,7 @@ app.use('/',userRouter)
 app.use('/admin',adminRoutes)
 
 
-app.listen(port,()=>{
+app.listen(port,'127.0.0.1',()=>{
     console.log(`server listening at http://127.0.0.1:${port}`);
 });
 
