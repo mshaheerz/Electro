@@ -17,14 +17,15 @@ module.exports.home_page = async (req, res,next) => {
     const token = req.cookies.jwt
     const banner = await bannermodel.find()
     const category = await categorymodel.find()
-    const cart = await cartmodel.findOne().populate('user').populate('products.item')
-    res.locals.banner =banner ||null
-    res.locals.cart=cart ||null
+    
 
     if (token) {
 
         const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
         const userId = decoded.userID
+        const cart = await cartmodel.findOne({user:userId}).populate('user').populate('products.item')
+        res.locals.banner =banner ||null
+        res.locals.cart=cart ||null
         const wishlist = await wishlistmodel.findOne({user:userId}).populate('user').populate('products.item')
         res.locals.wishlist=wishlist
         const user = await Usermodel.findById(userId)
@@ -39,6 +40,8 @@ module.exports.home_page = async (req, res,next) => {
             res.render('user/index', { token, fullname, useremail, alert: false, category })
         }
     } else {
+        res.locals.banner =null
+        res.locals.cart=null
         res.render('user/index', { token, alert: false, category })
     }
     } catch (error) {

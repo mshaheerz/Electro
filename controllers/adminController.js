@@ -92,6 +92,14 @@ module.exports.admin_home = async (req, res,next) => {
                 }
             }
         ])
+        const today = moment().startOf('day')
+        const todaysales = await ordermodel.find({
+            createdAt: {
+              $gte: today.toDate(),
+              $lte: moment(today).endOf('day').toDate()
+            }
+          })
+          console.log(todaysales)
         const reviews = await reviewmodel.find().populate('product').populate('user').sort({ updatedAt: -1 }).limit(8)
         
         res.locals.reviews=reviews||null

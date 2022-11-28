@@ -175,7 +175,7 @@ class userController {
             try {
               console.log('one')
               const salt = await bcrypt.genSalt(10)
-              const hashPassword = await bcrypt.hash(password, salt)
+              const hashPassword = await bcrypt.hash(password.trim(), salt)
               const doc = new Usermodel({
                 firstname: firstname,
                 lastname: lastname,
