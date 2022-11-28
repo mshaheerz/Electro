@@ -105,8 +105,14 @@ exports.addToCart = async (req, res,next) => {
             //     res.send({ "status": "error", "message": error })
             // })
             let proExist = userCart.products.findIndex(product => product.item == productid)
+            const quantitys = await productmodel.findOne({_id:productid})
             console.log(proExist)
             if (proExist != -1) {
+                console.log(userCart.products[proExist].quantity);
+                
+                if(userCart.products[proExist].quantity >= 10 ||userCart.products[proExist].quantity >= quantitys.stock){
+                    res.json({limit:true})
+                }else{
                 await cartmodel.updateOne({ user: userId, 'products.item': productid },
                     {
                         $inc: { 'products.$.quantity': 1 }
@@ -114,7 +120,11 @@ exports.addToCart = async (req, res,next) => {
                         // res.redirect('/shop')
                         res.json(true)
                     })
+                }
             } else {
+                if(quantitys.stock==0||quantitys.stock <=0){
+                    res.json({limit:true})
+                }else{
                 const doc = await cartmodel.findOne({ user: userId }).populate('user', 'products')
                 doc.products.push(proObj)
                 await doc.save().then((response) => {
@@ -123,6 +133,7 @@ exports.addToCart = async (req, res,next) => {
                 }).catch((err) => {
                     res.send({ "status": "failed", "message": err })
                 })
+            }
             }
         } else {
             let cartObj = {
@@ -151,12 +162,18 @@ exports.addToCart = async (req, res,next) => {
 
 module.exports.change_quantity = async (req, res,next) => {
     try {
+       
     const token = req.cookies.jwt
     const { product, cart, count, quantity } = req.body
+    const quantitys = await productmodel.findOne({_id:product})
+   
+
+   
 
     if (count == -1 && quantity == 1) {
         const ss = await cartmodel.findById(cart)
         console.log(ss);
+    
         await cartmodel.findByIdAndUpdate(cart,
             {
                 $pull: { 'products': { item: product } }
@@ -167,6 +184,9 @@ module.exports.change_quantity = async (req, res,next) => {
                 console.log(err)
             })
     } else {
+        if(quantity>=10 && count==1 || quantity >=quantitys.stock && count==1 ){
+            res.json({response:true,limit:true})
+        }else{
         await cartmodel.updateOne({ _id: cart, 'products.item': product },
             {
                 $inc: { 'products.$.quantity': count }
@@ -178,6 +198,7 @@ module.exports.change_quantity = async (req, res,next) => {
             })
         // res.send({"message":"f"})
     } 
+    }
     } catch (error) {
         next(error)
     }

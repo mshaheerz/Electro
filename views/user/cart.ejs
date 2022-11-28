@@ -165,6 +165,7 @@
                                 let cunt = document.querySelector('.cart-count')
                                 let val = parseInt(cunt.textContent)
                                 let productprice = parseInt(document.getElementById('productprice').innerHTML)
+                               
 
                                 $.ajax({
                                     url: '/change-product-quantity',
@@ -188,6 +189,12 @@
                                                 location.reload()
                                             }, 1200)
 
+                                        }else if(response.limit){
+                                            Swal.fire(
+                                                'sorry!',
+                                                'sorry you have only buy 10 and stock quantity.',
+                                                'warning'
+                                            )
                                         } else {
                                             document.getElementById(productId).innerHTML = quantity + count
                                             if (count == 1) {
@@ -210,7 +217,7 @@
                                     }
                                 })
                             }
-
+                            
                             function deleteCart(cartId, productId) {
                                 Swal.fire({
                                     title: 'Are you sure?',

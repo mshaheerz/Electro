@@ -143,6 +143,11 @@ module.exports.place_order = async (req, res, next) => {
         .create(orderObj)
         .then(async (data) => {
           await couponmodel.updateOne({code:coupon.trim()},{$inc:{limit:-1}})
+          cart.products.forEach(async element => {
+            console.log("myyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy"+element.item._id,element.item,element.quantity)
+              await productmodel.updateOne({_id:element.item._id},{$inc:{stock:-element.quantity}})
+          });
+          await productmodel.updateOne({code})
           const orderId = data._id.toString()
           if (payment == 'cod') {
             await cartmodel.updateOne({ user: userId }, { $set: { products: [] } })
@@ -187,7 +192,11 @@ module.exports.place_order = async (req, res, next) => {
   await ordermodel
     .create(orderObj)
     .then(async (data) => {
-      console.log(data)
+      cart.products.forEach(async element => {
+        
+          await productmodel.updateOne({_id:element.item._id},{$inc:{stock:-element.quantity}})
+      });
+     
       const orderId = data._id.toString()
      
       if (payment == 'cod') {

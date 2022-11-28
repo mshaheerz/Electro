@@ -313,8 +313,18 @@
                                                                                     method: 'post',
                                                                                     success: (response) => {
                                                                                         if (response) {
+                                                                                            console.log(response);
                                                                                             // alert('added to cart')
                                                                                             // location.reload()
+                                                                                            if(response.limit){
+                                                                                                Swal.fire(
+                                                                                                'sorry!',
+                                                                                                'sorry you have only buy 10 quantity or product i sout of stock',
+                                                                                                'warning'
+                                                                                            )
+                                                                                            }else{
+
+                                                                                            
                                                                                             document.querySelector('.cart-count').textContent=val+1
                                                                                             Swal.fire({
                                                                                             position: 'top',
@@ -323,6 +333,7 @@
                                                                                              showConfirmButton: false,
                                                                                              timer: 1600
                                                                                             })
+                                                                                        }
                                                                                         } else {
                                                                                             Swal.fire({
                                                                                             position: 'top',
