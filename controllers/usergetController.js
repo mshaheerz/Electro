@@ -235,7 +235,7 @@ module.exports.product = async (req, res, next) => {
         const products = await productmodel.findById(id).populate('category')
         const review = await reviewmodel.find({product:id}).populate('user').populate('product')
         const brand = await productmodel.find().sort({ brand: 1 }).distinct('brand')
-       
+        res.locals.moment= moment
         res.locals.review =review||null
         if (token) {
     
@@ -247,7 +247,7 @@ module.exports.product = async (req, res, next) => {
             const wishlist = await wishlistmodel.findOne({user:userId}).populate('user').populate('products.item')
             res.locals.wishlist=wishlist
             res.locals.cart=cart
-            res.locals.moment= moment
+            
     
     
             const fullname = user.firstname + " " + user.lastname
