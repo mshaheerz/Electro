@@ -98,8 +98,17 @@ module.exports.admin_home = async (req, res,next) => {
               $gte: today.toDate(),
               $lte: moment(today).endOf('day').toDate()
             }
-          })
-          console.log(todaysales)
+          }).populate('user')
+          const month = moment().startOf('month')
+          const monthsales = await ordermodel.find({
+            createdAt:{
+                $gte:month.toDate(),
+                $lte:moment(month).endOf('month').toDate()
+            }
+          }).populate('user')
+
+     
+        res.locals.todaysales =todaysales || null
         const reviews = await reviewmodel.find().populate('product').populate('user').sort({ updatedAt: -1 }).limit(8)
         
         res.locals.reviews=reviews||null
@@ -117,9 +126,56 @@ module.exports.admin_home = async (req, res,next) => {
             res.render('admin/login', { emailerr: "", passerr: "", allerr: "" });
         }
     } catch (error) {
+        console.log(error)
         next(error);
     }
    
+}
+
+module.exports.sales_report = async (req, res,next) => {
+    try {
+        const {keyname}=req.body
+        let sales
+        if(keyname==1){
+            const today = moment().startOf('day')
+             sales = await ordermodel.find({
+                createdAt: {
+                  $gte: today.toDate(),
+                  $lte: moment(today).endOf('day').toDate()
+                }
+              }).populate('user')
+              
+        }else if(keyname==2){
+            const week = moment().startOf('week')
+            sales = await ordermodel.find({
+               createdAt: {
+                 $gte: week.toDate(),
+                 $lte: moment(week).endOf('week').toDate()
+               }
+             }).populate('user')
+        }else if(keyname==3){
+            const month = moment().startOf('month')
+            sales = await ordermodel.find({
+              createdAt:{
+                  $gte:month.toDate(),
+                  $lte:moment(month).endOf('month').toDate()
+              }
+            }).populate('user')
+        }else if(keyname==4){
+            const year = moment().startOf('year')
+            sales = await ordermodel.find({
+              createdAt:{
+                  $gte:year.toDate(),
+                  $lte:moment(year).endOf('year').toDate()
+              }
+            }).populate('user')
+        }else{
+            sales=0
+        }
+        res.json({status:true,sales})
+    } catch (error) {
+        res.json({status:false})
+    }
 }
 
 

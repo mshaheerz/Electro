@@ -432,7 +432,7 @@
                                 <div class="sa-widget-header saw-table__header">
                                     <h2 class="sa-widget-header__title">Sales status</h2>
                                     <div class="sa-widget-header__actions">
-                                        <select style="padding:8px 5px 8px 2px;" class="d-block" aria-label="Default select example">
+                                        <select id="reports" style="padding:8px 5px 8px 2px;" class="d-block form-control" aria-label="Default select example">
                                             <option value="1" selected>Today sales</option>
                                             <option value="2">Weekly sales</option>
                                             <option value="3">Monthly sales</option>
@@ -440,9 +440,7 @@
                                           </select>
 
 
-                                        <button type="button"
-                                                class="btn btn-primary d-block" id="widget-context-menu-6"
-                                                 aria-expanded="false" aria-label="More">To pdf</button>
+                                       
                                         <div class="dropdown">
                                             
                                             
@@ -475,7 +473,8 @@
                                     </div>
                                 </div>
                                 <div class="saw-table__body sa-widget-table text-nowrap">
-                                    <table>
+                                    <table id="printable" class="display nowrap" style="width:100%">
+                                        
                                         <thead>
                                             <tr>
                                                 <th>No.</th>
@@ -487,36 +486,39 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <% if (order!=null) { %>
+                                            <% if (todaysales!=null) { %>
 
                                                 
-                                             <% for( let i = 0; i < order.length; i++ ) { %>
+                                             <% for( let i = 0; i < todaysales.length; i++ ) { %>
                                              
 
                                             <tr>
-                                                <td><a href="#" class="text-reset">#<%= order[i]._id.toString().substring(8,14) %>  </a></td>
+                                                <td><%= todaysales[i]._id.toString().substring(8,14) %></td>
                                                 <td>
-                                                    <div class="d-flex fs-6">
-                                                        <div class="badge badge-sa-primary"><%= order[i].status %> </div>
-                                                    </div>
+                                                    <%= todaysales[i].status %> 
+                                                   
                                                 </td>
-                                                <td><%= order[i].payment %> </td>
+                                                <td><%= todaysales[i].payment %></td>
                                                 <td>
-                                                    <div class="d-flex align-items-center"><a href="#"
-                                                            class="sa-symbol sa-symbol--shape--circle sa-symbol--size--md me-3">
-                                                            <div class="sa-symbol__text"><%=order[i].user.firstname.toString().substring(0,1)+''+order[i].user.lastname.toString().substring(0,1)%> </div>
-                                                        </a>
-                                                        <div><a href="#" class="text-reset"><%= order[i].user.firstname +' '+order[i].user.lastname %> </a></div>
-                                                    </div>
+                                                   <%= todaysales[i].user.firstname +' '+todaysales[i].user.lastname %> 
+                                              
                                                 </td>
-                                                <td><%= moment(order[i].updatedAt).format('D-MMMM-YYYY') %> </td>
-                                                <td>&#8377;<%= order[i].totalamount %> </td>
+                                                <td><%= moment(todaysales[i].updatedAt).format('D-MMMM-YYYY') %> </td>
+                                                <td>&#8377;<%= todaysales[i].totalamount %> </td>
                                             </tr>
                                             <% } %>
                                             
                                             <% } %> 
 
                                         </tbody>
+                                        <tfoot>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                        </tfoot>
                                     </table>
                                 </div>
                             </div>
@@ -525,4 +527,76 @@
                 </div>
             </div><!-- sa-app__body / end -->
             <!-- sa-app__footer -->
+      
             <%- include('./layouts/footer'); -%>
+            <script>
+                $(document).ready(function() {
+                $("#reports").change(function(){
+                    console.log($('#reports option:selected').val())
+                    $.ajax({
+                        type: 'POST',
+                        url:'/admin/sales_report',
+                        data:  {keyname:$('#reports option:selected').val()},
+                        success:(response)=>{
+                            if(response.status){
+                                console.log(response);
+                               
+                                var myTable = $('#printable').DataTable();
+                                myTable.rows().remove().draw()
+                                response.sales.forEach(element => {
+                                    
+                                    myTable.row.add([element._id.toString().substring(8,14),element.status,element.payment,element.user.firstname+' '+element.user.lastname,moment(element.createdAt).format('D-MMMM-YYYY'),element.totalamount]).draw(false)
+                                });
+                                console.log(myTable)
+                                
+                            }
+                        }
+
+                    });
+                });
+            });
+            </script>
+            <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/buttons/2.0.1/js/dataTables.buttons.min.js"></script>
+            <script type="text/javascript" language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+            <script type="text/javascript" language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+            <script type="text/javascript" language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+            <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.html5.min.js"></script>
+            <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.print.min.js"></script>
+             <script>$(document).ready(function() {
+                $('#printable').DataTable( {
+                    responsive:true,
+                    dom: 'Bfrtip',
+                    buttons: [
+            { extend: 'copyHtml5', footer: true },
+            { extend: 'excelHtml5', footer: true },
+            { extend: 'print', footer: true },
+            { extend: 'pdfHtml5', footer: true }
+                    ],
+        
+             drawCallback: function () {
+		      var api = this.api();
+		      var sum = 0;
+		      var formated = 0;
+		      //to show first th
+		      $(api.column(0).footer()).html('Total');
+
+		      for(var i=5; i<=5;i++)
+		      {
+		      	sum = api.column(i, {page:'current'}).data().sum();
+
+		      	//to format this sum
+		      	formated = parseFloat(sum).toLocaleString(undefined, {minimumFractionDigits:2});
+		      	$(api.column(i).footer()).html('₹'+formated);
+		      }
+		      
+		    },
+            initComplete: function () {
+            var btns = $('.dt-button');
+            btns.addClass('btn btn-success btn-sm');
+            btns.removeClass('dt-button');
+             },
+                } );
+      
+            } );</script>
+            <script type="text/javascript" src="https://cdn.datatables.net/plug-ins/1.11.5/api/sum().js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>

@@ -54,6 +54,7 @@ router.post('/login',adminController.admin_login_post)
 
 const upload = adminController.upload
 //protected routes
+  router.post('/sales_report',adminController.sales_report)
   router.get('/add_coupon',adminController.add_coupon)
   router.get('/coupon_list',adminController.coupon_list)
   router.get('/order_list',adminController.order_list)
