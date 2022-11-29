@@ -144,7 +144,6 @@ module.exports.place_order = async (req, res, next) => {
         .then(async (data) => {
           await couponmodel.updateOne({code:coupon.trim()},{$inc:{limit:-1}})
           cart.products.forEach(async element => {
-            console.log("myyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy"+element.item._id,element.item,element.quantity)
               await productmodel.updateOne({_id:element.item._id},{$inc:{stock:-element.quantity}})
           });
           await productmodel.updateOne({code})
