@@ -130,7 +130,7 @@
                         </div>
                         <div class="col-12 col-xxl-3 d-flex">
                             <div class="card flex-grow-1 saw-chart-circle"
-                                data-sa-data="[{&quot;label&quot;:&quot;Yandex&quot;,&quot;value&quot;:2742,&quot;color&quot;:&quot;#ffd333&quot;,&quot;orders&quot;:12},{&quot;label&quot;:&quot;YouTube&quot;,&quot;value&quot;:3272,&quot;color&quot;:&quot;#e62e2e&quot;,&quot;orders&quot;:51},{&quot;label&quot;:&quot;Google&quot;,&quot;value&quot;:2303,&quot;color&quot;:&quot;#3377ff&quot;,&quot;orders&quot;:4},{&quot;label&quot;:&quot;Facebook&quot;,&quot;value&quot;:1434,&quot;color&quot;:&quot;#29cccc&quot;,&quot;orders&quot;:10},{&quot;label&quot;:&quot;Instagram&quot;,&quot;value&quot;:799,&quot;color&quot;:&quot;#5dc728&quot;,&quot;orders&quot;:1}]"
+                                data-sa-data="[{&quot;label&quot;:&quot;<%= topproducts[0].product.name.substring(0,16)%>&quot;,&quot;value&quot;:<%= topproducts[0].quantity*topproducts[0].product.price-topproducts[0].product.discount%>,&quot;color&quot;:&quot;#ffd333&quot;,&quot;orders&quot;:12},{&quot;label&quot;:&quot;<%= topproducts[1].product.name.substring(0,16)%>&quot;,&quot;value&quot;:<%= topproducts[1].quantity*topproducts[1].product.price-topproducts[1].product.discount%>,&quot;color&quot;:&quot;#e62e2e&quot;,&quot;orders&quot;:51},{&quot;label&quot;:&quot;<%= topproducts[2].product.name.substring(0,16)%>&quot;,&quot;value&quot;:<%= topproducts[2].quantity*topproducts[2].product.price-topproducts[2].product.discount %>,&quot;color&quot;:&quot;#3377ff&quot;,&quot;orders&quot;:4}]"
                                 data-sa-container-query="{&quot;600&quot;:&quot;saw-chart-circle--size--lg&quot;}">
                                 <div class="sa-widget-header saw-chart-circle__header">
                                     <h2 class="sa-widget-header__title">Sales by products</h2>
@@ -169,81 +169,30 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            <% if (topproducts !=null) { %>
+                                             <% for( let i = 0; i < topproducts.length; i++ ) { %>
+                                             
+                                            
+                                            
                                             <tr>
                                                 <td>
                                                     <div class="d-flex align-items-center">
                                                         <div class="saw-chart-circle__symbol"
-                                                            style="--saw-chart-circle__symbol--color:#ffd333"></div>
-                                                        <div class="ps-2">Samsung galaxy</div>
+                                                            style="--saw-chart-circle__symbol--color:#09355E"></div>
+                                                        <div class="ps-2"><%= topproducts[i].product.name.substring(0,19) %> </div>
                                                     </div>
                                                 </td>
-                                                <td class="text-center">12</td>
+                                                <td class="text-center"><%= topproducts[i].quantity %></td>
                                                 <td class="text-end">
-                                                    <div class="sa-price"><span class="sa-price__symbol">$</span><span
-                                                            class="sa-price__integer">2,742</span><span
+                                                    <div class="sa-price"><span class="sa-price__symbol">&#x20B9;</span><span
+                                                            class="sa-price__integer"><%= topproducts[i].quantity*topproducts[i].product.price-topproducts[i].product.discount%></span><span
                                                             class="sa-price__decimal">.00</span></div>
                                                 </td>
                                             </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="d-flex align-items-center">
-                                                        <div class="saw-chart-circle__symbol"
-                                                            style="--saw-chart-circle__symbol--color:#e62e2e"></div>
-                                                        <div class="ps-2">Canon dslr</div>
-                                                    </div>
-                                                </td>
-                                                <td class="text-center">51</td>
-                                                <td class="text-end">
-                                                    <div class="sa-price"><span class="sa-price__symbol">$</span><span
-                                                            class="sa-price__integer">3,272</span><span
-                                                            class="sa-price__decimal">.00</span></div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="d-flex align-items-center">
-                                                        <div class="saw-chart-circle__symbol"
-                                                            style="--saw-chart-circle__symbol--color:#3377ff"></div>
-                                                        <div class="ps-2">Apple watch</div>
-                                                    </div>
-                                                </td>
-                                                <td class="text-center">4</td>
-                                                <td class="text-end">
-                                                    <div class="sa-price"><span class="sa-price__symbol">$</span><span
-                                                            class="sa-price__integer">2,303</span><span
-                                                            class="sa-price__decimal">.00</span></div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="d-flex align-items-center">
-                                                        <div class="saw-chart-circle__symbol"
-                                                            style="--saw-chart-circle__symbol--color:#29cccc"></div>
-                                                        <div class="ps-2">Samsung odyssy</div>
-                                                    </div>
-                                                </td>
-                                                <td class="text-center">10</td>
-                                                <td class="text-end">
-                                                    <div class="sa-price"><span class="sa-price__symbol">$</span><span
-                                                            class="sa-price__integer">1,434</span><span
-                                                            class="sa-price__decimal">.00</span></div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="d-flex align-items-center">
-                                                        <div class="saw-chart-circle__symbol"
-                                                            style="--saw-chart-circle__symbol--color:#5dc728"></div>
-                                                        <div class="ps-2">Bot rockers earbuds</div>
-                                                    </div>
-                                                </td>
-                                                <td class="text-center">1</td>
-                                                <td class="text-end">
-                                                    <div class="sa-price"><span class="sa-price__symbol">$</span><span
-                                                            class="sa-price__integer">799</span><span
-                                                            class="sa-price__decimal">.00</span></div>
-                                                </td>
-                                            </tr>
+                                            <% } %>
+
+                                            <% } %>
+                                            
                                         </tbody>
                                     </table>
                                 </div>

@@ -69,29 +69,97 @@ module.exports.admin_home = async (req, res,next) => {
             }
         ])
 
+
+        let topProducts = await ordermodel.aggregate([
+            {
+              $unwind: '$products',
+            },
+            {
+              $group: {
+                _id: '$products.item',
+                quantity: { $sum: '$products.quantity' },
+              },
+            },
+            {
+              $addFields: { product: '$_id' },
+            },
+            {
+              $project: { _id: 0 },
+            },
+            {
+              $sort: { quantity: -1 },
+            },
+            {
+              $limit: 3,
+            },
+          ])
+
+          
+  await Promise.all(
+    topProducts.map(async (el) => {
+      el.product = await productmodel.findById(el.product);
+    })
+  );
+          
+
+          res.locals.topproducts = topProducts || null
+
         //aggregate sales statistics by product
-        const salesbyproduct= await ordermodel.aggregate([
-            {
+//         const salesbyproduct= await ordermodel.aggregate([
+
+
+//             {
+
+//                 $lookup:{
+                  
+//                     from: 'products',
+//                     localField: 'products.item',
+//                     foreignField: '_id',
+//                     as: 'reports'
+//                   }
+//              },
+
+//             {
                 
-            
-             
-                $project: {
-                    'totalamount': true,
-                    'createdAt': true,
-                }
-            },
-            {
-                $group: {
-                    _id: {'$month':'$createdAt'},
-                    totalamount: { '$sum': '$totalamount' }
-                }
-            },
-            {
-                $sort:{
-                    _id:1
-                }
-            }
-        ])
+//                 $project: {
+//                     'totalamount': true,
+//                     'createdAt': true,
+//                     'reports':true,
+//                 }
+//             },
+//             // {
+//             //     $group: {
+//             //         _id: {$month:'$createdAt'},
+//             //         totalamount: { '$sum': '$totalamount' },
+//             //         reports:{'name':'name'}
+//             //     }
+//             // },
+     
+//             {
+//                 $sort:{
+//                     _id:1
+//                 }
+//             }
+//         ])
+//         console.log(salesbyproduct)
+//         let arr=[]
+//         salesbyproduct.forEach(data => {
+//         //  console.log(data.reports)
+//          data.reports.forEach(element => {
+
+
+//             arr.push({'price':element.price-element.discount,'name':element.name,'pid':element._id})
+
+//          });
+//         });
+//         let counter = {}
+
+// arr.forEach(function(obj) {
+//     var key = JSON.stringify(obj)
+//     counter[key] = (counter[key] || 0) + 1
+    
+// })
+        // console.log(arr,counter)
         const today = moment().startOf('day')
         const todaysales = await ordermodel.find({
             createdAt: {

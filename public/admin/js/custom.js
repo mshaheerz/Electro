@@ -247,6 +247,7 @@
     */
     $('.saw-chart-circle[data-sa-data]').each(function() {
         const data = $(this).data('sa-data');
+        console.log(data)
         const labels = data.map(function(item) { return item.label; });
         const values = data.map(function(item) { return item.value; });
         const colors = data.map(function(item) { return item.color; });
