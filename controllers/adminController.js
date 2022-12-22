@@ -68,6 +68,8 @@ module.exports.admin_home = async (req, res,next) => {
                 }
             }
         ])
+        console.log(salesbymonth,typeof(salesbymonth))
+
 
 
         let topProducts = await ordermodel.aggregate([
