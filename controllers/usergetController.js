@@ -18,7 +18,7 @@ module.exports.home_page = async (req, res,next) => {
     const banner = await bannermodel.find()
     const category = await categorymodel.find()
     
-    
+    res.locals.banner=banner ||null
 
     if (token) {
 
@@ -41,7 +41,7 @@ module.exports.home_page = async (req, res,next) => {
             res.render('user/index', { token, fullname, useremail, alert: false, category })
         }
     } else {
-        res.locals.banner=banner ||null
+        
   
         
     

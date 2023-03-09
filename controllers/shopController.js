@@ -300,7 +300,7 @@ module.exports.addcartproduct= async (req,res,next)=>{
         }
 
     } else {
-        res.send("<script>alert(login required) location.reload='/login'</script>")
+        res.send({"status":"failed","message":"login required","auth":true})
     }  
     } catch (error) {
         next(error)

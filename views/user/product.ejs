@@ -250,7 +250,9 @@
                                                                     },
                                                                     method: 'post',
                                                                     success: (response) => {
+                                                                        console.log(response);
                                                                         if (response) {
+                                                                          if(response===true){
                                                                             Swal.fire(
                                                                                 'Added to cart!',
                                                                                 'Your cart has been Added.',
@@ -260,6 +262,16 @@
                                                                                 window.location = '/cart'
 
                                                                             }, 1200)
+                                                                          }
+                                                                          if(response?.auth){
+                                                                            Swal.fire(
+                                                                                'login required pleas login'
+                                                                            )
+                                                                            setTimeout(()=> {
+                                                                                window.location='/login'
+                                                                            },1200)
+                                                                          }
+                                       
                                                                         }
 
                                                                     }
