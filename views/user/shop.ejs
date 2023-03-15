@@ -15,7 +15,7 @@
                             <nav aria-label="breadcrumb" class="breadcrumb-nav mb-3">
                                 <div class="container">
                                     <ol class="breadcrumb">
-                                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                                        <li class="breadcrumb-item"><a href="#">Home</a></li>
                                         <li class="breadcrumb-item"><a href="#">Shop</a></li>
                                         <li class="breadcrumb-item active" aria-current="page">Electronics</li>
                                     </ol>
@@ -218,7 +218,7 @@
                                                                         
                                                                         <a href="#" class="btn-product-icon btn-compare"
                                                                             title="Compare"><span>Compare</span></a>
-                                                                        <a href="popup/quickView.html"
+                                                                        <a href="#"
                                                                             class="btn-product-icon btn-quickview"
                                                                             title="Quick view"><span>Quick
                                                                                 view</span></a>
@@ -358,11 +358,11 @@
 
                                                                 <div class="product-body">
                                                                     <div class="product-cat">
-                                                                        <a href="#">
+                                                                        <a href="/product?id=<%= products[i]._id%>">
                                                                             <%= products[i].category.category_name %>
                                                                         </a>
                                                                     </div><!-- End .product-cat -->
-                                                                    <h3 id="description" class="product-title"><a href="product.html">
+                                                                    <h3 id="description" class="product-title"><a href="/product?id=<%= products[i]._id%>">
                                                                             <%= products[i].name.substring(0,40)+'...' %>
                                                                         </a></h3><!-- End .product-title -->
                                                                     <div class="product-price">
